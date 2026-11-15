@@ -1,0 +1,1397 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"></head><body>
+<title>نظام دراسة الوحدة الثالثة</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Readex+Pro:wght@500;600;700&display=swap">
+<style>
+/* تخطيط: شريط علوي ثابت بتبويبات + عمود محتوى واحد (حتى 980px)؛ الأولوية للاستذكار لا للزخرفة */
+:root{
+  --bg:#EEF2F0; --surf:#FFFFFF; --surf2:#F4F7F6; --ink:#14221E; --mute:#566A63; --line:#D3DEDA;
+  --acc:#0E6B5C; --acc-ink:#FFFFFF; --acc-soft:#DCEFE9;
+  --good:#23724A; --good-soft:#DDF0E5; --bad:#B3372E; --bad-soft:#F8E2DF; --warn:#9A6210; --warn-soft:#F7EACD;
+  --font:'IBM Plex Sans Arabic','Segoe UI',Tahoma,'Noto Sans Arabic',sans-serif;
+  --font-d:'Readex Pro','IBM Plex Sans Arabic','Segoe UI',Tahoma,sans-serif;
+  --sky:#F6F3EA; --figline:#1D2B27; --arrow:#C2410C;
+  --s0:#F1E3B3; --s1:#E4C98A; --s2:#D4A66B; --s3:#BE7F55; --s4:#A06249; --s5:#7E6B58; --s6:#5B705E; --s7:#3F5B6B;
+  --land:#E7EBD9; --road:#8A8F94; --river:#4C8DB5;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0D1513; --surf:#151F1C; --surf2:#1B2723; --ink:#E4EDE9; --mute:#93A8A1; --line:#2A3A35;
+  --acc:#4CC2A5; --acc-ink:#06211B; --acc-soft:#15332B;
+  --good:#5CC98A; --good-soft:#15301F; --bad:#F08A80; --bad-soft:#3A1B18; --warn:#E3B05A; --warn-soft:#35280F;
+  --sky:#1C2623; --figline:#E4EDE9; --arrow:#FB9A5C;
+  --s0:#6E6338; --s1:#7F6A3A; --s2:#8A6742; --s3:#8A5B45; --s4:#7B5042; --s5:#625A4C; --s6:#46594D; --s7:#34505E;
+  --land:#27312A; --road:#9AA0A5; --river:#5EA3CC; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0D1513; --surf:#151F1C; --surf2:#1B2723; --ink:#E4EDE9; --mute:#93A8A1; --line:#2A3A35;
+  --acc:#4CC2A5; --acc-ink:#06211B; --acc-soft:#15332B;
+  --good:#5CC98A; --good-soft:#15301F; --bad:#F08A80; --bad-soft:#3A1B18; --warn:#E3B05A; --warn-soft:#35280F;
+  --sky:#1C2623; --figline:#E4EDE9; --arrow:#FB9A5C;
+  --s0:#6E6338; --s1:#7F6A3A; --s2:#8A6742; --s3:#8A5B45; --s4:#7B5042; --s5:#625A4C; --s6:#46594D; --s7:#34505E;
+  --land:#27312A; --road:#9AA0A5; --river:#5EA3CC; color-scheme:dark}
+*{box-sizing:border-box}
+html{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.75 var(--font);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 48px;min-height:100%}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--surf)}
+#root{max-width:980px;margin:0 auto}
+h1,h2,h3,h4{font-family:var(--font-d);line-height:1.4;margin:0;text-wrap:balance}
+h2{font-size:1.35rem} h3{font-size:1.1rem} h4{font-size:1rem}
+p{margin:.5em 0}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.hdr{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surf);border-bottom:1px solid var(--line);margin-inline:calc(-1 * max(16px,env(safe-area-inset-left,0px)));padding-inline:max(16px,env(safe-area-inset-left,0px))}
+.hdr-in{max-width:980px;margin:0 auto}
+.hdr-top{display:flex;align-items:center;gap:12px;padding-block:10px;flex-wrap:wrap}
+.hdr-top h1{font-size:1.05rem;flex:1;min-width:180px}
+.hdr-top h1 small{display:block;font:400 .78rem var(--font);color:var(--mute)}
+.pbar{height:8px;background:var(--surf2);border-radius:99px;overflow:hidden;border:1px solid var(--line)}
+.pbar>i{display:block;height:100%;background:var(--acc);border-radius:99px;transition:width .2s}
+.hdr-prog{display:flex;align-items:center;gap:8px;min-width:150px}
+.hdr-prog .pbar{flex:1}
+.hdr-prog b{font-variant-numeric:tabular-nums;min-width:3.2em;text-align:left}
+.tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:thin}
+.tab{border:0;background:none;padding:10px 14px;white-space:nowrap;border-bottom:3px solid transparent;color:var(--mute);font-weight:500}
+.tab[aria-current="page"]{color:var(--acc);border-bottom-color:var(--acc);font-weight:700}
+.tab .bd{display:inline-block;min-width:1.5em;padding:0 6px;margin-inline-start:6px;border-radius:99px;background:var(--bad);color:#fff;font-size:.75rem;line-height:1.5;text-align:center}
+.ic{border:1px solid var(--line);background:var(--surf2);border-radius:8px;padding:6px 12px;font-size:.9rem}
+main{padding-top:20px;display:flex;flex-direction:column;gap:16px}
+.box{background:var(--surf);border:1px solid var(--line);border-radius:12px;padding:16px 18px;min-width:0}
+.box.flat{background:transparent;border-style:dashed}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.grow{flex:1;min-width:0}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.mute{color:var(--mute)} .sm{font-size:.88rem}
+.btn{border:1px solid var(--line);background:var(--surf2);border-radius:8px;padding:8px 14px;font-weight:500}
+.btn:hover{border-color:var(--acc)}
+.btn.pri{background:var(--acc);color:var(--acc-ink);border-color:var(--acc);font-weight:600}
+.btn.good{background:var(--good-soft);border-color:var(--good);color:var(--good)}
+.btn.bad{background:var(--bad-soft);border-color:var(--bad);color:var(--bad)}
+.btn.on{background:var(--acc-soft);border-color:var(--acc);color:var(--acc);font-weight:600}
+.btn.sm{padding:4px 10px;font-size:.85rem}
+.chip{display:inline-block;padding:1px 10px;border-radius:99px;font-size:.78rem;background:var(--surf2);border:1px solid var(--line);color:var(--mute);white-space:nowrap}
+.chip.off{background:var(--acc-soft);border-color:var(--acc);color:var(--acc);font-weight:600}
+.chip.gen{background:var(--warn-soft);border-color:var(--warn);color:var(--warn);font-weight:600}
+.chip.g{background:var(--good-soft);border-color:var(--good);color:var(--good)}
+.chip.b{background:var(--bad-soft);border-color:var(--bad);color:var(--bad)}
+.chip.w{background:var(--warn-soft);border-color:var(--warn);color:var(--warn)}
+.note{border-inline-start:4px solid var(--warn);background:var(--warn-soft);padding:8px 12px;border-radius:6px;font-size:.9rem}
+.note.info{border-color:var(--acc);background:var(--acc-soft)}
+.stat{display:flex;flex-direction:column;gap:2px;padding:12px 14px;background:var(--surf2);border:1px solid var(--line);border-radius:10px}
+.stat b{font:700 1.6rem/1.2 var(--font-d);font-variant-numeric:tabular-nums}
+.stat span{font-size:.85rem;color:var(--mute)}
+.def{background:var(--acc-soft);border-radius:8px;padding:10px 14px;margin:10px 0;border-inline-start:4px solid var(--acc)}
+.trap{background:var(--bad-soft);border-radius:8px;padding:8px 14px;margin:10px 0;border-inline-start:4px solid var(--bad);font-size:.95rem}
+.tbl{overflow-x:auto;margin:10px 0;border:1px solid var(--line);border-radius:8px}
+table{border-collapse:collapse;width:100%;font-size:.93rem}
+th,td{padding:8px 10px;border-bottom:1px solid var(--line);border-inline-start:1px solid var(--line);text-align:start;vertical-align:top}
+th{background:var(--surf2);font-weight:600;white-space:nowrap}
+tr:last-child td{border-bottom:0} td:first-child,th:first-child{border-inline-start:0;font-weight:600}
+td:first-child{background:var(--surf2)}
+.lesson-tabs{display:flex;gap:8px;flex-wrap:wrap}
+.q{display:flex;flex-direction:column;gap:10px}
+.q-h{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.q-t{font-weight:600;white-space:pre-line}
+.q-ref{font-size:.82rem;color:var(--mute)}
+.q textarea,.q input[type=text],.q select,.inp{width:100%;background:var(--surf2);border:1px solid var(--line);border-radius:8px;padding:8px 12px;min-height:44px}
+.q textarea{min-height:76px;resize:vertical}
+.q input.blank{display:inline-block;width:11em;max-width:100%;min-height:36px;vertical-align:baseline;padding:2px 10px}
+.opt{display:flex;gap:10px;align-items:flex-start;padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surf2);cursor:pointer}
+.opt input{margin-top:6px}
+.opt.ok{border-color:var(--good);background:var(--good-soft)} .opt.no{border-color:var(--bad);background:var(--bad-soft)}
+.ans{background:var(--good-soft);border:1px solid var(--good);border-radius:8px;padding:10px 14px;white-space:pre-line}
+.ans.mine{background:var(--surf2);border-color:var(--line)}
+.ans b.l{display:block;font-size:.8rem;color:var(--mute);font-weight:600;margin-bottom:2px}
+.ans.good b.l{color:var(--good)}
+.res{padding:8px 14px;border-radius:8px;font-weight:700}
+.res.g{background:var(--good-soft);color:var(--good)} .res.b{background:var(--bad-soft);color:var(--bad)}
+.acts{display:flex;gap:6px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:10px}
+.part{display:flex;flex-direction:column;gap:6px}
+.part>b{font-size:.92rem}
+.lbl-row{display:flex;gap:8px;align-items:center}
+.lbl-row b{width:28px;height:28px;border-radius:50%;background:var(--acc);color:var(--acc-ink);display:grid;place-items:center;flex:none;font-size:.9rem}
+.sec-h{display:flex;align-items:center;gap:8px;margin-top:6px;padding-bottom:4px;border-bottom:2px solid var(--line)}
+.fc{min-height:210px;display:flex;flex-direction:column;justify-content:center;gap:12px;text-align:center;padding:24px}
+.fc .big{font:600 1.5rem/1.5 var(--font-d)}
+.fc .en{direction:ltr;color:var(--mute)}
+.fc .back{font-size:1.1rem}
+.rate{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.st{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.st button{border:0;background:var(--surf2);padding:3px 10px;font-size:.82rem;border-inline-start:1px solid var(--line)}
+.st button:first-child{border-inline-start:0}
+.st button.on0{background:var(--bad-soft);color:var(--bad);font-weight:700}
+.st button.on1{background:var(--warn-soft);color:var(--warn);font-weight:700}
+.st button.on2{background:var(--good-soft);color:var(--good);font-weight:700}
+.ck{display:flex;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.ck .tm{flex:1;min-width:150px;font-weight:600}
+.ck .df{flex-basis:100%;font-size:.93rem;color:var(--mute)}
+.mask{background:var(--surf2);border:1px dashed var(--line);border-radius:6px;color:var(--mute);width:100%;text-align:center;padding:2px 6px;font-size:.82rem}
+.fig{display:block;width:100%;max-width:560px;height:auto;border-radius:10px;border:1px solid var(--line);background:var(--sky);margin-inline:auto}
+.fig .sky{fill:var(--sky)} .fig .land{fill:var(--land)} .fig .road{fill:var(--road)} .fig .rv{stroke:var(--river);stroke-width:7;fill:none}
+.s0{fill:var(--s0)}.s1{fill:var(--s1)}.s2{fill:var(--s2)}.s3{fill:var(--s3)}.s4{fill:var(--s4)}.s5{fill:var(--s5)}.s6{fill:var(--s6)}.s7{fill:var(--s7)}
+.fig .pl{stroke:var(--figline);stroke-width:3.2;fill:none} .fig .gnd{stroke:var(--figline);stroke-width:2.5}
+.fig .ar{stroke:var(--arrow);stroke-width:3.2} .fig .arh{fill:var(--arrow)}
+.fig .ax{stroke:var(--figline);stroke-width:2;stroke-dasharray:7 5;fill:none}
+.fig .ld{stroke:var(--figline);stroke-width:1.5}
+.fig .ring{stroke:var(--figline);stroke-width:1.2}
+.fig .dot{fill:var(--arrow);stroke:var(--figline);stroke-width:1.5}
+.fig .lbl{font:600 13px var(--font);fill:var(--ink);paint-order:stroke;stroke:var(--sky);stroke-width:4px;stroke-linejoin:round}
+.fig .cap{font:500 11.5px var(--font);fill:var(--mute);paint-order:stroke;stroke:var(--sky);stroke-width:3px}
+.fig .age{font:700 15px var(--font);fill:var(--ink);paint-order:stroke;stroke:var(--sky);stroke-width:4px}
+.fig .nb{fill:var(--acc)} .fig .nt{fill:var(--acc-ink);font:700 13px var(--font)}
+.fig text{direction:ltr;unicode-bidi:plaintext}
+.figbox{display:flex;flex-direction:column;gap:6px}
+.figcap{font-size:.8rem;color:var(--warn);text-align:center}
+.gal{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.bars{display:flex;flex-direction:column;gap:10px}
+.bar-r{display:grid;grid-template-columns:140px 1fr 56px;gap:10px;align-items:center;font-size:.92rem}
+.bar-r .pbar{height:12px}
+.bar-r .pbar.bad>i{background:var(--bad)} .bar-r .pbar.good>i{background:var(--good)}
+.path{display:grid;grid-template-columns:minmax(120px,1.2fr) repeat(4,1fr);gap:6px;align-items:center}
+.path .hd{font-size:.8rem;color:var(--mute);font-weight:600}
+.path a,.path button.cell{border:1px solid var(--line);background:var(--surf2);border-radius:8px;padding:6px 8px;text-align:center;font-size:.88rem;font-variant-numeric:tabular-nums;color:var(--ink);text-decoration:none}
+.path .done{background:var(--good-soft);border-color:var(--good);color:var(--good);font-weight:700}
+.pager{display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
+textarea.exp{min-height:120px;font:13px/1.5 monospace;direction:ltr;text-align:left;width:100%;background:var(--surf2);border:1px solid var(--line);border-radius:8px;padding:8px}
+.toast{position:fixed;inset-inline:0;bottom:calc(16px + env(safe-area-inset-bottom,0px));display:flex;justify-content:center;pointer-events:none;z-index:40}
+.toast span{background:var(--ink);color:var(--bg);padding:8px 16px;border-radius:99px;font-size:.9rem}
+@media (max-width:640px){
+  .bar-r{grid-template-columns:100px 1fr 48px}
+  .path{grid-template-columns:1fr 1fr 1fr 1fr}.path>.lh{grid-column:1/-1;font-weight:700}.path>.hd{display:none}
+  .tab{padding:10px 10px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+</style>
+<div id="root" dir="rtl" lang="ar"></div>
+<script>
+/* ===== بيانات التعلم والحفظ — المصدر: المستند المرفق ===== */
+const LESSONS = [
+{id:'l1', n:1, title:'تشوه الصخور', en:'Deformation of Rocks', pages:'86–93', sections:[
+ {h:'المفاهيم الأساسية (تعاريف رسمية)', html:`
+  <div class="def"><b>التشوه (Deformation):</b> التغير الكلي في شكل الصخور أو حجمها أو كليهما معاً نتيجة تأثير القوى المختلفة.</div>
+  <div class="def"><b>التراكيب الجيولوجية (Geological Structures):</b> الأشكال والأوضاع الجيولوجية الثانوية التي تتخذها صخور القشرة الأرضية نتيجة تعرضها لقوى تشوهها.</div>
+  <div class="def"><b>الإجهاد (Stress):</b> القوة المؤثرة في وحدة المساحة من الصخر. القانون: الإجهاد = القوة ÷ المساحة، ووحدته نيوتن/م² (N/m²).</div>
+  <div class="def"><b>المطاوعة (Strain):</b> استجابة الصخر للإجهاد المؤثر فيه، وتتمثل في التغير في شكل الصخر أو حجمه أو كليهما معاً مقارنة بالحالة الأصلية. <b>ليس لها وحدة قياس.</b></div>
+  <div class="trap"><b>فخ امتحاني:</b> الإجهاد له وحدة (N/m²)، والمطاوعة بلا وحدة.</div>`},
+ {h:'الإجهاد والمطاوعة وسلوك الصخور', html:`
+  <div class="def"><b>حد المرونة (Elastic Limit):</b> الحد الذي لا يمكن للصخور بعده أن تعود إلى وضعها الأصلي الذي كانت عليه قبل تأثرها بالإجهاد.</div>
+  <p><b>السلوك المرن:</b> إجهاد <u>أقل من حد المرونة</u> (للهشة واللدنة): يتغير الشكل مؤقتاً ويعود الصخر لوضعه الأصلي عند زوال الإجهاد. العلاقة بين الإجهاد والمطاوعة طردية.</p>
+  <div class="tbl"><table><tr><th></th><th>الصخر الهش</th><th>الصخر اللدن</th></tr>
+  <tr><td>بعد تجاوز حد المرونة</td><td>ينكسر مباشرة</td><td>ينثني ويتغير شكله وحجمه دون كسر مباشر، وإذا استمر الإجهاد وتجاوز <b>نقطة الكسر</b> ينكسر</td></tr>
+  <tr><td>اسم التشوه</td><td>التشوه الهش</td><td>التشوه اللدن</td></tr>
+  <tr><td>أمثلة</td><td>البازلت، الصوان</td><td>الصخور الطينية، الغضار</td></tr>
+  <tr><td>التركيب الناتج</td><td>صدوع</td><td>طيات</td></tr></table></div>`},
+ {h:'العوامل المؤثرة في تشوه الصخور (4 عوامل)', html:`
+  <ol><li><b>نوع الصخر:</b> هش ينكسر، لدن ينثني.</li>
+  <li><b>نوع الإجهاد:</b> اتجاه القوة يحدد طبيعة التشوه.</li>
+  <li><b>درجة الحرارة:</b> الحرارة المرتفعة في الأعماق (بفعل الممال الحراري الأرضي) تحول سلوك الصخور الهشة إلى لدن.</li>
+  <li><b>الزمن:</b> بقاء الصخور مدداً طويلة تحت إجهاد دون حد المرونة يعدّل سلوك الهشة إلى لدن.</li></ol>
+  <div class="trap"><b>فخ:</b> «عمر الصخر» ليس من العوامل (جاء كخيار خاطئ في سؤال كتاب الطالب).</div>`},
+ {h:'أنواع الإجهاد (جدول المقارنة)', html:`
+  <div class="tbl"><table><tr><th>الإجهاد</th><th>اتجاه القوة</th><th>في الصخور الهشة</th><th>في الصخور اللدنة</th><th>التركيب</th></tr>
+  <tr><td><b>ضغط</b></td><td>قوتان متقابلتان متعاكستان باتجاه الجسم الصخري، في مستوى واحد</td><td>كسر بسبب الضغط</td><td>طي وانثناء نحو الأعلى أو الأسفل</td><td>صدع عكسي (هشة) / طيات (لدنة)</td></tr>
+  <tr><td><b>شد</b></td><td>قوتان متعاكستان متباعدتان عن الجسم الصخري، في مستوى واحد</td><td>كسر بسبب الشد</td><td>اتساع وتقليل السماكة في الوسط وانتفاخ الأطراف</td><td>صدع عادي وأنظمة صدوع (هشة)</td></tr>
+  <tr><td><b>قص</b></td><td>قوتان متعاكستان تتحركان بصورة متوازية في مستويين مختلفين</td><td>كسر بسبب القص</td><td>انثناء وانزياح أفقياً بسبب القص</td><td>صدع جانبي (هشة)</td></tr></table></div>
+  <div class="trap"><b>فخ:</b> الصخور الهشة قد تشكل طيات إذا كانت في أعماق كبيرة (حرارة عالية) أو تحت إجهاد دون حد المرونة لزمن طويل جداً.</div>`}
+]},
+{id:'l2', n:2, title:'الصدوع', en:'Faults', pages:'94–101', sections:[
+ {h:'التعريف وأجزاء الصدع', html:`
+  <div class="def"><b>الصدع (Fault):</b> كسر يحدث في صخور القشرة الأرضية نتيجة تعرضها لإجهادات تؤدي إلى تحرك كتلتين صخريتين على جانبي مستوى الكسر بصورة موازية له، مع بقاء الكتلتين متلامستين غالباً.</div>
+  <div class="def"><b>مستوى الصدع (Fault Plane):</b> سطح الكسر الذي تتحرك عليه الكتل الصخرية.</div>
+  <div class="def"><b>الجدار المعلق (Hanging Wall):</b> الكتلة الصخرية التي تقع <b>فوق</b> مستوى الصدع المائل (تبدو معلقة فوق رأس الجيولوجي).</div>
+  <div class="def"><b>الجدار القدم (Foot Wall):</b> الكتلة الصخرية التي تقع <b>أسفل</b> مستوى الصدع المائل (أسفل قدم الجيولوجي).</div>
+  <div class="trap"><b>فخ:</b> في الصدع الرأسي (90°) لا يمكن التمييز بين الجدار المعلق والقدم.</div>`},
+ {h:'تصنيف الصدوع', html:`
+  <p><b>أولاً: حسب ميل مستوى الصدع:</b> <b>رأسية</b> (الميل = 90° تماماً) و<b>مائلة</b> (أكبر من 0° وأقل من 90°).</p>
+  <p><b>ثانياً: حسب الحركة النسبية للكتلتين:</b> حركة رأسية (<b>عادي</b>، <b>عكسي</b>) وحركة أفقية (<b>جانبي</b>).</p>
+  <div class="tbl"><table><tr><th>وجه المقارنة</th><th>العادي</th><th>العكسي</th><th>الجانبي</th></tr>
+  <tr><td>الإجهاد</td><td>شد</td><td>ضغط</td><td>قص</td></tr>
+  <tr><td>الحركة النسبية</td><td>رأسية</td><td>رأسية</td><td>أفقية</td></tr>
+  <tr><td>ميل مستوى الصدع</td><td>أكبر من 0° وأقل من 90°</td><td>أكبر من 0° وأقل من 90°</td><td>90°، وقد يميل (أكبر من 0° وأقل من 90°)</td></tr>
+  <tr><td>حركة الجدار المعلق</td><td>إلى الأسفل بالنسبة للقدم</td><td>إلى الأعلى بالنسبة للقدم</td><td>حركة أفقية للكتلتين</td></tr>
+  <tr><td>تكرار الطبقات رأسياً مع العمق</td><td>لا يحدث</td><td>تتكرر</td><td>لا يحدث</td></tr>
+  <tr><td>مساحة القشرة</td><td>تزيد</td><td>تقل</td><td>—</td></tr>
+  <tr><td>مثال في الأردن</td><td>—</td><td>صدع طريق عمان التنموي (شارع الـ100)*</td><td>صدع البحر الميت التحويلي</td></tr></table></div>
+  <p class="note">* ورد هذا المثال في «قائمة الحفظ» في المستند فقط.</p>`},
+ {h:'أنظمة الصدوع (قوى شد واسعة النطاق ← صدوع عادية)', html:`
+  <div class="tbl"><table><tr><th>النظام</th><th>التركيب</th><th>الجدار المشترك</th><th>مثال أردني</th></tr>
+  <tr><td><b>الصدوع الدرجية</b> (Step Faults)</td><td>مجموعة صدوع عادية متوازية، الكتل بشكل الأدراج</td><td>—</td><td>وادي الموجب</td></tr>
+  <tr><td><b>الحوض الخسفي</b> (Graben)</td><td>صدعان عاديان متقابلان، تهبط الكتلة بينهما للأسفل</td><td>يشتركان في الجدار <b>المعلق</b></td><td>غور الأردن</td></tr>
+  <tr><td><b>الكتلة الاندفاعية</b> (Horst)</td><td>صدعان عاديان متقابلان، تبرز الكتلة بينهما للأعلى</td><td>يشتركان في الجدار <b>القدم</b></td><td>—</td></tr></table></div>
+  <div class="trap"><b>فخ:</b> الحوض الخسفي والكتلة الاندفاعية كلاهما من صدعين عاديين متقابلين بقوى شد؛ الفرق في الجدار المشترك: معلق (حوض)، قدم (اندفاعية).</div>`}
+]},
+{id:'l3', n:3, title:'الطيات', en:'Folds', pages:'102–110', sections:[
+ {h:'مفهوم الطية وأجزاؤها', html:`
+  <div class="def"><b>الطية (Fold):</b> تركيب جيولوجي ينشأ في الصخور اللدنة (أو الهشة التي تتعرض لدرجات حرارة مرتفعة في أعماق كبيرة)، حيث تنثني الطبقات الصخرية وتتقوس دون أن تتكسر تحت تأثير إجهاد الضغط غالباً.</div>
+  <div class="def"><b>جناح الطية (Fold Limb):</b> أحد جانبي الطية، وللطية جناحان من طبقات مائلة يلتقيان عند محور الطية.</div>
+  <div class="def"><b>مفصل الطية (Fold Hinge):</b> الخط الوهمي الذي يصل بين النقاط التي تقع على أقصى تكور (انحناء) للطبقة الصخرية في الطية.</div>
+  <div class="def"><b>المستوى المحوري (Axial Plane):</b> مستوى وهمي يمر بمحور الطية ويقسم الطية إلى قسمين متساويين ومتناظرين تماماً في الطية المتماثلة. قد يكون أفقياً أو مائلاً أو رأسياً.</div>
+  <div class="def"><b>محور الطية (Fold Axis):</b> خط ناتج من تقاطع المستوى المحوري مع سطح إحدى الطبقات المكونة للطية، وعنده تحدث عملية الطي ويحدد أقصى تكور للطبقة.</div>
+  <div class="trap"><b>فخ (الخطأ الشائع 1 في المستند):</b> الخلط بين مفصل الطية (خط يصل بين نقاط أقصى انحناء) ومحور الطية (خط تقاطع المستوى المحوري مع سطح الطبقة).</div>`},
+ {h:'تصنيف الطيات', html:`
+  <p><b>أ. حسب اتجاه التقوس:</b></p>
+  <div class="tbl"><table><tr><th></th><th>محدبة (Anticline)</th><th>مقعرة (Syncline)</th></tr>
+  <tr><td>التقوس</td><td>نحو الأعلى</td><td>نحو الأسفل</td></tr>
+  <tr><td>ميل الجناحين</td><td>بعيداً عن المستوى المحوري</td><td>نحو المستوى المحوري</td></tr>
+  <tr><td>الأعمار في المركز</td><td>الأقدم في الوسط</td><td>الأحدث في الوسط</td></tr></table></div>
+  <p><b>ب. حسب زاوية ميل المستوى المحوري:</b></p>
+  <div class="tbl"><table><tr><th>النوع</th><th>المستوى المحوري</th><th>الجناحان</th><th>الضغط المسبب</th></tr>
+  <tr><td>متماثلة</td><td>عمودي على سطح الأرض (90°)</td><td>ميل متساوٍ</td><td>متساوٍ على الجانبين</td></tr>
+  <tr><td>غير متماثلة</td><td>مائل بزاوية أقل من 90°</td><td>ميل كل جناح مختلف</td><td>غير متساوٍ على الجانبين</td></tr>
+  <tr><td>مقلوبة</td><td>مائل بدرجة كبيرة عن العمودي</td><td>يميلان في الاتجاه نفسه، وزاوية أحدهما أكبر من 90°؛ طبقات أحد الجناحين مقلوبة</td><td>غير متساوٍ شديد جداً على أحد الجانبين</td></tr>
+  <tr><td>مضطجعة</td><td>أفقي تقريباً</td><td>يميلان في الاتجاه نفسه بصورة أفقية تقريباً</td><td>—</td></tr></table></div>`}
+]},
+{id:'l4', n:4, title:'القبة والحوض', en:'Dome and Basin', pages:'ضمن الدرس الثالث', sections:[
+ {h:'القبة والحوض (تنشآن من الطيات المتماثلة)', html:`
+  <div class="def"><b>القبة (Dome):</b> طية محدبة متماثلة تميل طبقاتها بعيداً عن المركز في كل الاتجاهات، والأقدم في المركز.</div>
+  <div class="def"><b>الحوض (Basin):</b> طية مقعرة متماثلة تميل طبقاتها نحو المركز في كل الاتجاهات، والأحدث في المركز.</div>
+  <div class="tbl"><table><tr><th>وجه المقارنة</th><th>القبة</th><th>الحوض</th></tr>
+  <tr><td>الطية الأصلية</td><td>محدبة متماثلة</td><td>مقعرة متماثلة</td></tr>
+  <tr><td>النشوء</td><td>اندفاع الماغما وتبريدها أسفل السطح، أو ضغط من الأسفل للطبقات</td><td>هبوط القشرة نحو الأسفل نتيجة ثقل الرواسب المتراكمة</td></tr>
+  <tr><td>ميل الطبقات</td><td>بالدرجة نفسها وفي جميع الاتجاهات <b>بعيداً</b> عن المركز</td><td>بالدرجة نفسها وفي جميع الاتجاهات <b>نحو</b> المركز</td></tr>
+  <tr><td>التكشف بعد الحت والتعرية</td><td>دائري/إهليليجي: <b>الأقدم</b> في المركز، الأحدث على الأطراف</td><td>دائري/إهليليجي: <b>الأحدث</b> في المركز، الأقدم على الأطراف</td></tr>
+  <tr><td>الشكل في المقطع العرضي</td><td>شبيهة بالطية المحدبة</td><td>شبيهة بالطية المقعرة</td></tr>
+  <tr><td>مثال أردني</td><td>حوض البقعة (كان في الأصل قبة ثم تعرض للحت والتعرية)</td><td>الأحواض الترسيبية</td></tr></table></div>
+  <div class="trap"><b>فخ (الخطأ الشائع 2):</b> حوض البقعة لم ينشأ كطية مقعرة؛ كان في الأصل <b>قبة</b> (طية محدبة ارتفعت كجبل) ثم تآكلت قمتها الأقدم بفعل التجوية والحت فتحولت إلى منطقة منخفضة.</div>`}
+]},
+{id:'l5', n:5, title:'الجيولوجيا الهندسية', en:'Engineering Geology', pages:'111 (إثراء وتوسع)', sections:[
+ {h:'إثراء وتوسع', html:`
+  <div class="def"><b>الجيولوجيا الهندسية (Engineering Geology):</b> التطبيق العملي لعلم الجيولوجيا في مجالات الهندسة المختلفة، حيث تؤخذ العوامل والتراكيب الجيولوجية بعين الاعتبار عند تخطيط وتصميم وتنفيذ المنشآت الهندسية.</div>
+  <ul><li><b>اختيار الموقع والتصميم:</b> تؤثر الصدوع والطيات والفواصل على ثبات الصخور وتحملها للأحمال الهندسية.</li>
+  <li><b>السدود والأنفاق والجسور:</b> وجود الصدوع أو نطاقات التهشم قربها يضعف القابلية التحميلية للطبقات ويتسبب في تسرب المياه أو انهيار المنشآت.</li>
+  <li><b>سلامة المباني:</b> تجب دراسة أثر الإجهادات والتشوهات الجيولوجية لضمان استقرار الأساسات ومقاومتها للنشاط الزلزالي.</li></ul>
+  <p class="note">لا توجد أسئلة رسمية لهذا الدرس في المستند المرفق.</p>`}
+]}
+];
+
+const LESSON_NAME = {l1:'تشوه الصخور', l2:'الصدوع', l3:'الطيات', l4:'القبة والحوض', l5:'الجيولوجيا الهندسية'};
+
+/* ===== عناصر الحفظ (term/def) — من «قائمة الحفظ» في المستند ===== */
+const MEM = [
+ ['m01','l1','التشوه','Deformation','التغير الكلي في شكل الصخور أو حجمها أو كليهما نتيجة تأثير القوى المختلفة.'],
+ ['m02','l1','التراكيب الجيولوجية','Geological Structures','الأشكال والأوضاع الثانوية التي تتخذها صخور القشرة الأرضية نتيجة تعرضها لقوى تشوهها.'],
+ ['m03','l1','الإجهاد','Stress','القوة المؤثرة في وحدة المساحة من الصخر، وتقاس بـ (N/m²).'],
+ ['m04','l1','المطاوعة','Strain','مقدار التغير في شكل الصخر أو حجمه مقارنة بالحالة الأصلية (بدون وحدة قياس).'],
+ ['m05','l1','حد المرونة','Elastic Limit','الحد الذي لا يمكن للصخور بعده أن تعود إلى وضعها الأصلي بعد زوال الإجهاد.'],
+ ['m06','l1','التشوه الهش','Brittle Deformation','الكسر الذي يحدث للصخور الهشة عند تجاوز الإجهاد حد المرونة.'],
+ ['m07','l1','التشوه اللدن','Plastic Deformation','الانثناء والتغير في الشكل والحجم دون كسر مباشر للصخور اللدنة عند تجاوز حد المرونة.'],
+ ['m08','l2','الصدع','Fault','كسر في صخور القشرة الأرضية ينجم عنه تحرك كتلتين صخريتين بموازاة سطح الكسر.'],
+ ['m09','l2','مستوى الصدع','Fault Plane','سطح الكسر الذي تتحرك عليه الكتل الصخرية.'],
+ ['m10','l2','الجدار المعلق','Hanging Wall','الكتلة الصخرية الواقعة فوق مستوى الصدع المائل.'],
+ ['m11','l2','الجدار القدم','Footwall','الكتلة الصخرية الواقعة أسفل مستوى الصدع المائل.'],
+ ['m12','l2','الصدع العادي','Normal Fault','صدع مائل يتحرك فيه الجدار المعلق للأسفل بالنسبة للقدم بفعل إجهاد شد.'],
+ ['m13','l2','الصدع العكسي','Reverse Fault','صدع مائل يتحرك فيه الجدار المعلق للأعلى بالنسبة للقدم بفعل إجهاد ضغط.'],
+ ['m14','l2','الصدع الجانبي','Strike-Slip Fault','صدع رأسي يتحرك فيه الصخر حركة جانبية أفقية بفعل إجهاد قص.'],
+ ['m15','l2','الصدوع الدرجية','Step Faults','مجموعة صدوع عادية متوازية تأخذ شكل الدرج بفعل قوى شد.'],
+ ['m16','l2','الحوض الخسفي','Graben','هبوط الكتلة الصخرية بين صدعين عاديين متقابلين يشتركان في الجدار المعلق.'],
+ ['m17','l2','الكتلة الاندفاعية','Horst','بروز الكتلة الصخرية للأعلى بين صدعين عاديين متقابلين يشتركان في الجدار القدم.'],
+ ['m18','l3','الطية','Fold','انثناء وتقوس الطبقات الصخرية اللدنة دون كسر بفعل إجهاد الضغط.'],
+ ['m19','l3','جناح الطية','Fold Limb','أحد جانبي الطية المكون من طبقات مائلة.'],
+ ['m20','l3','مفصل الطية','Fold Hinge','الخط الوهمي الذي يصل بين النقاط الواقعة على أقصى تكور للطبقة.'],
+ ['m21','l3','المستوى المحوري','Axial Plane','مستوى وهمي يمر بمحور الطية ويقسمها إلى نصفين.'],
+ ['m22','l3','محور الطية','Fold Axis','خط ناتج عن تقاطع المستوى المحوري مع سطح الطبقة وتحدث عنده عملية الطي.'],
+ ['m23','l3','الطية المحدبة','Anticline','طية تتقوس للأعلى والأقدم في المركز وتميل الأجنحة للخارج (بعيداً عن المستوى المحوري).'],
+ ['m24','l3','الطية المقعرة','Syncline','طية تتقوس للأسفل والأحدث في المركز وتميل الأجنحة للداخل (نحو المستوى المحوري).'],
+ ['m25','l3','الطية المتماثلة','Symmetrical Fold','طية مستواها المحوري عمودي (90°) وزاوية ميل جناحيها متساوية.'],
+ ['m26','l3','الطية غير المتماثلة','Asymmetrical Fold','طية مستواها المحوري مائل (أقل من 90°) وزاوية ميل جناحيها مختلفة.'],
+ ['m27','l3','الطية المقلوبة','Overturned Fold','طية يميل جناحاها في الاتجاه نفسه وزاوية ميل أحدهما أكبر من 90°.'],
+ ['m28','l3','الطية المضطجعة','Recumbent Fold','طية مستواها المحوري أفقي تقريباً.'],
+ ['m29','l4','القبة','Dome','طية محدبة متماثلة تميل طبقاتها بعيداً عن المركز في كل الاتجاهات، والأقدم في المركز.'],
+ ['m30','l4','الحوض','Basin','طية مقعرة متماثلة تميل طبقاتها نحو المركز في كل الاتجاهات، والأحدث في المركز.'],
+ ['m31','l5','الجيولوجيا الهندسية','Engineering Geology','التطبيق العملي لعلم الجيولوجيا في مجالات الهندسة المختلفة، مع مراعاة العوامل والتراكيب الجيولوجية عند تخطيط وتصميم وتنفيذ المنشآت.'],
+].map(a=>({id:a[0],lesson:a[1],term:a[2],en:a[3],def:a[4],kind:'def'}));
+
+/* أمثلة وحقائق للحفظ */
+const MEM_FACTS = [
+ ['x01','l1','أمثلة الصخور الهشة','البازلت، الصوان.'],
+ ['x02','l1','أمثلة الصخور اللدنة','الصخور الطينية، الغضار.'],
+ ['x03','l1','العوامل المؤثرة في تشوه الصخور','نوع الصخر، نوع الإجهاد، درجة الحرارة، الزمن.'],
+ ['x04','l1','التراكيب الناتجة عن كل إجهاد','ضغط: صدع عكسي (هشة) / طيات (لدنة). شد: صدع عادي (هشة). قص: صدع جانبي (هشة).'],
+ ['x05','l2','مثال الصدع الجانبي (التحويلي) في الأردن','صدع البحر الميت التحويلي.'],
+ ['x06','l2','مثال الصدوع الدرجية في الأردن','الصدوع العادية المتوازية في وادي الموجب.'],
+ ['x07','l2','مثال الحوض الخسفي في الأردن','غور الأردن.'],
+ ['x08','l2','مثال الصدع العكسي في الأردن (من قائمة الحفظ)','صدع طريق عمان التنموي (شارع الـ100).'],
+ ['x09','l2','الصدع العادي: تكرار الطبقات ومساحة القشرة','لا يحدث تكرار للطبقات؛ يزيد مساحة القشرة الأرضية.'],
+ ['x10','l2','الصدع العكسي: تكرار الطبقات ومساحة القشرة','تتكرر الطبقات رأسياً مع العمق؛ يقلل مساحة القشرة الأرضية.'],
+ ['x11','l3','أجزاء الطية','جناح الطية، المستوى المحوري، مفصل الطية، محور الطية (للطية جناحان).'],
+ ['x12','l3','تصنيفا الطيات','حسب اتجاه التقوس: محدبة ومقعرة. حسب ميل المستوى المحوري: متماثلة، غير متماثلة، مقلوبة، مضطجعة.'],
+ ['x13','l3','الصدع المرافق للطيات','صدع عكسي، لأنه ينشأ أيضاً عن إجهاد الضغط.'],
+ ['x14','l4','مثال القبة التي تحولت إلى حوض','حوض البقعة (كان أصلاً قبة مرتفعة).'],
+].map(a=>({id:a[0],lesson:a[1],term:a[2],def:a[3],kind:'fact'}));
+
+/* جداول المقارنة للاسترجاع: خلايا تُكشف بعد محاولة التذكر */
+const COMPARES = [
+ {id:'c01',lesson:'l1',title:'أنواع الإجهاد',cols:['اتجاه القوة','في الهشة','في اللدنة','التركيب'],rows:[
+  ['ضغط','قوتان متقابلتان متعاكستان باتجاه الجسم الصخري','كسر بسبب الضغط','طي وانثناء نحو الأعلى أو الأسفل','صدع عكسي / طيات'],
+  ['شد','قوتان متعاكستان متباعدتان عن الجسم الصخري','كسر بسبب الشد','اتساع وتقليل السماكة في الوسط وانتفاخ الأطراف','صدع عادي / أنظمة صدوع'],
+  ['قص','قوتان متعاكستان متوازيتان في مستويين مختلفين','كسر بسبب القص','انثناء وانزياح أفقياً','صدع جانبي']]},
+ {id:'c02',lesson:'l2',title:'الصدوع الثلاثة (جدول 1)',cols:['الإجهاد','الحركة النسبية','الميل','حركة الجدار المعلق','تكرار الطبقات'],rows:[
+  ['العادي','شد','رأسية','أكبر من 0° وأقل من 90°','للأسفل بالنسبة للقدم','لا يحدث'],
+  ['العكسي','ضغط','رأسية','أكبر من 0° وأقل من 90°','للأعلى بالنسبة للقدم','تتكرر'],
+  ['الجانبي','قص','أفقية','90° وقد يميل','حركة أفقية للكتلتين','لا يحدث']]},
+ {id:'c03',lesson:'l2',title:'أنظمة الصدوع',cols:['التركيب','الجدار المشترك','مثال أردني'],rows:[
+  ['الصدوع الدرجية','صدوع عادية متوازية بشكل أدراج','—','وادي الموجب'],
+  ['الحوض الخسفي','صدعان عاديان متقابلان؛ الكتلة بينهما تهبط','الجدار المعلق','غور الأردن'],
+  ['الكتلة الاندفاعية','صدعان عاديان متقابلان؛ الكتلة بينهما تبرز','الجدار القدم','—']]},
+ {id:'c04',lesson:'l3',title:'محدبة / مقعرة',cols:['التقوس','ميل الجناحين','الأعمار في المركز'],rows:[
+  ['المحدبة','نحو الأعلى','بعيداً عن المستوى المحوري','الأقدم'],
+  ['المقعرة','نحو الأسفل','نحو المستوى المحوري','الأحدث']]},
+ {id:'c05',lesson:'l3',title:'تصنيف الطيات حسب المستوى المحوري',cols:['المستوى المحوري','الجناحان'],rows:[
+  ['متماثلة','عمودي (90°)','ميل متساوٍ'],
+  ['غير متماثلة','مائل (أقل من 90°)','ميل مختلف'],
+  ['مقلوبة','مائل بدرجة كبيرة','في الاتجاه نفسه، وأحدهما أكبر من 90°'],
+  ['مضطجعة','أفقي تقريباً','في الاتجاه نفسه بصورة أفقية تقريباً']]},
+ {id:'c06',lesson:'l4',title:'القبة والحوض',cols:['الطية الأصلية','ميل الطبقات','الأقدم/الأحدث في المركز','السبب','مثال'],rows:[
+  ['القبة','محدبة متماثلة','بعيداً عن المركز','الأقدم في المركز','اندفاع الماغما أو ضغط من الأسفل','حوض البقعة (كان قبة)'],
+  ['الحوض','مقعرة متماثلة','نحو المركز','الأحدث في المركز','هبوط القشرة بثقل الرواسب','الأحواض الترسيبية']]},
+];
+
+/* ===== جمل «املأ الفراغ» مولّدة من نص المستند (تدريب مولّد — ليست أسئلة الكتاب) ===== */
+const FILLS = [
+ ['f01','l1','الإجهاد هو القوة المؤثرة في وحدة ___ من الصخر.',[['المساحة']]],
+ ['f02','l1','وحدة قياس الإجهاد هي ___.',[['نيوتن/م2','n/m2','نيوتن لكل متر مربع','نيوتن/متر مربع']]],
+ ['f03','l1','المطاوعة كمية ___ لها وحدة قياس.',[['ليس','لا','بدون']]],
+ ['f04','l1','الحد الذي لا تعود الصخور بعده إلى وضعها الأصلي يسمى حد ___.',[['المرونة']]],
+ ['f05','l1','عند تجاوز حد المرونة تنكسر الصخور ___ مباشرة.',[['الهشة']]],
+ ['f06','l1','عند تجاوز حد المرونة تنثني الصخور ___ دون كسر مباشر.',[['اللدنة']]],
+ ['f07','l1','الصخور الهشة مثل البازلت و___.',[['الصوان']]],
+ ['f08','l1','الصخور اللدنة مثل الصخور الطينية و___.',[['الغضار']]],
+ ['f09','l1','تعدّل درجة الحرارة المرتفعة سلوك الصخور الهشة في الأعماق بفعل الممال الحراري ___.',[['الارضي','الأرضي']]],
+ ['f10','l2','الكتلة الصخرية الواقعة فوق مستوى الصدع المائل تسمى الجدار ___.',[['المعلق']]],
+ ['f11','l2','الكتلة الصخرية الواقعة أسفل مستوى الصدع المائل تسمى الجدار ___.',[['القدم']]],
+ ['f12','l2','يتحرك الجدار المعلق إلى ___ بالنسبة للقدم في الصدع العادي.',[['الاسفل','الأسفل']]],
+ ['f13','l2','يتحرك الجدار المعلق إلى ___ بالنسبة للقدم في الصدع العكسي.',[['الاعلى','الأعلى']]],
+ ['f14','l2','الصدع الجانبي ينشأ عن إجهاد ___.',[['القص']]],
+ ['f15','l2','تتكرر الطبقات رأسياً مع العمق في الصدع ___.',[['العكسي']]],
+ ['f16','l2','الصدعان العاديان المتقابلان في الحوض الخسفي يشتركان في الجدار ___.',[['المعلق']]],
+ ['f17','l2','الصدعان العاديان المتقابلان في الكتلة الاندفاعية يشتركان في الجدار ___.',[['القدم']]],
+ ['f18','l2','مثال الحوض الخسفي في الأردن: ___ الأردن.',[['غور']]],
+ ['f19','l3','للطية ___ أجنحة.',[['جناحان','جناحين','2','اثنان','اثنين']]],
+ ['f20','l3','الطية المحدبة تتقوس نحو ___ وتقع الصخور الأقدم في وسطها.',[['الاعلى','الأعلى']]],
+ ['f21','l3','تقع الصخور الأحدث في مركز الطية ___.',[['المقعرة']]],
+ ['f22','l3','المستوى المحوري في الطية المتماثلة يميل بزاوية ___ درجة.',[['90','٩٠']]],
+ ['f23','l3','الطية التي مستواها المحوري أفقي تقريباً تسمى الطية ___.',[['المضطجعة']]],
+ ['f24','l4','القبة تنشأ عن طية ___ متماثلة.',[['محدبة']]],
+ ['f25','l4','الصخور الأحدث في مركز ___ والأقدم على الأطراف.',[['الحوض']]],
+ ['f26','l4','حوض البقعة كان في الأصل ___ ثم تعرض للحت والتعرية.',[['قبة']]],
+].map(a=>({id:a[0],lesson:a[1],text:a[2],answers:a[3]}));
+
+/* ===== الأسئلة الرسمية (كتاب الطالب + كتاب الأنشطة + مراجعة الوحدة) =====
+   src: sb كتاب الطالب | wb كتاب الأنشطة | ur مراجعة الوحدة
+   a: الإجابة النموذجية كما وردت في المستند حرفياً.  why: شرح إضافي من التطبيق (ليس من الكتاب).
+   fig: الشكل المطلوب إرفاقه (غير موجود في المستند).  flag: ملاحظة عن نقص/غموض في المستند. */
+const NO_OPT = 'خيارات الاختيار (أ، ب، جـ، د) غير مذكورة في المستند عدا الإجابة الصحيحة؛ اكتب إجابتك بنص الخيار أو بمعناه.';
+const O = [];
+const mcq=(id,src,lesson,ref,q,a,extra={})=>O.push(Object.assign({id,src,lesson,ref,type:'mcq',q,a,flag:NO_OPT},extra));
+const open=(id,src,lesson,ref,q,a,extra={})=>O.push(Object.assign({id,src,lesson,ref,type:'open',q,a},extra));
+const multi=(id,src,lesson,ref,q,parts,extra={})=>O.push(Object.assign({id,src,lesson,ref,type:'multi',q,parts,a:parts.map(p=>(p.l?p.l+') ':'')+p.a).join('\n')},extra));
+
+/* ---------- كتاب الطالب: مراجعة الدرس الأول ص93 ---------- */
+const R1='كتاب الطالب – مراجعة الدرس الأول ص93';
+open('sb1-1','sb','l1',R1+' – س1 (الفكرة الرئيسة)','أحدد العوامل التي يعتمد عليها تشوه الصخور.','يعتمد تشوه الصخور على أربعة عوامل رئيسة: (1) نوع الصخر، (2) نوع الإجهاد، (3) درجة الحرارة، (4) الزمن.');
+open('sb1-2','sb','l1',R1+' – س2','أوضح المقصود بكل من: الإجهاد، والمطاوعة، والتراكيب الجيولوجية.',
+ 'الإجهاد: القوة المؤثرة في وحدة المساحة من الصخر، ويقاس بوحدة (N/m²).\nالمطاوعة: التغير في شكل الصخور أو حجمها أو كليهما معاً نتيجة تأثير الإجهاد المطبق عليها، وهي كمية ليس لها وحدة قياس.\nالتراكيب الجيولوجية: الأشكال والأوضاع الثانوية التي تتخذها صخور القشرة الأرضية نتيجة تعرضها لقوى تؤدي إلى تشوهها (كالصدوع والطيات).');
+open('sb1-3','sb','l1',R1+' – س3','أصف أثر إجهاد الشد في الصخور اللدنة.','يؤدي إجهاد الشد في الصخور اللدنة إلى اتساع الصخر وتقليل سماكته (سمكه) في الوسط مع انتفاخ الأطراف دون أن ينكسر مباشرة.');
+open('sb1-4','sb','l1',R1+' – س4','أوضح تأثير درجة الحرارة في تعديل سلوك الصخور الهشة.','تعمل درجة الحرارة المرتفعة في أعماق الأرض (بفعل الممال الحراري الأرضي) على تعديل سلوك الصخور الهشة ليتحول من سلوك هش (انكسار) إلى سلوك لدن (انثناء وطيات).');
+multi('sb1-5','sb','l1',R1+' – س5','أدرس الشكل الذي يوضح طية صخرية، ثم أجيب عما يلي:',[
+ {l:'أ',q:'أستنتج: نوع الإجهاد الذي أثر في الصخور.',a:'إجهاد ضغط (Compressive Stress).'},
+ {l:'ب',q:'أحدد: نوع التشوه في الصخور.',a:'تشوه لدن (Plastic Deformation).'},
+ {l:'جـ',q:'أحدد: نوع التركيب الجيولوجي الناتج.',a:'طية (Fold).'}],
+ {fig:'شكل الطية الصخرية في س5 (ص93) — يلزم إرفاقه. الإجابات أعلاه من المستند ولا تعتمد على تفاصيل الرسم.'});
+const q16=[
+ ['sb1-6a','أي من الآتية يحدث للصخور الهشة عندما تتعرض إلى إجهاد يزيد على حد المرونة؟','جـ. تنكسر ولا تعود إلى وضعها الأصلي.'],
+ ['sb1-6b','جميع العوامل تؤثر في كيفية تشوه الصخور، ما عدا:','ب. عمر الصخر.'],
+ ['sb1-6c','يمكن أن تعود الصخور إلى وضعها الأصلي بعد زوال الإجهاد المؤثر فيها عندما:','أ. لا تتجاوز حد المرونة أثناء تعرضها للإجهاد.'],
+ ['sb1-6d','أي من الآتية يحدث للصخور اللدنة عندما تتعرض إلى إجهاد يزيد على حد المرونة ثم يزول الإجهاد؟','ب. يتغير شكلها ولا تعود إلى وضعها الأصلي.'],
+ ['sb1-6e','إحدى العبارات الآتية صحيحة في ما يتعلق بالعلاقة بين الزمن والتشوه:','ب. يعدل الزمن سلوك الصخور الهشة ليصبح سلوكاً لدناً، تحت تأثير الإجهاد، دون حد المرونة.']];
+q16.forEach((x,i)=>mcq(x[0],'sb','l1',R1+' – س6 ('+(i+1)+')',x[1],x[2]));
+
+/* ---------- كتاب الطالب: مراجعة الدرس الثاني ص101 ---------- */
+const R2='كتاب الطالب – مراجعة الدرس الثاني ص101';
+open('sb2-1','sb','l2',R2+' – س1 (الفكرة الرئيسة)','أكمل المخطط المفاهيمي لتصنيف الصدوع.',
+ 'تصنف الصدوع حسب ميل مستوى الصدع إلى: صدوع رأسية وصدوع مائلة.\nوتصنف حسب الحركة النسبية للكتلتين إلى:\n• صدوع الحركة النسبية الرأسية: وتقسم إلى صدوع عادية وصدوع عكسية.\n• صدوع الحركة النسبية الأفقية: صدع جانبي.',
+ {fig:'المخطط المفاهيمي الفارغ في س1 (ص101) — يلزم إرفاقه لمطابقة مواضع الفراغات.'});
+open('sb2-2','sb','l2',R2+' – س2','أوضح المقصود بكل من: الصدع، والجدار القدم، والصدوع الدرجية.',
+ 'الصدع: كسر يحدث في صخور القشرة الأرضية جميعها وتتحرك على جانبي مستوى الكسر كتلتان صخريتان بصورة موازية لمستوى الكسر.\nالجدار القدم: الكتلة الصخرية التي تقع أسفل مستوى الصدع المائل.\nالصدوع الدرجية: نظام من الصدوع العادية المتوازية الناتجة عن قوى شد، تأخذ فيها الكتل الصخرية شكل الأدراج.');
+multi('sb2-3','sb','l2',R2+' – س3','أدرس الشكل الوارد في الدرس الذي يوضح ثلاثة صدوع (س، ص، ع) والكتلتين (1، 2)، ثم أجيب:',[
+ {l:'أ',q:'أحدد الجدار المعلق والجدار القدم ومستوى الصدع للصدع (س).',a:'⚠ لم يرد جواب هذا الجزء في المستند (يعتمد على الشكل).'},
+ {l:'ب',q:'أستنتج: نوع الصدوع (س، ص، ع).',a:'س: صدع عادي، ص: صدع عادي، ع: صدع عادي.'},
+ {l:'جـ',q:'أصف: العلاقة بين الصدعين (ص، ع).',a:'صدعان عاديان متقابلان يحدان حوضاً خسفياً (تُهبط الكتلة 2 بينهما).'},
+ {l:'د',q:'أذكر: ماذا تسمى الكتلتان الصخريتان (1، 2)؟',a:'الكتلة (1): كتلة اندفاعية (Horst)، الكتلة (2): حوض خسفي (Graben).'}],
+ {fig:'شكل الصدوع (س، ص، ع) والكتلتين (1، 2) في س3 (ص101) — يلزم إرفاقه.',flag:'الجزء (أ) بلا جواب في المستند؛ لم أضف جواباً من عندي.'});
+[['sb2-4a','إذا علمت أن الخط A-B يمثل سطح الكسر وتتحرك عليه الكتل الصخرية لقوى ضغط، فإن التركيب الناتج هو:','ب. صدع عكسي.','الشكل مع الخط A-B (ص101)'],
+ ['sb2-4b','ماذا تمثل كل من الكتلة الصخرية X والكتلة Y على الترتيب (حيث X أسفل مستوى الصدع المائل و Y فوقه)؟','ب. الجدار القدم، والجدار المعلق.',null],
+ ['sb2-4c','إذا تعرض التتابع الطبقي إلى إجهاد شد بدلاً من الضغط فإن التركيب الناتج هو:','أ. صدع عادي.',null],
+ ['sb2-4d','إذا تعرض التتابع الطبقي إلى إجهاد الضغط في أعماق كبيرة في باطن الأرض فإن التركيب الناتج هو:','د. طية.',null],
+ ['sb2-4e','عندما يتحرك الجدار المعلق إلى الأسفل بالنسبة للجدار القدم فإن الصدع الناتج هو:','أ. عادي.',null]
+].forEach((x,i)=>mcq(x[0],'sb','l2',R2+' – س4 ('+(i+1)+')',x[1],x[2],x[3]?{fig:x[3]+' — يلزم إرفاقه.'}:{}));
+
+/* ---------- كتاب الطالب: مراجعة الدرس الثالث ص110 ---------- */
+const R3='كتاب الطالب – مراجعة الدرس الثالث ص110';
+open('sb3-1','sb','l3',R3+' – س1 (الفكرة الرئيسة)','أصنف الطيات اعتماداً على اتجاه التقوس، وزاوية ميل المستوى المحوري.','بناءً على اتجاه التقوس: طيات محدبة، وطيات مقعرة.\nبناءً على زاوية ميل المستوى المحوري: طية متماثلة، طية غير متماثلة، طية مقلوبة، طية مضطجعة.');
+open('sb3-2','sb','l3',R3+' – س2','أوضح المقصود بكل من: الطية، وجناح الطية، ومحور الطية.',
+ 'الطية: تركيب جيولوجي ينشأ في الصخور اللدنة نتيجة تعرضها لإجهاد الضغط، حيث تنثني الطبقات الصخرية وتتقوس دون أن تتكسر.\nجناح الطية: أحد جانبي الطية، ويتكون من طبقات صخرية مائلة تلتقي عند محور الطية.\nمحور الطية: الخط الوهمي الذي تحدث عنده عملية الطي ويحدد أقصى تكور لطبقة ما في الطية، وهو خط يقع ضمن المستوى المحوري.');
+open('sb3-3','sb','l4',R3+' – س3','أقارن بين القبة والحوض من حيث اتجاه ميل الطبقات ومواقع الطبقات الأحدث والأقدم في كل منهما.',
+ 'القبة: تميل الطبقات بعيداً عن المركز في جميع الاتجاهات؛ وتقع الصخور الأقدم في الوسط (المركز) والأحدث على الأطراف.\nالحوض: تميل الطبقات نحو المركز في جميع الاتجاهات؛ وتقع الصخور الأحدث في الوسط (المركز) والأقدم على الأطراف.');
+multi('sb3-4','sb','l3',R3+' – س4','أدرس رسم الطيتين (أ، ب) الموضحتين في الرسم، ثم أجيب:',[
+ {l:'أ',q:'أحدد الأجزاء: (1، 2، 3).',a:'1: المستوى المحوري، 2: مفصل الطية، 3: جناح الطية.'},
+ {l:'ب',q:'أصنف الطيتين (أ، ب) حسب التقوس.',a:'الطية (أ): طية محدبة. الطية (ب): طية مقعرة.'},
+ {l:'جـ',q:'أحدد موقع الطبقات الأقدم والأحدث.',a:'في الطية (أ) المحدبة الأقدم في المركز، وفي الطية (ب) المقعرة الأحدث في المركز.'},
+ {l:'د',q:'ميل جناحي الطية (ب).',a:'يميل جناحا الطية المقعرة نحو المستوى المحوري.'},
+ {l:'هـ',q:'نوع الإجهاد المسبب.',a:'إجهاد ضغط (Compressive Stress).'},
+ {l:'و',q:'أتوقع نوع الصدع المرافق.',a:'صدع عكسي (Reverse Fault)؛ لأنه ينشأ أيضاً عن إجهاد الضغط.'}],
+ {fig:'رسم الطيتين (أ، ب) مع الأرقام 1-3 في س4 (ص110) — يلزم إرفاقه.'});
+[['sb3-5a','يشير الرمز الدال على الخط المار بأقصى انحناء للطبقة في الشكل إلى:','د. مفصل الطية.','الشكل المرافق للفرع الأول'],
+ ['sb3-5b','يشير المستوى الوهمي المار بمنتصف الطية إلى:','ب. المستوى المحوري.','الشكل المرافق للفرع الثاني'],
+ ['sb3-5c','تصنف الطية المقعرة والمتماثلة بحسب اتجاه التقوس وزاوية ميل المستوى المحوري إلى:','أ. مقعرة ومتماثلة.',null],
+ ['sb3-5d','تعرضت الطية المتماثلة في الشكل لضغط:','أ. متساوٍ على كلا الجانبين.','الشكل المرافق للفرع الرابع'],
+ ['sb3-5e','إذا كان المستوى المحوري أفقياً تقريباً فإن الطية تصنف إلى:','جـ. مضطجعة.',null]
+].forEach((x,i)=>mcq(x[0],'sb','l3',R3+' – س5 ('+(i+1)+')',x[1],x[2],x[3]?{fig:x[3]+' (س5، ص110) — يلزم إرفاقه.'}:{}));
+
+/* ---------- مراجعة الوحدة ص112–114 ---------- */
+const RU='مراجعة الوحدة الثالثة (ص112–114)';
+[['ur1-1','l3','الانثناءات الناتجة من تعرض الطبقات الصخرية لإجهاد الضغط تسمى:','ب. الطيات.'],
+ ['ur1-2','l2','الصدوع الناتجة من حركة الجدار المعلق إلى الأعلى بالنسبة للجدار القدم هي صدوع:','ب. عكسية.'],
+ ['ur1-3','l3','تسمى الطية التي يكون فيها المستوى المحوري أفقياً تقريباً:','ب. المضطجعة.'],
+ ['ur1-4','l2','أحد التراكيب الجيولوجية الآتية ينتج بفعل إجهادات الشد:','جـ. الصدع العادي.'],
+ ['ur1-5','l3','تسمى الطية التي يميل جناحاها بزاوية ميل متساوية على كلا الجانبين:','أ. المتماثلة.'],
+ ['ur1-6','l2','التركيب الجيولوجي الذي يمثل حركة هبوط الكتلة المعلقة بين صدعين عاديين متقابلين هو:','د. الأحواض الخسفية.'],
+ ['ur1-7','l3','الطية التي يكون فيها المستوى المحوري مائلاً وزاوية ميل أحد جناحيها تزيد على 90° وتكون الطبقات الأحدث في وسطها هي طية:','د. المقلوبة (أو المقلوبة المقعرة).'],
+ ['ur1-8','l2','الصدوع التي تتكرر فيها الطبقات الصخرية رأسياً مع العمق هي الصدوع:','ب. العكسية.'],
+ ['ur1-9','l2','التركيب الجيولوجي الذي ينتج عن إجهاد القص هو:','جـ. الصدع الجانبي.'],
+ ['ur1-10','l2','تتشكل الأحواض الخسفية عندما تتعرض صخور القشرة لقوى شد تؤدي إلى:','د. إحداث صدعين عاديين متقابلين، تهبط الكتل الصخرية فيما بينهما.'],
+ ['ur1-11','l3','الخط الذي تحدث عنده عملية الطي ويحدد أقصى تكور لطبقة ما في الطية هو:','ب. محور الطية.'],
+ ['ur1-12','l3','تسمى الطية التي تتقوس فيها الطبقات الصخرية نحو الأعلى، ويميل جناحاها بعيداً عن المستوى المحوري، وتكون الطبقات الأقدم في وسطها:','د. المحدبة.']
+].forEach((x,i)=>mcq(x[0],'ur',x[1],RU+' – س1 ('+(i+1)+')',x[2],x[3]));
+/* ملاحظة على ur1-7 */
+O.find(o=>o.id==='ur1-7').flag=NO_OPT+' كما أن الجواب في المستند مذكور بصيغتين: «المقلوبة» أو «المقلوبة المقعرة».';
+[['ur2-1','l3','تسمى الطية التي يميل جناحاها بزاوية ميل غير متساوية على كلا الجانبين: ______','طية غير متماثلة (Asymmetrical Fold).'],
+ ['ur2-2','l3','الخط الوهمي الذي يصل بين النقاط التي تقع على أقصى تكور للطية هو: ______','مفصل الطية (Fold Hinge).'],
+ ['ur2-3','l3','تتكون الطية من مجموعة من الأجزاء، منها: ______','جناح الطية، المستوى المحوري، مفصل الطية، محور الطية.'],
+ ['ur2-4','l2','تسمى الكتلة الصخرية التي تقع أسفل مستوى الصدع المائل: ______','الجدار القدم (Footwall).'],
+ ['ur2-5','l2','أحد أنواع الصدوع الذي تتحرك فيه الكتلتان الصخريتان بصورة أفقية نسبة لبعضهما: ______','الصدع الجانبي (Strike-Slip Fault).'],
+ ['ur2-6','l1','يعتمد تشوه الصخور على مجموعة من العوامل، منها: ______','نوع الصخر، نوع الإجهاد، درجة الحرارة، الزمن.']
+].forEach((x,i)=>O.push({id:x[0],src:'ur',lesson:x[1],ref:RU+' – س2 ('+(i+1)+') أملأ الفراغ',type:'fill',q:x[2],a:x[3]}));
+open('ur3','ur','l2',RU+' – س3','أصف كيف يؤثر إجهاد الشد في الصخور الهشة؟','يؤدي إلى كسر الصخور الهشة وتكون الصدوع العادية نتيجة تحرك الجدار المعلق إلى الأسفل بالنسبة للجدار القدم.');
+open('ur4','ur','l2',RU+' – س4','أناقش: كيف تتكون الكتل الاندفاعية (Horsts)؟','تتكون عندما تتعرض صخور القشرة الأرضية لقوى شد تؤدي إلى إحداث صدعين عاديين متقابلين، تبرز الكتلة الصخرية بينهما للأعلى عندما تهبط الكتل الصخرية على جانبيها للأسفل، حيث تشتركان في الجدار القدم.');
+open('ur5','ur','l1',RU+' – س5','أقارن بين إجهادي الضغط والشد من حيث اتجاه القوة المؤثرة في الصخر.','إجهاد الشد: قوتان متعاكستان متباعدتان عن الجسم الصخري تؤثران في مستوى واحد.\nإجهاد الضغط: قوتان متقابلتان متعاكستان باتجاه الجسم الصخري تؤثران في مستوى واحد.');
+open('ur6','ur','l2',RU+' – س6','أقارن بين موقع الجدار القدم والجدار المعلق في كل من الصدعين: العادي والعكسي.','في الصدع العادي: يقع الجدار المعلق إلى الأسفل بالنسبة للجدار القدم.\nفي الصدع العكسي: يقع الجدار المعلق إلى الأعلى بالنسبة للجدار القدم.');
+multi('ur7','ur','l2',RU+' – س7','أدرس الشكل الذي يبين صدعاً عادياً:',[
+ {l:'أ',q:'أحدد أجزاء الصدع (مستوى الصدع، الجدار المعلق، الجدار القدم).',a:'⚠ لم يرد جواب هذا الجزء نصاً في المستند (تحديد الأجزاء على الشكل).'},
+ {l:'ب',q:'نوع الإجهاد المسبب.',a:'إجهاد شد.'},
+ {l:'جـ',q:'نوع الصدع.',a:'صدع عادي.'},
+ {l:'د',q:'هل يؤدي هذا النوع إلى تكرار الطبقات مع العمق؟',a:'لا، لا يحدث تكرار للطبقات الصخرية مع العمق في الصدع العادي.'}],
+ {fig:'شكل الصدع العادي في س7 (ص113 تقريباً) — يلزم إرفاقه.',flag:'الجزء (أ) يعتمد على الشكل ولا نص جوابه في المستند.'});
+multi('ur8','ur','l1',RU+' – س8','أدرس منحنى الإجهاد والمطاوعة لصخر هش (أ) وصخر لدن (ب):',[
+ {l:'أ',q:'أصف العلاقة بين الإجهاد والمطاوعة.',a:'علاقة طردية؛ كلما زاد الإجهاد زادت المطاوعة.'},
+ {l:'ب',q:'أصف الصخر (أ) دون حد المرونة.',a:'يسلك سلوكاً مرناً ويعود لشكله الأصلي بعد زوال الإجهاد.'},
+ {l:'جـ',q:'أقارن السلوك بعد حد المرونة.',a:'الصخر (أ) الهش ينكسر مباشرة عند تجاوز حد المرونة. بينما الصخر (ب) اللدن يتغير شكله وحجمه وينثني (سلوك لدن) دون أن ينكسر مباشرة، وعند زيادة الإجهاد وتجاوز نقطة الكسر ينكسر.'},
+ {l:'د',q:'أذكر أمثلة.',a:'الصخر (أ) الهش: الصوان أو البازلت. الصخر (ب) اللدن: الصخر الطيني أو الغضار.'}],
+ {fig:'منحنى الإجهاد والمطاوعة للصخرين (أ، ب) في س8 — يلزم إرفاقه.'});
+open('ur9','ur','l3',RU+' – س9','أتوقع: هل يمكن أن تتشكل الطيات في الصخور الهشة؟ ولماذا؟','نعم، يمكن أن تتشكل الطيات في الصخور الهشة (مثل الصوان) إذا كانت موجودة في باطن الأرض على أعماق كبيرة حيث ترتفع درجة الحرارة بفعل الممال الحراري الأرضي، أو عند بقائها مدة زمنية طويلة تحت تأثير الإجهاد دون حد المرونة، مما يعدل سلوكها ليصبح سلوكاً لدناً.');
+open('ur10','ur','l3',RU+' – س10','أبين متى توصف الطية بأنها متماثلة ومتى توصف بأنها غير متماثلة.','توصف الطية بأنها متماثلة عندما يميل جناحاها بزاوية ميل متساوية على كلا الجانبين ويكون مستواها المحوري عمودياً على سطح الأرض (90°). وتوصف بأنها غير متماثلة عندما يميل كل جناح بزاوية ميل مختلفة ويكون مستواها المحوري مائلاً بزاوية أقل من 90°.');
+open('ur11','ur','l4',RU+' – س11','أقارن بين القبة والحوض من حيث ميل الطبقات وحداثتها.','القبة: تميل الطبقات بعيداً عن المركز، وتكون الصخور الأقدم في المركز/الوسط والأحدث على الأطراف.\nالحوض: تميل الطبقات نحو المركز، وتكون الصخور الأحدث في المركز/الوسط والأقدم على الأطراف.');
+
+/* ---------- كتاب الأنشطة والتجارب العملية ----------
+   ملاحظة: نص الأسئلة في الأنشطة (ص40–46) غير وارد في المستند؛ وردت العناوين والإجابات فقط.
+   صيغة السؤال هنا مستنتجة من عنوان الفقرة كما ورد في المستند. */
+const WQ='⚠ صيغة السؤال مستنتجة من عنوان الفقرة في المستند (نص السؤال الأصلي في كتاب الأنشطة غير مرفق). الإجابة كما وردت في المستند.';
+const W1='كتاب الأنشطة – التجربة الاستهلالية ص40 (القوى وصخور القشرة)';
+[['wb40-1','سلوك العصا الخشبية (مادة هشة) عند دفع طرفيها.','تنكسر مباشرة (سلوك هش).'],
+ ['wb40-2','سلوك أسطوانة المعجون/الصلصال (مادة لدنة) عند دفع طرفيها.','تنثني وتتقوس وتغير شكلها دون كسر (سلوك لدن).'],
+ ['wb40-3','نوع القوة المطبقة في التجربة.','قوة ضغط.'],
+ ['wb40-4','سبب اختلاف سلوك العصا عن الصلصال.','اختلاف نوع المادة والمطاوعة؛ فالعصا الخشبية مادة هشة تتعدى حد المرونة وتنكسر، بينما الصلصال مادة لدنة تتعدى حد المرونة وتنثني.'],
+ ['wb40-5','أتوقع سلوك الصخور في الطبيعة بناءً على التجربة.','نعم، الصخور الهشة في الطبيعة كالبازلت تنكسر وتكون صدوعاً، والصخور اللدنة كالصخور الطينية تنثني وتكون طيات.']
+].forEach(x=>open(x[0],'wb','l1',W1+' – '+x[1].replace(/\.$/,''),x[1],x[2],{flag:WQ}));
+const W2='كتاب الأنشطة – نشاط أثر أنواع الإجهاد ص42';
+[['wb42-1','نوع الإجهاد في الصخور الهشة (س، ص).','(س) إجهاد ضغط يؤدي لكسر وضغط، (ص) إجهاد شد يؤدي لكسر وشد.','l1'],
+ ['wb42-2','تأثير الإجهاد في الصخور الهشة.','يؤدي إلى كسرها وتكون الصدوع.','l1'],
+ ['wb42-3','تأثير الإجهاد في الصخور اللدنة (ل، م، ن).','(ل) إجهاد ضغط يؤدي إلى طي الصخر، (م) إجهاد شد يؤدي إلى اتساع وتقليل السمك في الوسط وانتفاخ الأطراف، (ن) إجهاد قص يؤدي إلى انثناء وانزياح بسبب القص.','l1'],
+ ['wb42-4','أثر إجهاد الشد.','في الهشة يسبب كسراً (صدع عادي)، وفي اللدنة يسبب اتساعاً وتقليل السمك في الوسط.','l1'],
+ ['wb42-5','التراكيب الناتجة من إجهاد الضغط.','في الصخور الهشة ينتج صدع عكسي، وفي الصخور اللدنة تنتج طية.','l1']
+].forEach(x=>open(x[0],'wb',x[3],W2+' – '+x[1].replace(/\.$/,''),x[1],x[2],{flag:WQ,fig:'أشكال الصخور (س، ص، ل، م، ن) في النشاط (ص42) — يلزم إرفاقها.'}));
+const W3='كتاب الأنشطة – نشاط صدوع الحركة النسبية ص44';
+[['wb44-1','الحركة النسبية في كل من الصدع العادي والعكسي والجانبي.','الصدع العادي: حركة رأسية (الجدار المعلق للأسفل). الصدع العكسي: حركة رأسية (الجدار المعلق للأعلى). الصدع الجانبي: حركة أفقية جانبية.'],
+ ['wb44-2','وصف ميل مستوى الصدع في الأنواع الثلاثة.','في العادي والعكسي مستوى الصدع مائل (0° < θ < 90°). في الجانبي مستوى الصدع رأسي (90°).'],
+ ['wb44-3','تحديد مستوى الصدع والجدار المعلق والجدار القدم على الأشكال.','⚠ ورد في المستند: «تم توضيح مستوى الصدع والجدار المعلق والجدار القدم على الأشكال الشارحة» دون نص إجابة.'],
+ ['wb44-4','مقارنة حركة الجدار المعلق في الصدعين العادي والعكسي.','في العادي يتحرك الجدار المعلق للأسفل بالنسبة للقدم، وفي العكسي يتحرك للأعلى بالنسبة للقدم.'],
+ ['wb44-5','نوع الإجهاد المسبب لكل من العادي والعكسي والجانبي.','العادي (شد)، العكسي (ضغط)، الجانبي (قص).'],
+ ['wb44-6','ملاحظة تكرار الطبقات في الصدعين العادي والعكسي.','في الصدع العادي لا تتكرر الطبقات على الخط الرأسي، بينما في الصدع العكسي تتكرر الطبقات على الخط الرأسي الممتد من (ع) إلى (ل).']
+].forEach(x=>open(x[0],'wb','l2',W3+' – '+x[1].replace(/\.$/,''),x[1],x[2],{flag:WQ+(x[0]==='wb44-3'?' والجواب نفسه غير مكتوب في المستند.':''),fig:'أشكال الصدوع الثلاثة في النشاط (ص44) — يلزم إرفاقها.'}));
+const W4='كتاب الأنشطة – نشاط أجزاء الطية ص46';
+[['wb46-1','أجزاء الطية.','جناح الطية، مفصل الطية، المستوى المحوري، محور الطية.'],
+ ['wb46-2','عدد أجنحة الطية.','للطية جناحان اثنان.'],
+ ['wb46-3','اسم الخط المار بأعلى انحناء.','مفصل الطية.'],
+ ['wb46-4','ماذا يقسم المستوى المحوري؟','يقسم الطية إلى نصفين متماثلين في الطية المتماثلة.'],
+ ['wb46-5','اتجاه تقوس الطية في الشكل (ص46).','تتقوس نحو الأعلى.'],
+ ['wb46-6','اسم الطية في الشكل (ص46).','طية محدبة (Anticline).']
+].forEach(x=>open(x[0],'wb','l3',W4+' – '+x[1].replace(/\.$/,''),x[1],x[2],{flag:WQ,fig:'شكل الطية في النشاط (ص46) — يلزم إرفاقه.'}));
+const W5='كتاب الأنشطة – أسئلة مثيرة للتفكير ص48';
+multi('wb48-1','wb','l2',W5+' – س1','الشكلان (أ) و(ب) لصدوع:',[
+ {l:'أ',q:'أسمّي الصدعين (أ) و(ب).',a:'(أ) صدع عادي، (ب) صدع عكسي.'},
+ {l:'ب',q:'ما الفرق في أثر كل منهما على مساحة القشرة؟',a:'الصدوع العادية تزيد من مساحة القشرة الأرضية، بينما الصدوع العكسية تقلل من مساحة القشرة الأرضية.'}],
+ {fig:'الشكلان (أ) و(ب) في س1 (ص48) — يلزم إرفاقهما.'});
+multi('wb48-2','wb','l3',W5+' – س2','تركيب يجمع بين طية محدبة وصدع مرافق:',[
+ {l:'أ',q:'نوع الطية.',a:'طية محدبة.'},
+ {l:'ب',q:'نوع الصدع المرافق عند الخط (س).',a:'صدع عكسي؛ لأن الطيات المحدبة تتكون عند تعرض الصخور لإجهاد الضغط، وإجهاد الضغط هو نفسه الذي يتسبب في حدوث الصدوع العكسية.'},
+ {l:'جـ',q:'أسمّي الكتلتين (1) و(2) وأصف حركتهما.',a:'الكتلة (1) تسمى الجدار المعلق (لأنها تقع فوق مستوى الصدع)، والكتلة (2) تسمى الجدار القدم (أسفل مستوى الصدع). وبما أن الصدع عكسي، فإن الكتلة (1) تتحرك إلى الأعلى بالنسبة للكتلة (2).'}],
+ {fig:'شكل الطية المحدبة والصدع المرافق في س2 (ص48) — يلزم إرفاقه.'});
+const W6='كتاب الأنشطة – س3 اختيار من متعدد (ص48–53)';
+[['wb48-3-01','l3','يكون المستوى المحوري في الطية غير المتماثلة مائلاً بزاوية:','د. أقل من 90°.'],
+ ['wb48-3-02','l2','تتشكل الصدوع الدرجية عندما تتعرض صخور القشرة لقوى شد تؤدي إلى إحداث:','أ. مجموعة من الصدوع العادية المتوازية.'],
+ ['wb48-3-03','l2','يعد صدع البحر الميت التحويلي من الصدوع:','ب. التحويلية (الجانبية).'],
+ ['wb48-3-04','l3','نوع الإجهاد الذي يؤدي إلى تشكل الطيات المحدبة والمقعرة هو:','جـ. الضغط.'],
+ ['wb48-3-05','l1','القوة المؤثرة في وحدة المساحة من الصخر تسمى:','ب. الإجهاد.'],
+ ['wb48-3-06','l1','يسمى الحد الذي لا يمكن للصخور بعد تجاوزه أن تعود إلى وضعها الأصلي:','أ. المرونة.'],
+ ['wb48-3-07','l1','أي من العبارات الآتية صحيحة في ما يتعلق بمفهوم التشوه اللدن؟','جـ. يحدث عند تجاوز الإجهاد حد المرونة (دون كسر مباشر).'],
+ ['wb48-3-08','l1','يسمى الإجهاد الذي يتكون نتيجة تأثير قوتين متعاكستين تتحركان بصورة متوازية في مستويين مختلفين:','أ. القص.'],
+ ['wb48-3-09','l1','عندما تتعرض طبقات من صخور لدنة لإجهاد ضغط فإنه يحدث لها:','جـ. طي للطبقات إلى الأعلى أو إلى الأسفل.'],
+ ['wb48-3-10','l3','أي من التراكيب الجيولوجية الآتية يحتمل أن يتشكل عندما تتعرض صخور هشة في أعماق كبيرة لإجهاد ضغط؟','د. طية. (لأن العمق والحرارة يعدلان السلوك إلى لدن).'],
+ ['wb48-3-11','l2','التركيب الجيولوجي الذي تتكرر فيه الطبقات الصخرية مع العمق هو:','جـ. الصدع العكسي.'],
+ ['wb48-3-12','l2','من أنظمة الصدوع التي تتشكل عندما تتعرض الصخور لقوى شد متوازية عادية:','ب. الصدوع الدرجية.'],
+ ['wb48-3-13','l1','عندما تتعرض الصخور الطينية لإجهاد يتجاوز حد المرونة فإنها:','د. يتغير شكلها وحجمها من دون أن تنكسر مباشرة.'],
+ ['wb48-3-14','l1','الوحدة المستخدمة لقياس الإجهاد هي:','جـ. (N/m²).'],
+ ['wb48-3-15','l1','أي أزواج الصخور الآتية يعد مثالاً على الصخور الهشة؟','جـ. البازلت - الصوان.'],
+ ['wb48-3-16','l2','تركيب ناتج عن حركة الجدار المعلق للأعلى بضغط هو:','د. ضغط مؤثراً في صخور هشة (صدع عكسي).'],
+ ['wb48-3-17','l2','المظهر الناتج من إجهاد الشد في الصخور الهشة:','ب. الصدع العادي.'],
+ ['wb48-3-18','l2','المظهر الناتج من إجهاد الضغط في الصخور الهشة:','جـ. الصدع العكسي.'],
+ ['wb48-3-19','l3','تصنف الطية (ج) الواردة في الشكل بناء على ميل مستواها المحوري وجناحها المقلوب إلى:','جـ. طية مقلوبة.','الطية (ج)'],
+ ['wb48-3-20','l3','إذا علمت أن الطية (أ) متماثلة فهذا يعني أن:','ب. المستوى المحوري فيها عمودياً على سطح الأرض.','الطية (أ)'],
+ ['wb48-3-21','l3','إحدى العبارات الصحيحة المتعلقة بالطية غير المتماثلة (ب):','د. تعرضت الصخور فيها لقوى غير متساوية على كلا الجانبين.','الطية (ب)'],
+ ['wb48-3-22','l2','تسمى الكتلة الصخرية البارزة للأعلى بين صدعين عاديين متقابلين:','د. كتلة اندفاعية (Horst).'],
+ ['wb48-3-23','l2','ينتج التركيب في الشكل (الكتلة الاندفاعية/الحوض الخسفي) بسبب قوى:','ب. شد أدت إلى إحداث صدعين عاديين متقابلين.','شكل التركيب'],
+ ['wb48-3-24','l2','تتشابه الكتلتان الهابطتان على الجوانب بالحوض الخسفي/الاندفاعي بأنهما:','جـ. جدار معلق.','شكل التركيب'],
+ ['wb48-3-25','l2','يعد غور الأردن مثالاً على أحد أنظمة الصدوع وهو:','جـ. الأحواض الخسفية (Grabens).']
+].forEach((x,i)=>{
+  const ex = x[4]?{fig:x[4]+' في الشكل المرافق (كتاب الأنشطة) — يلزم إرفاقه.'}:{};
+  if(x[0]==='wb48-3-23'||x[0]==='wb48-3-24') ex.flag=NO_OPT+' صيغة السؤال في المستند تجمع «الكتلة الاندفاعية/الحوض الخسفي» (تعتمد على الشكل)؛ طابق الجواب مع الشكل الأصلي.';
+  mcq(x[0],'wb',x[1],W6+' ('+(i+1)+')',x[2],x[3],ex);
+});
+
+const OFFICIAL = O;
+const SRC_NAME = {sb:'كتاب الطالب', wb:'كتاب الأنشطة', ur:'مراجعة الوحدة'};
+
+/* ===== بنك الأسئلة المولّد (تدريب من إعداد التطبيق — ليس من الكتاب) =====
+   كل سؤال مبني على معلومة موجودة في المستند. level: 1 سهل، 2 متوسط، 3 صعب.
+   fig: رسم توضيحي من إعداد التطبيق (وليس شكلاً رسمياً من الكتاب). */
+const B = [];
+const push=(t,l,lv,o)=>B.push(Object.assign({type:t,lesson:l,level:lv},o));
+const M =(l,lv,q,opts,i,why,fig)=>push('mcq',l,lv,{q,opts,ans:i,why,fig});
+const T =(l,lv,q,v,why)=>push('tf',l,lv,{q,ans:v,why});
+const F =(l,lv,q,ans,why)=>push('fill',l,lv,{q,answers:ans,why});
+const MT=(l,lv,q,pairs,why)=>push('match',l,lv,{q,pairs,why});
+const S =(l,lv,kind,q,model,fig)=>push(kind,l,lv,{q,model,fig});   // kind: short | reason | compare
+
+/* ---------------- الدرس الأول: تشوه الصخور ---------------- */
+M('l1',1,'وحدة قياس الإجهاد هي:',['نيوتن/م² (N/m²)','لا وحدة له','متر','درجة سيليزية'],0,'الإجهاد = القوة ÷ المساحة، ووحدته N/m².');
+M('l1',1,'أي من الآتية كمية ليس لها وحدة قياس؟',['الإجهاد','المطاوعة','الإجهاد والمطاوعة معاً','لا شيء مما سبق'],1,'المطاوعة مقياس ليس له وحدة قياس.');
+M('l1',1,'أي الصخور الآتية يُعد هشاً؟',['الغضار','البازلت','الصخور الطينية','لا شيء مما سبق'],1,'الصخور الهشة: البازلت والصوان. الغضار والطينية لدنة.');
+M('l1',1,'أي الصخور الآتية يُعد لدناً؟',['الصوان','البازلت','الغضار','الصوان والبازلت'],2,'اللدنة: الصخور الطينية والغضار.');
+M('l1',1,'التغير الكلي في شكل الصخور أو حجمها أو كليهما نتيجة القوى يسمى:',['الإجهاد','التشوه','حد المرونة','المطاوعة'],1,'هذا تعريف التشوه.');
+M('l1',1,'عدد العوامل الرئيسة التي يعتمد عليها تشوه الصخور:',['2','3','4','5'],2,'نوع الصخر، نوع الإجهاد، درجة الحرارة، الزمن.');
+M('l1',2,'عند تعرض صخر هش لإجهاد يزيد على حد المرونة فإنه:',['ينثني دون كسر','ينكسر مباشرة','يعود إلى وضعه الأصلي','يتمدد دون تغير'],1,'التشوه الهش: كسر مباشر عند تجاوز حد المرونة.');
+M('l1',2,'ينتج إجهاد الضغط في الصخور اللدنة:',['صدعاً عادياً','طيات','صدعاً جانبياً','اتساعاً وتقليل سماكة في الوسط'],1,'ضغط + لدنة = طي وانثناء (طيات).');
+M('l1',2,'ينتج إجهاد الشد في الصخور اللدنة:',['طيات','انثناء وانزياحاً أفقياً','اتساعاً وتقليلاً للسماكة في الوسط وانتفاخاً للأطراف','صدعاً عكسياً'],2,'أثر الشد في اللدنة كما في إجابة كتاب الطالب.');
+M('l1',2,'ينتج إجهاد القص في الصخور اللدنة:',['انثناء وانزياحاً أفقياً','طي نحو الأعلى','اتساعاً في الوسط','كسراً عكسياً'],0,'القص + لدنة = انثناء وانزياح أفقي.');
+M('l1',2,'الإجهاد الذي يتكون من قوتين متعاكستين متباعدتين عن الجسم الصخري هو:',['الضغط','الشد','القص','لا شيء'],1,'تعريف إجهاد الشد.');
+M('l1',2,'يمكن أن تعود الصخور إلى وضعها الأصلي بعد زوال الإجهاد إذا:',['تجاوز الإجهاد حد المرونة','كان الإجهاد أقل من حد المرونة','كانت الصخور لدنة فقط','كانت الصخور هشة فقط'],1,'السلوك المرن للهشة واللدنة تحت حد المرونة.');
+M('l1',3,'صخر هش وُجد في أعماق كبيرة وتعرض لإجهاد ضغط. أرجح تركيب ناتج:',['صدع عكسي مباشرة','طية','صدع جانبي','صدع عادي'],1,'الحرارة العالية في الأعماق (الممال الحراري) تحوّل السلوك إلى لدن فتتكون طية.');
+M('l1',3,'أي العبارات الآتية صحيحة؟',['المطاوعة تقاس بـ N/m²','عمر الصخر عامل في التشوه','الزمن قد يعدل سلوك الهش إلى لدن تحت إجهاد دون حد المرونة','الصخور اللدنة تنكسر عند حد المرونة مباشرة'],2,'الزمن الطويل تحت إجهاد دون حد المرونة يعدل السلوك الهش إلى لدن.');
+M('l1',3,'يعمل الممال الحراري الأرضي على:',['زيادة هشاشة الصخور في الأعماق','تحويل سلوك الهشة القريبة من السطح إلى لدن في الأعماق','تقليل مساحة القشرة','زيادة وحدة الإجهاد'],1,'درجة الحرارة المرتفعة في الأعماق تجعل السلوك لدناً.');
+T('l1',1,'الإجهاد هو القوة المؤثرة في وحدة المساحة من الصخر.',true,'تعريف رسمي.');
+T('l1',1,'المطاوعة لها وحدة قياس هي N/m².',false,'N/m² وحدة الإجهاد؛ المطاوعة بلا وحدة.');
+T('l1',1,'عمر الصخر من العوامل الأربعة المؤثرة في تشوه الصخور.',false,'العوامل: نوع الصخر، نوع الإجهاد، درجة الحرارة، الزمن.');
+T('l1',2,'تنكسر الصخور اللدنة مباشرة عند تجاوز حد المرونة.',false,'اللدنة تنثني دون كسر مباشر، وتنكسر عند نقطة الكسر.');
+T('l1',2,'يمكن للصخور الهشة أن تشكل طيات.',true,'في الأعماق الكبيرة (حرارة عالية) أو عند الإجهاد دون حد المرونة لزمن طويل.');
+T('l1',2,'في السلوك المرن تعود الصخور إلى وضعها الأصلي عند زوال الإجهاد.',true,'عندما يكون الإجهاد أقل من حد المرونة.');
+T('l1',3,'الصخور اللدنة لا تنكسر مهما زاد الإجهاد.',false,'إذا تجاوز الإجهاد نقطة الكسر فإنها تنكسر.');
+F('l1',1,'الحد الذي لا تعود الصخور بعده إلى وضعها الأصلي يسمى حد ___.',[['المرونة']],'تعريف حد المرونة.');
+F('l1',2,'يسمى الإجهاد الناتج عن قوتين متقابلتين متعاكستين باتجاه الجسم الصخري إجهاد ___.',[['الضغط']],'تعريف إجهاد الضغط.');
+MT('l1',2,'طابق كل إجهاد مع التركيب الناتج في الصخور الهشة:',[['ضغط','صدع عكسي'],['شد','صدع عادي'],['قص','صدع جانبي']],'جدول أنواع الإجهاد.');
+MT('l1',2,'طابق كل نوع صخر مع مثاله:',[['صخر هش','البازلت'],['صخر هش (آخر)','الصوان'],['صخر لدن','الغضار'],['صخر لدن (آخر)','الصخور الطينية']],'أمثلة الكتاب.');
+S('l1',1,'short','عدّد العوامل التي يعتمد عليها تشوه الصخور.','نوع الصخر، نوع الإجهاد، درجة الحرارة، الزمن.');
+S('l1',2,'compare','قارن بين سلوك الصخر الهش والصخر اللدن بعد تجاوز حد المرونة.','الهش: ينكسر مباشرة (تشوه هش) ولا يعود لوضعه الأصلي. اللدن: ينثني ويتغير شكله وحجمه دون كسر مباشر (تشوه لدن)، وإذا تجاوز الإجهاد نقطة الكسر ينكسر.');
+S('l1',3,'reason','علل: يمكن أن تتشكل طيات في صخور هشة.','لأن الصخور الهشة الموجودة في أعماق كبيرة تتعرض لحرارة مرتفعة (بفعل الممال الحراري الأرضي)، أو تبقى زمناً طويلاً تحت إجهاد دون حد المرونة، فيتعدل سلوكها إلى لدن فتنثني.');
+S('l1',2,'short','وضح تأثير الزمن في سلوك الصخور الهشة.','بقاء الصخور الهشة مدداً زمنية طويلة تحت تأثير إجهاد دون حد المرونة يعدل سلوكها ليصبح لدناً.');
+
+/* ---------------- الدرس الثاني: الصدوع ---------------- */
+M('l2',1,'الكتلة الصخرية التي تقع فوق مستوى الصدع المائل تسمى:',['الجدار القدم','الجدار المعلق','مستوى الصدع','الكتلة الاندفاعية'],1,'الجدار المعلق فوق، والقدم أسفل.');
+M('l2',1,'سطح الكسر الذي تتحرك عليه الكتل الصخرية يسمى:',['مستوى الصدع','الجدار المعلق','المستوى المحوري','حد المرونة'],0,'تعريف مستوى الصدع.');
+M('l2',1,'ينشأ الصدع العادي عن إجهاد:',['ضغط','شد','قص','لا شيء'],1,'عادي = شد.');
+M('l2',1,'ينشأ الصدع العكسي عن إجهاد:',['ضغط','شد','قص','حرارة'],0,'عكسي = ضغط.');
+M('l2',1,'ينشأ الصدع الجانبي عن إجهاد:',['ضغط','شد','قص','أي إجهاد'],2,'جانبي = قص.');
+M('l2',1,'من أمثلة الصدوع الجانبية (التحويلية) في الأردن:',['غور الأردن','صدع البحر الميت التحويلي','وادي الموجب','حوض البقعة'],1,'صدع البحر الميت التحويلي.');
+M('l2',2,'في الصدع العادي يتحرك الجدار المعلق:',['إلى الأعلى بالنسبة للقدم','إلى الأسفل بالنسبة للقدم','أفقياً فقط','لا يتحرك'],1,'عادي: المعلق للأسفل.');
+M('l2',2,'تتكرر الطبقات الصخرية رأسياً مع العمق في:',['الصدع العادي','الصدع العكسي','الصدع الجانبي','الصدوع الدرجية'],1,'العكسي فقط من بين الثلاثة.');
+M('l2',2,'الصدع الذي يؤدي إلى زيادة مساحة القشرة الأرضية:',['العادي','العكسي','الرأسي','لا شيء'],0,'العادي يزيد المساحة (شد)، والعكسي يقللها (ضغط).');
+M('l2',2,'زاوية ميل مستوى الصدع الرأسي:',['0°','أكبر من 0° وأقل من 90°','90° تماماً','أكبر من 90°'],2,'الرأسي = 90° تماماً.');
+M('l2',2,'الحوض الخسفي ينشأ من:',['صدعين عاديين متقابلين يشتركان في الجدار المعلق','صدعين عاديين متقابلين يشتركان في الجدار القدم','صدعين عكسيين متقابلين','صدع جانبي واحد'],0,'الحوض الخسفي: الكتلة بين الصدعين تهبط؛ جدار معلق مشترك.');
+M('l2',2,'الكتلة الاندفاعية تنشأ من صدعين عاديين متقابلين يشتركان في:',['الجدار المعلق','الجدار القدم','مستوى الصدع','المستوى المحوري'],1,'الاندفاعية: الجدار القدم المشترك.');
+M('l2',2,'مثال الصدوع الدرجية في الأردن:',['غور الأردن','وادي الموجب','حوض البقعة','البحر الميت'],1,'الصدوع العادية المتوازية في وادي الموجب.');
+M('l2',3,'لا يمكن التمييز بين الجدار المعلق والجدار القدم في الصدع:',['العادي','العكسي','الرأسي (90°)','المائل'],2,'مستوى الصدع الرأسي عمودي تماماً على سطح الأرض.');
+M('l2',3,'أي مما يأتي ينشأ عن قوى شد واسعة النطاق؟',['الصدوع الدرجية والحوض الخسفي والكتلة الاندفاعية','الطيات المقلوبة','الصدع العكسي','الصدع الجانبي'],0,'كلها أنظمة صدوع عادية.');
+M('l2',3,'يُحفر بئر رأسي فيمر بالطبقة نفسها مرتين. أرجح أن الصدع:',['عادي','عكسي','جانبي','لا يوجد صدع'],1,'تكرار الطبقات رأسياً مع العمق صفة الصدع العكسي.');
+M('l2',3,'الصدع الذي ينشأ مرافقاً للطيات المحدبة هو:',['عادي','عكسي','جانبي','درجي'],1,'الطي والصدع العكسي ينشآن من الضغط.');
+M('l2',3,'ما وجه التشابه بين الحوض الخسفي والكتلة الاندفاعية؟',['كلاهما من صدعين عاديين متقابلين بقوى شد','كلاهما يشترك فيه الجدار المعلق','كلاهما من إجهاد ضغط','كلاهما ينشأ من صدع جانبي'],0,'الفرق في الجدار المشترك فقط.');
+T('l2',1,'الجدار القدم هو الكتلة الواقعة أسفل مستوى الصدع المائل.',true,'تعريف.');
+T('l2',1,'الصدع العادي ينتج عن إجهاد الضغط.',false,'ينتج عن الشد.');
+T('l2',2,'تتكرر الطبقات رأسياً في الصدع العادي.',false,'لا تتكرر في العادي؛ تتكرر في العكسي.');
+T('l2',2,'الصدع العكسي يقلل مساحة القشرة الأرضية.',true,'ضغط ← تقصير.');
+T('l2',2,'في الصدع الجانبي تتحرك الكتلتان أفقياً بالنسبة لبعضهما.',true,'حركة جانبية أفقية.');
+T('l2',3,'غور الأردن مثال على الكتل الاندفاعية.',false,'غور الأردن مثال على الأحواض الخسفية.');
+T('l2',3,'في الحوض الخسفي يشترك الصدعان في الجدار القدم.',false,'يشتركان في الجدار المعلق.');
+F('l2',1,'يتحرك الجدار المعلق إلى ___ بالنسبة للقدم في الصدع العكسي.',[['الاعلى','الأعلى']],'عكسي: المعلق للأعلى.');
+F('l2',2,'تصنف الصدوع حسب ميل مستوى الصدع إلى رأسية و___.',[['مائلة']],'رأسية ومائلة.');
+F('l2',2,'الصدوع العادية المتوازية التي تأخذ شكل الأدراج تسمى الصدوع ___.',[['الدرجية']],'الصدوع الدرجية.');
+MT('l2',1,'طابق كل صدع مع إجهاده:',[['عادي','شد'],['عكسي','ضغط'],['جانبي','قص']],'جدول 1.');
+MT('l2',2,'طابق كل نظام صدوع بمثاله في الأردن:',[['الصدوع الدرجية','وادي الموجب'],['الحوض الخسفي','غور الأردن'],['الصدع الجانبي','صدع البحر الميت التحويلي']],'الأمثلة الأردنية.');
+MT('l2',3,'طابق كل تركيب بالجدار المشترك/الخاصية:',[['الحوض الخسفي','جدار معلق مشترك'],['الكتلة الاندفاعية','جدار قدم مشترك'],['الصدع العكسي','تتكرر الطبقات'],['الصدع العادي','يزيد مساحة القشرة']],'مقارنات الدرس.');
+S('l2',1,'short','عرّف الصدع.','كسر يحدث في صخور القشرة الأرضية نتيجة تعرضها لإجهادات تؤدي إلى تحرك كتلتين صخريتين على جانبي مستوى الكسر بصورة موازية له، مع بقاء الكتلتين متلامستين غالباً.');
+S('l2',2,'compare','قارن بين الصدع العادي والعكسي والجانبي من حيث الإجهاد والحركة النسبية وميل مستوى الصدع وتكرار الطبقات.','العادي: شد، حركة رأسية (المعلق للأسفل)، ميله بين 0° و90°، لا تتكرر الطبقات. العكسي: ضغط، رأسية (المعلق للأعلى)، ميله بين 0° و90°، تتكرر الطبقات. الجانبي: قص، أفقية، ميله 90° وقد يميل، لا تتكرر الطبقات.');
+S('l2',2,'short','صف كيف تتكون الكتل الاندفاعية.','قوى شد تحدث صدعين عاديين متقابلين، فتبرز الكتلة بينهما للأعلى عندما تهبط الكتل على جانبيها للأسفل، ويشتركان في الجدار القدم.');
+S('l2',3,'reason','علل: لا يحدث تكرار للطبقات مع العمق في الصدع العادي بينما يحدث في الصدع العكسي.','في العادي (شد) يتحرك الجدار المعلق للأسفل فتتباعد الطبقات ولا تتكرر على الخط الرأسي. في العكسي (ضغط) يتحرك الجدار المعلق للأعلى فوق القدم فتتكرر الطبقات رأسياً مع العمق.');
+S('l2',3,'reason','فسر: الصدع العادي يزيد مساحة القشرة والعكسي يقللها.','العادي ينشأ عن شد (قوى متباعدة) فتتسع القشرة، والعكسي ينشأ عن ضغط (قوى متقابلة) فتتقلص مساحتها.');
+S('l2',3,'short','ما العلاقة بين الصدعين المتقابلين اللذين يحدّان الحوض الخسفي؟ وما الجدار المشترك؟','صدعان عاديان متقابلان ناتجان عن شد، تهبط الكتلة بينهما، ويشتركان في الجدار المعلق (مثال: غور الأردن).');
+
+/* ---------------- الدرس الثالث: الطيات ---------------- */
+M('l3',1,'الخط الوهمي الذي يصل بين النقاط الواقعة على أقصى تكور للطبقة هو:',['محور الطية','مفصل الطية','المستوى المحوري','جناح الطية'],1,'تعريف مفصل الطية.');
+M('l3',1,'عدد أجنحة الطية:',['1','2','3','4'],1,'للطية جناحان.');
+M('l3',1,'الطية التي تتقوس طبقاتها نحو الأعلى:',['مقعرة','محدبة','مضطجعة','مقلوبة'],1,'محدبة: للأعلى.');
+M('l3',1,'الطية المقعرة تقع الصخور الأحدث في:',['أطرافها','وسطها','أجنحتها فقط','لا يوجد ترتيب'],1,'مقعرة: الأحدث في المركز.');
+M('l3',1,'الطية التي مستواها المحوري عمودي (90°) تسمى:',['مضطجعة','مقلوبة','متماثلة','غير متماثلة'],2,'متماثلة.');
+M('l3',2,'في الطية المحدبة يميل الجناحان:',['نحو المستوى المحوري','بعيداً عن المستوى المحوري','بصورة أفقية','بالاتجاه نفسه دائماً'],1,'محدبة: بعيداً؛ مقعرة: نحو.');
+M('l3',2,'الطية غير المتماثلة مستواها المحوري:',['عمودي 90°','مائل بزاوية أقل من 90°','أفقي','مائل وأحد جناحيها أكثر من 90°'],1,'أقل من 90°.');
+M('l3',2,'الطية المضطجعة مستواها المحوري:',['عمودي','مائل قليلاً','أفقي تقريباً','غير موجود'],2,'أفقي تقريباً.');
+M('l3',2,'تتعرض الطبقات في الطية غير المتماثلة لضغط:',['متساوٍ على الجانبين','غير متساوٍ على الجانبين','من جانب واحد فقط إلى حد الانقلاب','قص'],1,'غير متساوٍ.');
+M('l3',2,'تنشأ الطيات المحدبة والمقعرة عن إجهاد:',['شد','ضغط','قص','لا إجهاد'],1,'الطي = ضغط غالباً.');
+M('l3',2,'الخط الناتج من تقاطع المستوى المحوري مع سطح الطبقة هو:',['مفصل الطية','محور الطية','جناح الطية','الجدار القدم'],1,'تعريف محور الطية.');
+M('l3',3,'طية يميل جناحاها في الاتجاه نفسه وزاوية ميل أحدهما أكبر من 90° وطبقات أحد الجناحين مقلوبة:',['متماثلة','غير متماثلة','مقلوبة','مضطجعة'],2,'مقلوبة.');
+M('l3',3,'طية مقلوبة تقع الطبقات الأحدث في وسطها هي طية مقلوبة:',['محدبة','مقعرة','لا يمكن تحديد ذلك','متماثلة'],1,'الأحدث في الوسط = مقعرة (كما في مراجعة الوحدة).');
+M('l3',3,'أي مما يأتي يميز مفصل الطية عن محور الطية؟',['المفصل خط يصل نقاط أقصى انحناء، والمحور تقاطع المستوى المحوري مع سطح الطبقة','المفصل مستوى والمحور خط يقسم الطية','لا فرق إطلاقاً','المفصل يقع خارج الطية'],0,'الخطأ الشائع 1 في المستند.');
+M('l3',3,'الصدع المتوقع مرافقته للطية المحدبة:',['عادي','عكسي','جانبي','درجي'],1,'لأن الضغط يسبب الطيات والصدوع العكسية.');
+T('l3',1,'المستوى المحوري قد يكون أفقياً أو مائلاً أو رأسياً.',true,'كما في تعريف المستوى المحوري.');
+T('l3',1,'الطية المحدبة تقع فيها الصخور الأحدث في المركز.',false,'الأقدم في المركز.');
+T('l3',2,'في الطية المقعرة يميل الجناحان نحو المستوى المحوري.',true,'مقعرة: نحو المحوري.');
+T('l3',2,'الطية المتماثلة جناحاها بميل متساوٍ ومستواها المحوري عمودي.',true,'تعريف.');
+T('l3',3,'الطية المقلوبة ينتج عنها ضغط متساوٍ على الجانبين.',false,'ضغط غير متساوٍ شديد جداً على أحد الجانبين.');
+F('l3',1,'الطية التي يميل جناحاها بزوايا مختلفة تسمى الطية ___ .',[['غير المتماثلة','غير متماثلة']],'تعريف غير المتماثلة.');
+F('l3',2,'يميل جناحا الطية المقعرة ___ المستوى المحوري.',[['نحو']],'مقعرة: نحو.');
+F('l3',3,'في الطية المقلوبة تزيد زاوية ميل أحد جناحيها على ___ درجة.',[['90','٩٠']],'أكبر من 90°.');
+MT('l3',1,'طابق كل جزء من الطية بتعريفه:',[['جناح الطية','أحد جانبي الطية من طبقات مائلة'],['مفصل الطية','خط يصل نقاط أقصى تكور'],['المستوى المحوري','مستوى وهمي يقسم الطية إلى قسمين'],['محور الطية','تقاطع المستوى المحوري مع سطح الطبقة']],'أجزاء الطية.');
+MT('l3',2,'طابق كل طية بمستواها المحوري:',[['متماثلة','عمودي 90°'],['غير متماثلة','مائل أقل من 90°'],['مقلوبة','مائل بدرجة كبيرة عن العمودي'],['مضطجعة','أفقي تقريباً']],'تصنيف الطيات.');
+S('l3',1,'short','عرّف الطية.','تركيب جيولوجي ينشأ في الصخور اللدنة (أو الهشة في أعماق كبيرة وحرارة مرتفعة) تنثني فيه الطبقات وتتقوس دون أن تتكسر تحت تأثير إجهاد الضغط غالباً.');
+S('l3',2,'compare','قارن بين الطية المحدبة والمقعرة (التقوس، ميل الجناحين، الأعمار في المركز).','المحدبة: تقوس للأعلى، الجناحان بعيداً عن المستوى المحوري، الأقدم في المركز. المقعرة: تقوس للأسفل، الجناحان نحو المستوى المحوري، الأحدث في المركز.');
+S('l3',2,'short','متى توصف الطية بأنها متماثلة ومتى بأنها غير متماثلة؟','متماثلة: جناحاها بميل متساوٍ ومستواها المحوري عمودي (90°). غير متماثلة: كل جناح بميل مختلف ومستواها المحوري مائل بزاوية أقل من 90°.');
+S('l3',3,'reason','علل: الصدع المرافق للطية المحدبة يكون عكسياً.','لأن الطيات المحدبة تتكون عند تعرض الصخور لإجهاد الضغط، وإجهاد الضغط هو نفسه الذي يسبب الصدوع العكسية.');
+
+/* ---------------- القبة والحوض ---------------- */
+M('l4',1,'القبة تنشأ عن طية:',['محدبة متماثلة','مقعرة متماثلة','مضطجعة','مقلوبة'],0,'القبة = محدبة متماثلة.');
+M('l4',1,'الحوض تقع الصخور الأحدث في:',['أطرافه','مركزه','جميع الاتجاهات بالتساوي','لا يوجد ترتيب'],1,'الحوض: الأحدث في المركز.');
+M('l4',2,'تميل الطبقات في القبة:',['نحو المركز','بعيداً عن المركز في جميع الاتجاهات','نحو اتجاه واحد','بصورة أفقية'],1,'القبة: بعيداً عن المركز.');
+M('l4',2,'سبب نشوء الحوض:',['اندفاع الماغما','هبوط القشرة نتيجة ثقل الرواسب المتراكمة','قوى قص','حركة جانبية'],1,'هبوط القشرة بثقل الرواسب.');
+M('l4',2,'أي مما يأتي سبب محتمل لنشوء القبة؟',['اندفاع الماغما وتبريدها أسفل السطح','ثقل الرواسب','قوى القص','هبوط القشرة'],0,'أو ضغط من الأسفل للطبقات.');
+M('l4',3,'حوض البقعة في الأردن كان في الأصل:',['حوضاً ترسيبياً','قبة ثم تعرضت للحت والتعرية','صدعاً جانبياً','طية مقعرة'],1,'الخطأ الشائع 2.');
+M('l4',3,'بعد الحت والتعرية يظهر التكشف دائرياً أو إهليليجياً والصخور الأقدم في المركز. التركيب:',['حوض','قبة','طية مضطجعة','صدع'],1,'الأقدم في المركز = قبة.');
+T('l4',1,'القبة تشبه في مقطعها العرضي الطية المحدبة.',true,'تشبهها.');
+T('l4',2,'تميل الطبقات في الحوض بعيداً عن المركز.',false,'نحو المركز.');
+T('l4',3,'حوض البقعة نشأ في الأصل كطية مقعرة.',false,'كان قبة تحولت بالحت إلى منطقة منخفضة.');
+F('l4',2,'تقع الصخور الأقدم في وسط ___ والأحدث على أطرافها.',[['القبة']],'القبة.');
+MT('l4',2,'طابق:',[['القبة','الأقدم في المركز'],['الحوض','الأحدث في المركز'],['القبة (ميل)','بعيداً عن المركز'],['الحوض (ميل)','نحو المركز']],'مقارنة القبة والحوض.');
+S('l4',2,'compare','قارن بين القبة والحوض من حيث ميل الطبقات وحداثتها.','القبة: تميل الطبقات بعيداً عن المركز، الأقدم في المركز والأحدث على الأطراف. الحوض: تميل نحو المركز، الأحدث في المركز والأقدم على الأطراف.');
+S('l4',3,'reason','علل: تحول بعض القباب (مثل حوض البقعة) إلى أحواض منخفضة مع الزمن.','القبة ترتفع كجبل ثم تتعرض للتجوية والحت فتتآكل قمتها الأقدم بسرعة فتتحول إلى منطقة منخفضة.');
+
+/* ---------------- الجيولوجيا الهندسية ---------------- */
+M('l5',1,'الجيولوجيا الهندسية هي:',['التطبيق العملي للجيولوجيا في مجالات الهندسة','دراسة النجوم','دراسة الأحياء البحرية','علم الأرصاد'],0,'تعريف المستند.');
+M('l5',2,'وجود الصدوع أو نطاقات التهشم قرب السدود والأنفاق قد يسبب:',['زيادة القابلية التحميلية','تسرب المياه أو انهيار المنشآت','لا تأثير','تحسين الثبات'],1,'يضعف القابلية التحميلية.');
+T('l5',1,'تؤثر الصدوع والطيات على ثبات الصخور وتحملها للأحمال الهندسية.',true,'من المستند.');
+S('l5',2,'short','اذكر أثر التراكيب الجيولوجية في سلامة المباني.','يجب دراسة أثر الإجهادات والتشوهات الجيولوجية لضمان استقرار الأساسات ومقاومتها للنشاط الزلزالي.');
+
+/* ---------------- أسئلة الرسوم (رسوم توضيحية من إعداد التطبيق) ---------------- */
+M('l2',1,'ما نوع الصدع في الرسم؟ (الجدار المعلق يتحرك للأسفل)',['عادي','عكسي','جانبي','رأسي'],0,'حركة المعلق للأسفل = عادي (شد).','normal');
+M('l2',1,'ما نوع الصدع في الرسم؟ (الجدار المعلق يتحرك للأعلى)',['عادي','عكسي','جانبي','درجي'],1,'حركة المعلق للأعلى = عكسي (ضغط).','reverse');
+M('l2',2,'الرسم منظر علوي (خريطة) لكتلتين تتحركان أفقياً بعكس بعضهما. نوع الصدع:',['عادي','عكسي','جانبي','حوض خسفي'],2,'حركة أفقية = جانبي (قص).','strike');
+M('l2',2,'ما اسم التركيب في الرسم؟',['حوض خسفي','كتلة اندفاعية','صدوع درجية','صدع عكسي'],0,'الكتلة الوسطى هبطت بين صدعين عاديين متقابلين.','graben');
+M('l2',2,'ما اسم التركيب في الرسم؟',['حوض خسفي','كتلة اندفاعية','صدوع درجية','صدع جانبي'],1,'الكتلة الوسطى بارزة للأعلى بين صدعين عاديين.','horst');
+M('l2',2,'ما اسم التركيب في الرسم؟',['حوض خسفي','كتلة اندفاعية','صدوع درجية','طية'],2,'صدوع عادية متوازية بشكل أدراج.','step');
+M('l2',3,'في الرسم، على خط رأسي يمر بالصدع هل تتكرر الطبقات؟ ولماذا؟',['لا تتكرر لأن الصدع عادي','تتكرر لأن الصدع عادي','تتكرر لأن الصدع عكسي','لا تتكرر لأن الصدع عكسي'],2,'العكسي يحدث تكراراً للطبقات رأسياً مع العمق.','reverse');
+M('l2',3,'في الرسم، أي إجهاد أدى إلى هذا الصدع؟',['ضغط','شد','قص','لا إجهاد'],1,'عادي ← شد.','normal');
+M('l3',1,'ما نوع الطية في الرسم حسب التقوس؟',['محدبة','مقعرة','مضطجعة','مقلوبة'],0,'تقوس للأعلى والأقدم في المركز.','anticline');
+M('l3',1,'ما نوع الطية في الرسم حسب التقوس؟',['محدبة','مقعرة','مضطجعة','متماثلة'],1,'تقوس للأسفل والأحدث في المركز.','syncline');
+M('l3',2,'الطية في الرسم مستواها المحوري عمودي. تصنف:',['متماثلة','غير متماثلة','مقلوبة','مضطجعة'],0,'عمودي = متماثلة.','sym');
+M('l3',2,'الطية في الرسم مستواها المحوري مائل بزاوية أقل من 90°. تصنف:',['متماثلة','غير متماثلة','مقلوبة','مضطجعة'],1,'مائل أقل من 90° = غير متماثلة.','asym');
+M('l3',3,'تصنف الطية في الرسم (يميل جناحاها في الاتجاه نفسه وأحدهما مقلوب):',['متماثلة','غير متماثلة','مقلوبة','مضطجعة'],2,'مقلوبة.','overturned');
+M('l3',3,'تصنف الطية في الرسم (مستواها المحوري أفقي تقريباً):',['متماثلة','غير متماثلة','مقلوبة','مضطجعة'],3,'مضطجعة.','recumbent');
+M('l4',2,'ما اسم التركيب في الخريطة (الصخور الأقدم في المركز)؟',['قبة','حوض','صدع','طية مضطجعة'],0,'الأقدم في المركز ← قبة.','dome');
+M('l4',2,'ما اسم التركيب في الخريطة (الصخور الأحدث في المركز)؟',['قبة','حوض','صدع','طية مضطجعة'],1,'الأحدث في المركز ← حوض.','basin');
+M('l4',3,'في خريطة الحوض، الأسهم (ميل الطبقات) تتجه:',['بعيداً عن المركز','نحو المركز','موازية للحدود','لا اتجاه محدد'],1,'الحوض: الميل نحو المركز.','basin');
+
+/* ترتيب تصاعدي حسب المستوى ثم ثبات المعرّف */
+const BANK = B.map((x,i)=>Object.assign(x,{_i:i})).sort((a,b)=>a.level-b.level||a._i-b._i).map((x,i)=>Object.assign(x,{id:'g'+String(i+1).padStart(3,'0')}));
+const LEVEL_NAME={1:'سهل',2:'متوسط',3:'صعب'};
+const TYPE_NAME={mcq:'اختيار من متعدد',tf:'صح أو خطأ',fill:'أكمل الفراغ',match:'مطابقة',short:'إجابة قصيرة',reason:'تعليل / تفسير',compare:'مقارنة'};
+
+/* ===== رسوم توضيحية مبسطة من إعداد التطبيق (ليست أشكال الكتاب الرسمية) ===== */
+const FW=420, FH=250;
+let UID=0;
+const poly=p=>p.map(a=>a.join(',')).join(' ');
+const svgW=(inner,defs)=>`<svg viewBox="0 0 ${FW} ${FH}" class="fig" role="img" xmlns="http://www.w3.org/2000/svg"><defs>${defs||''}</defs>${inner}</svg>`;
+const mk=()=>{const id='mk'+(++UID);return [id,`<marker id="${id}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" class="arh"/></marker>`]};
+const arr=(x1,y1,x2,y2,id)=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" class="ar" marker-end="url(#${id})"/>`;
+const lab=(mode,n,name,x,y)=>mode==='none'?'':mode==='nums'
+  ?`<circle cx="${x}" cy="${y}" r="11" class="nb"/><text x="${x}" y="${y+4.5}" class="nt" text-anchor="middle">${n}</text>`
+  :`<text x="${x}" y="${y}" class="lbl" text-anchor="middle">${name}</text>`;
+const leader=(mode,x1,y1,x2,y2)=>mode==='none'?'':`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" class="ld"/>`;
+const bands=(y0,th,n,cls)=>{let s='';for(let i=0;i<n;i++)s+=`<rect x="-300" y="${y0+i*th}" width="1100" height="${th}" class="s${cls?cls(i):(i%4)+1}"/>`;return s;};
+function blocks(list,y0=70,th=26,n=16){let defs='',g='';list.forEach(b=>{const id='cp'+(++UID);defs+=`<clipPath id="${id}"><polygon points="${poly(b.pts)}"/></clipPath>`;g+=`<g transform="translate(${b.t[0]},${b.t[1]})"><g clip-path="url(#${id})">${bands(y0,th,n)}</g></g>`;});return {defs,g};}
+const SKY=`<rect x="0" y="0" width="${FW}" height="${FH}" class="sky"/>`;
+
+/* صدع عادي / عكسي (مقطع عرضي) — مستوى الصدع يميل لليمين؛ الجدار المعلق = الكتلة اليمنى */
+function figFault(kind,mode='names'){
+  const k=0.526, px=y=>150+(y-40)*k;
+  const s=kind==='normal'?34:-34, d=[0.465,0.885], v=[d[0]*s,d[1]*s];
+  const L=[[-100,-100],[px(-100),-100],[px(600),600],[-100,600]];
+  const R=[[px(-100),-100],[700,-100],[700,600],[px(600),600]];
+  const b=blocks([{pts:L,t:[0,0]},{pts:R,t:v}]);
+  const [m,md]=mk();
+  const hwY=kind==='normal'?175:140;
+  const dir=kind==='normal'?1:-1;
+  let o=SKY+b.g+`<line x1="${px(70)}" y1="70" x2="${px(250)}" y2="250" class="pl"/>`;
+  o+=arr(335,hwY-45,335+d[0]*34*dir,hwY-45+d[1]*34*dir,m);
+  o+=arr(75,hwY-45,75-d[0]*18*dir,hwY-45-d[1]*18*dir,m);
+  o+=leader(mode,px(70),44,px(70),70)+lab(mode,1,'مستوى الصدع',px(70),36);
+  o+=lab(mode,2,'الجدار المعلق',335,hwY+12)+lab(mode,3,'الجدار القدم',75,hwY+12);
+  return svgW(o,b.defs+md);
+}
+/* صدع جانبي (منظر علوي) */
+function figStrike(mode='names'){
+  const x=210,[m,md]=mk();
+  const content=`<rect x="-100" y="-100" width="800" height="500" class="land"/><rect x="-100" y="118" width="800" height="11" class="road"/><path d="M-60 200 C 80 180, 300 215, 500 185" class="rv"/><rect x="40" y="52" width="70" height="38" class="s2"/><rect x="290" y="150" width="80" height="44" class="s3"/>`;
+  const idL='cp'+(++UID), idR='cp'+(++UID);
+  const defs=`<clipPath id="${idL}"><rect x="-100" y="-100" width="${x+100}" height="600"/></clipPath><clipPath id="${idR}"><rect x="${x}" y="-100" width="700" height="600"/></clipPath>`+md;
+  let o=`<g transform="translate(0,-16)"><g clip-path="url(#${idL})">${content}</g></g><g transform="translate(0,16)"><g clip-path="url(#${idR})">${content}</g></g>`;
+  o+=`<line x1="${x}" y1="0" x2="${x}" y2="${FH}" class="pl"/>`;
+  o+=arr(120,215,120,165,m)+arr(300,40,300,90,m);
+  o+=leader(mode,x,28,x,60)+lab(mode,1,'مستوى الصدع (رأسي)',x,22);
+  o+=`<text x="10" y="242" class="cap">منظر علوي (خريطة)</text><text x="408" y="20" class="cap" text-anchor="end">↑ شمال</text>`;
+  return svgW(o,defs);
+}
+/* حوض خسفي / كتلة اندفاعية (مقطع عرضي) */
+function figGH(kind,mode='names'){
+  const [m,md]=mk(), g=kind==='graben', kk=0.4;
+  const xl=g?(y=>110+kk*(y-70)):(y=>160-kk*(y-70));
+  const xr=g?(y=>310-kk*(y-70)):(y=>260+kk*(y-70));
+  const Y0=40,Y1=380, dy=g?30:-30, sx=12;
+  const C=[[xl(Y0),Y0],[xr(Y0),Y0],[xr(Y1),Y1],[xl(Y1),Y1]];
+  const Lb=[[-200,Y0],[xl(Y0),Y0],[xl(Y1),Y1],[-200,Y1]];
+  const Rb=[[xr(Y0),Y0],[700,Y0],[700,Y1],[xr(Y1),Y1]];
+  const b=blocks([{pts:Lb,t:[-sx,0]},{pts:C,t:[0,dy]},{pts:Rb,t:[sx,0]}]);
+  let o=SKY+b.g;
+  o+=`<line x1="${xl(70)-sx}" y1="70" x2="${xl(250)-sx}" y2="250" class="pl"/><line x1="${xr(70)+sx}" y1="70" x2="${xr(250)+sx}" y2="250" class="pl"/>`;
+  const cy=g?150:122;
+  if(g){o+=arr(185,92,185,125,m)+arr(235,92,235,125,m);}else{o+=arr(185,70,185,40,m)+arr(235,70,235,40,m);}
+  o+=lab(mode,1,g?'الكتلة الهابطة':'الكتلة البارزة',210,cy+60);
+  o+=lab(mode,2,'صدع عادي',70,215)+lab(mode,3,'صدع عادي',350,215);
+  return svgW(o,b.defs+md);
+}
+/* صدوع درجية */
+function figStep(mode='names'){
+  const [m,md]=mk(), k=0.5, d=[0.447,0.894], s=22;
+  const pl=(x0,y)=>x0+k*(y-70), Y0=-100,Y1=600, xs=[100,200,300];
+  const mkb=(i)=>{const a=i===0?-400:xs[i-1], c=i===3?900:xs[i];
+    const pts=[[a===-400?-400:pl(a,Y0),Y0],[c===900?900:pl(c,Y0),Y0],[c===900?900:pl(c,Y1),Y1],[a===-400?-400:pl(a,Y1),Y1]];
+    return {pts,t:[d[0]*s*i,d[1]*s*i]};};
+  const b=blocks([0,1,2,3].map(mkb),70,26,18);
+  let o=SKY+b.g;
+  xs.forEach((x0,i)=>{o+=`<line x1="${pl(x0,70)+d[0]*s*i}" y1="${70+d[1]*s*i}" x2="${pl(x0,250)+d[0]*s*i}" y2="${250+d[1]*s*i}" class="pl"/>`;});
+  [60,160,260,360].forEach((x,i)=>{o+=arr(x,40+i*22+10,x+10,40+i*22+30,m);});
+  o+=lab(mode,1,'صدوع عادية متوازية',210,236);
+  return svgW(o,b.defs+md);
+}
+/* طيات */
+function foldBand(o){
+  const {A,L,y0,th,sg,k0,k1,shear,rot,erode,ground,axial}=Object.assign({A:40,L:240,y0:90,th:28,sg:1,k0:-1,k1:4,shear:0,rot:0,erode:false,ground:110,axial:false},o);
+  const f=(k,x)=>y0+k*th-sg*A*Math.cos(2*Math.PI*(x-210)/L);
+  let g='';
+  for(let k=k0;k<k1;k++){
+    let top='',bot=[];
+    for(let x=-320;x<=740;x+=6){top+=(top?'L':'M')+x+' '+f(k,x).toFixed(1);bot.unshift('L'+x+' '+f(k+1,x).toFixed(1));}
+    g+=`<path d="${top}${bot.join('')}Z" class="s${Math.max(0,Math.min(7,k-k0+(erode?0:1)))}"/>`;
+  }
+  const yc=y0+th*2;
+  if(axial) g+=`<line x1="210" y1="-200" x2="210" y2="500" class="ax"/>`;
+  let tf='';
+  if(rot) tf=`translate(210,125) rotate(${rot}) translate(-210,${-yc})`;
+  else if(shear) tf=`matrix(1 0 ${-shear} 1 ${shear*yc} 0)`;
+  return {g:`<g${tf?` transform="${tf}"`:''}>${g}</g>`,f};
+}
+function figFold(type,mode='names'){
+  const cfg={
+   anticline:{sg:1,erode:true,k0:-2,k1:6,y0:62,ground:60},
+   syncline:{sg:-1,erode:true,k0:-2,k1:6,y0:62,ground:60},
+   sym:{sg:1,axial:true,y0:100,k0:-1,k1:4},
+   asym:{sg:1,shear:0.5,axial:true,y0:100,k0:-1,k1:4},
+   overturned:{sg:1,A:48,shear:0.8,axial:true,y0:100,k0:-1,k1:4},
+   recumbent:{sg:1,A:75,L:170,rot:85,axial:true,y0:100,k0:-1,k1:4},
+   parts:{sg:1,axial:true,y0:100,k0:-1,k1:4}
+  }[type];
+  const fb=foldBand(cfg); let o=SKY;
+  if(cfg.erode){
+    const id='cp'+(++UID);
+    o+=`<clipPath id="${id}"><rect x="0" y="${cfg.ground}" width="${FW}" height="${FH}"/></clipPath><g clip-path="url(#${id})">${fb.g}</g><line x1="0" y1="${cfg.ground}" x2="${FW}" y2="${cfg.ground}" class="gnd"/>`;
+    let strip='',prev=null,x0=0;const rc=(a,b,k)=>`<rect x="${a}" y="${cfg.ground-22}" width="${b-a}" height="14" class="s${k-cfg.k0}" stroke="var(--figline)" stroke-width="1"/>`;
+    for(let x=0;x<=FW;x+=3){let kx=cfg.k0;for(let k=cfg.k0;k<cfg.k1;k++){if(fb.f(k,x)<=cfg.ground&&cfg.ground<fb.f(k+1,x)){kx=k;break;}}
+      if(prev!==null&&kx!==prev){strip+=rc(x0,x,prev);x0=x}prev=kx;}
+    strip+=rc(x0,FW,prev);o+=strip;
+    o+=`<text x="10" y="18" class="cap">الشريط: الطبقات المكشوفة على سطح الأرض (غامق = أقدم)</text>`;
+  } else o+=fb.g;
+  if(type==='parts'){
+    const f=fb.f, hy=f(1,210);
+    o+=leader(mode,210,40,210,70)+lab(mode,1,'المستوى المحوري',210,30);
+    o+=`<circle cx="210" cy="${hy}" r="5" class="dot"/>`+leader(mode,224,hy-16,214,hy-4)+lab(mode,2,'مفصل الطية',262,hy-18);
+    o+=lab(mode,3,'جناح الطية',330,f(1,300)+4);
+  }
+  return svgW(o,'');
+}
+/* قبة / حوض (خريطة) — الحلقات من الأقدم إلى الأحدث */
+function figDB(kind,mode='names'){
+  const [m,md]=mk(), dome=kind==='dome', cx=210, cy=125;
+  const rx=[170,128,86,44], ry=[108,82,56,30];
+  const cls=dome?[1,3,5,7]:[7,5,3,1];      // الحلقة الخارجية → الداخلية
+  const ltr=dome?['د','ج','ب','أ']:['أ','ب','ج','د']; // أ = الأقدم ... د = الأحدث
+  let o=SKY;
+  rx.forEach((r,i)=>{o+=`<ellipse cx="${cx}" cy="${cy}" rx="${r}" ry="${ry[i]}" class="s${cls[i]} ring"/>`;});
+  // حروف العمر
+  const lx=[cx+(rx[0]+rx[1])/2-2,cx+(rx[1]+rx[2])/2-2,cx+(rx[2]+rx[3])/2-2,cx];
+  const ly=[cy+4,cy+4,cy+4,cy+4];
+  ltr.forEach((t,i)=>{o+=`<text x="${lx[i]}" y="${ly[i]}" class="age" text-anchor="middle">${t}</text>`;});
+  // أسهم اتجاه الميل
+  const ang=[-135,-45,45,135,0,180];
+  ang.forEach(a=>{const r=a*Math.PI/180, c=Math.cos(r), s=Math.sin(r);
+    const r1=dome?0.56:0.84, r2=dome?0.80:0.60, ex=rx[1]/128, ey=ry[1]/82;
+    const x1=cx+c*rx[1]*r1*1.12, y1=cy+s*ry[1]*r1*1.12, x2=cx+c*rx[1]*r2*1.12, y2=cy+s*ry[1]*r2*1.12;
+    if(Math.abs(a)===0||Math.abs(a)===180){return;}
+    o+=arr(x1.toFixed(1),y1.toFixed(1),x2.toFixed(1),y2.toFixed(1),m);});
+  o+=`<text x="10" y="${FH-8}" class="cap">منظر علوي بعد الحت · أ الأقدم … د الأحدث · الأسهم = اتجاه ميل الطبقات</text>`;
+  return svgW(o,md);
+}
+
+/* سجل الرسوم */
+const FIG = {
+ normal:  {name:'صدع عادي',        group:'الصدوع', fn:m=>figFault('normal',m)},
+ reverse: {name:'صدع عكسي',        group:'الصدوع', fn:m=>figFault('reverse',m)},
+ strike:  {name:'صدع جانبي',       group:'الصدوع', fn:m=>figStrike(m)},
+ graben:  {name:'حوض خسفي',        group:'أنظمة الصدوع', fn:m=>figGH('graben',m)},
+ horst:   {name:'كتلة اندفاعية',   group:'أنظمة الصدوع', fn:m=>figGH('horst',m)},
+ step:    {name:'صدوع درجية',      group:'أنظمة الصدوع', fn:m=>figStep(m)},
+ anticline:{name:'طية محدبة',      group:'الطيات (التقوس)', fn:m=>figFold('anticline',m)},
+ syncline:{name:'طية مقعرة',       group:'الطيات (التقوس)', fn:m=>figFold('syncline',m)},
+ sym:     {name:'طية متماثلة',     group:'الطيات (المستوى المحوري)', fn:m=>figFold('sym',m)},
+ asym:    {name:'طية غير متماثلة', group:'الطيات (المستوى المحوري)', fn:m=>figFold('asym',m)},
+ overturned:{name:'طية مقلوبة',    group:'الطيات (المستوى المحوري)', fn:m=>figFold('overturned',m)},
+ recumbent:{name:'طية مضطجعة',     group:'الطيات (المستوى المحوري)', fn:m=>figFold('recumbent',m)},
+ dome:    {name:'قبة',             group:'القبة والحوض', fn:m=>figDB('dome',m)},
+ basin:   {name:'حوض',             group:'القبة والحوض', fn:m=>figDB('basin',m)}
+};
+/* تمارين تسمية الأجزاء: الأرقام في الرسم بالترتيب */
+const LABEL_TASKS = [
+ {id:'lt-normal',  fig:'normal',  render:m=>figFault('normal',m),  parts:['مستوى الصدع','الجدار المعلق','الجدار القدم'], title:'أجزاء الصدع العادي'},
+ {id:'lt-reverse', fig:'reverse', render:m=>figFault('reverse',m), parts:['مستوى الصدع','الجدار المعلق','الجدار القدم'], title:'أجزاء الصدع العكسي'},
+ {id:'lt-fold',    fig:'parts',   render:m=>figFold('parts',m),    parts:['المستوى المحوري','مفصل الطية','جناح الطية'], title:'أجزاء الطية',
+  note:'ترقيم الرسم يطابق س4 (ص110): 1 المستوى المحوري، 2 مفصل الطية، 3 جناح الطية. محور الطية خط ناتج من تقاطع المستوى المحوري مع سطح الطبقة ولا يظهر منفصلاً في المقطع العرضي.'}
+];
+/* مجموعات التعرف: السؤال → الخيارات */
+const ID_GROUPS = {
+ 'الصدوع الثلاثة':['normal','reverse','strike'],
+ 'أنظمة الصدوع':['graben','horst','step'],
+ 'محدبة أم مقعرة':['anticline','syncline'],
+ 'تصنيف الطيات':['sym','asym','overturned','recumbent'],
+ 'قبة أم حوض':['dome','basin'],
+ 'الكل':Object.keys(FIG)
+};
+
+(function(){
+'use strict';
+document.documentElement.dir='rtl'; document.documentElement.lang='ar';
+/* ============ أدوات ============ */
+const $=(s,r=document)=>r.querySelector(s);
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const nz=s=>String(s||'').replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/²/g,'2').replace(/[ً-ْٰـ]/g,'').replace(/[أإآٱ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/[^؀-ۿa-zA-Z0-9]/g,'').toLowerCase();
+const stripAl=s=>s.replace(/^ال/,'');
+function hashStr(s){let h=2166136261;for(const c of s){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}return h>>>0}
+function rng(seed){return()=>{seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function perm(n,seed){const r=rng(hashStr(seed)),a=[...Array(n).keys()];for(let i=n-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+const pct=(a,b)=>b?Math.round(a/b*100):0;
+const LORD=['l1','l2','l3','l4','l5'];
+
+/* ============ الحالة والتخزين المحلي ============ */
+const KEY='u3-tawjihi-state-v1'; const memStore={}; let storeOK=true;
+const store={get(){try{return localStorage.getItem(KEY)}catch(e){storeOK=false;return memStore[KEY]||null}},
+             set(v){try{localStorage.setItem(KEY,v)}catch(e){storeOK=false;memStore[KEY]=v}}};
+const DEF=()=>({v:1,theme:'auto',lessons:{},mem:{},q:{},figs:{},exams:[],f:{off:{lesson:'all',src:'all',st:'all',q:''},pr:{lesson:'all',type:'all',level:'all'},mem:{lesson:'all',st:'all'},ms:'act'}});
+let S=DEF();
+(function load(){try{const r=store.get();if(r){const o=JSON.parse(r);const d=DEF();S=Object.assign(d,o);S.f=Object.assign(d.f,o.f||{});['off','pr','mem'].forEach(k=>S.f[k]=Object.assign(d.f[k],(o.f||{})[k]||{}));}}catch(e){S=DEF()}})();
+const save=()=>store.set(JSON.stringify(S));
+const UI={tab:'dash',sub:{},page:{off:0,pr:0,fill:0},memTab:'cards',cards:{i:0,flip:false,dir:'td',res:null},rv:{},sd:{},exam:null,examCfg:{lessons:new Set(LORD.slice(0,4)),n:15},prTab:'bank',lesson:'l1',visTab:'id',vzGroup:'الصدوع الثلاثة',vz:null};
+
+/* ============ فهرس الأسئلة الموحّد ============ */
+const LOOK=new Map();
+OFFICIAL.forEach((o,i)=>LOOK.set(o.id,Object.assign({off:true,cat:'official',ord:i},o)));
+BANK.forEach(b=>LOOK.set(b.id,Object.assign({cat:'bank'},b)));
+FILLS.forEach(f=>LOOK.set('fl-'+f.id,{id:'fl-'+f.id,cat:'fill',type:'fill',lesson:f.lesson,level:1,q:f.text,answers:f.answers,why:''}));
+const groupOf=k=>{for(const [g,l] of Object.entries(ID_GROUPS)){if(g!=='الكل'&&l.includes(k))return l}return Object.keys(FIG)};
+const figLesson=k=>['normal','reverse','strike','graben','horst','step'].includes(k)?'l2':['dome','basin'].includes(k)?'l4':'l3';
+Object.keys(FIG).forEach(k=>{const g=groupOf(k);LOOK.set('vz-'+k,{id:'vz-'+k,cat:'visual',type:'mcq',lesson:figLesson(k),level:2,q:'ما اسم التركيب الجيولوجي في الرسم؟',opts:g.map(x=>FIG[x].name),ans:g.indexOf(k),why:'الرسم يمثل: '+FIG[k].name+'.',fig:k});});
+LABEL_TASKS.forEach(t=>LOOK.set('vl-'+t.id,{id:'vl-'+t.id,cat:'visual',type:'label',lesson:t.fig==='parts'?'l3':'l2',level:2,q:t.title+': اكتب اسم الجزء المقابل لكل رقم.',task:t,why:t.note||''}));
+const isSelf=q=>q.off||['short','reason','compare'].includes(q.type);
+const recOf=id=>S.q[id]||{};
+const isMist=r=>r&&((r.w>0&&!r.res)||r.d||r.v);
+const GENQ=()=>[...LOOK.values()].filter(q=>!q.off);
+
+function record(id,ok,txt){
+  const r=S.q[id]||(S.q[id]={w:0,r:0});
+  if(ok){r.r++;r.lc=true;if(r.w>0)r.res=true;}else{r.w++;r.lc=false;r.res=false;r.last=txt||'';}
+  r.s=true;r.t=Date.now();save();
+}
+const toast=(m)=>{let t=$('#toast');if(!t){t=document.createElement('div');t.id='toast';t.className='toast';document.body.appendChild(t)}t.innerHTML=`<span>${esc(m)}</span>`;clearTimeout(toast.h);toast.h=setTimeout(()=>t.innerHTML='',2400)};
+
+/* ============ عرض الأسئلة ============ */
+const srcChip=q=>q.off?`<span class="chip off">رسمي · ${SRC_NAME[q.src]}</span>`:q.cat==='visual'?`<span class="chip gen">رسم توضيحي مولّد</span>`:`<span class="chip gen">تدريب مولّد</span>`;
+const figBox=k=>`<div class="figbox">${FIG[k].fn('none')}<div class="figcap">رسم توضيحي من إعداد التطبيق وليس شكلاً رسمياً من الكتاب</div></div>`;
+
+function titleHTML(q,st){
+  if(q.type==='fill'&&!q.off){
+    const parts=q.q.split('___');let h='';
+    parts.forEach((p,i)=>{h+=esc(p);if(i<parts.length-1){
+      if(st&&st.done){h+=`<u><b>${esc((st.ans&&st.ans[i])||'…')}</b></u>`}else h+=`<input type="text" class="blank" data-p="${i}" autocomplete="off" aria-label="الفراغ ${i+1}">`;}});
+    return `<div class="q-t">${h}</div>`;
+  }
+  return `<div class="q-t">${esc(q.q)}</div>`;
+}
+function inputArea(q,val){
+  const rec=recOf(q.id);
+  if(q.off){
+    if(q.type==='multi')return q.parts.map((p,i)=>`<div class="part"><b>${esc(p.l)}) ${esc(p.q)}</b><textarea data-p="${i}" placeholder="اكتب إجابتك">${esc(val&&val[i]||'')}</textarea></div>`).join('');
+    return `<textarea data-p="0" placeholder="${q.type==='mcq'?'اكتب رمز الخيار ونصه أو معناه':'اكتب إجابتك'}">${esc(val&&val[0]||'')}</textarea>`;
+  }
+  if(q.type==='mcq'){const p=perm(q.opts.length,q.id+':'+(rec.r||0)+(rec.w||0));
+    return p.map(i=>`<label class="opt"><input type="radio" name="o_${q.id}" value="${i}"${val===i?' checked':''}><span>${esc(q.opts[i])}</span></label>`).join('');}
+  if(q.type==='tf')return [['1','صح'],['0','خطأ']].map(([v,t])=>`<label class="opt"><input type="radio" name="o_${q.id}" value="${v}"${val===v?' checked':''}><span>${t}</span></label>`).join('');
+  if(q.type==='fill')return '';
+  if(q.type==='match'){const rights=q.pairs.map(p=>p[1]),pm=perm(rights.length,q.id+':m'+(rec.r||0)+(rec.w||0));
+    return q.pairs.map((p,i)=>`<div class="lbl-row"><span style="min-width:9em">${esc(p[0])}</span><select data-p="${i}"><option value="">— اختر —</option>${pm.map(j=>`<option value="${esc(rights[j])}"${val&&val[i]===rights[j]?' selected':''}>${esc(rights[j])}</option>`).join('')}</select></div>`).join('');}
+  if(q.type==='label'){const parts=q.task.parts,pm=perm(parts.length,q.id+':l'+(rec.r||0)+(rec.w||0));
+    return `<div class="figbox">${q.task.render('nums')}<div class="figcap">رسم توضيحي من إعداد التطبيق وليس شكلاً رسمياً من الكتاب</div></div>`+parts.map((_,i)=>`<div class="lbl-row"><b>${i+1}</b><select data-p="${i}"><option value="">— اختر —</option>${pm.map(j=>`<option value="${esc(parts[j])}"${val&&val[i]===parts[j]?' selected':''}>${esc(parts[j])}</option>`).join('')}</select></div>`).join('');}
+  return `<textarea data-p="0" placeholder="اكتب إجابتك">${esc(val&&val[0]||'')}</textarea>`;
+}
+function readAns(q,root){
+  if(!q.off&&(q.type==='mcq'||q.type==='tf')){const c=root.querySelector('input[type=radio]:checked');return c?(q.type==='mcq'?+c.value:c.value):null;}
+  const els=[...root.querySelectorAll('[data-p]')];const a=els.map(e=>e.value.trim());
+  return a.some(x=>x)?a:null;
+}
+function gradeAuto(q,a){
+  if(a==null)return false;
+  if(q.type==='mcq')return a===q.ans;
+  if(q.type==='tf')return (a==='1')===q.ans;
+  if(q.type==='fill')return q.answers.every((acc,i)=>{const t=stripAl(nz(a[i]));return acc.some(x=>{const n=stripAl(nz(x));return n===t||(t.length>=3&&n.length>=3&&(n.includes(t)&&t.length>=n.length*.8))})});
+  if(q.type==='match')return q.pairs.every((p,i)=>a[i]===p[1]);
+  if(q.type==='label')return q.task.parts.every((p,i)=>a[i]===p);
+  return false;
+}
+function ansText(q,a){
+  if(a==null)return '(لا أعرف)';
+  if(q.off&&q.type==='multi')return a.map((x,i)=>q.parts[i].l+') '+(x||'—')).join('\n');
+  if(!q.off&&q.type==='mcq')return q.opts[a];
+  if(!q.off&&q.type==='tf')return a==='1'?'صح':'خطأ';
+  if(!q.off&&q.type==='match')return q.pairs.map((p,i)=>p[0]+' ← '+(a[i]||'—')).join('، ');
+  return Array.isArray(a)?a.join('، '):String(a);
+}
+function solHTML(q){
+  let h='',why=q.why;
+  if(q.off){h=`<div class="ans good"><b class="l">الإجابة النموذجية (كما وردت في المستند)</b>${esc(q.a)}</div>`;}
+  else if(q.type==='mcq')h=`<div class="ans good"><b class="l">الإجابة الصحيحة</b>${esc(q.opts[q.ans])}</div>`;
+  else if(q.type==='tf')h=`<div class="ans good"><b class="l">الإجابة الصحيحة</b>${q.ans?'العبارة صحيحة':'العبارة خاطئة'}</div>`;
+  else if(q.type==='fill')h=`<div class="ans good"><b class="l">الإجابة الصحيحة</b>${q.answers.map(a=>esc(a[0])).join(' ، ')}</div>`;
+  else if(q.type==='match')h=`<div class="ans good"><b class="l">المطابقة الصحيحة</b>${q.pairs.map(p=>esc(p[0]+' ← '+p[1])).join('\n')}</div>`;
+  else if(q.type==='label')h=`<div class="ans good"><b class="l">الإجابة الصحيحة</b>${q.task.parts.map((p,i)=>(i+1)+') '+esc(p)).join('\n')}</div>`;
+  else h=`<div class="ans good"><b class="l">إجابة نموذجية (من إعداد التطبيق، مبنية على المستند)</b>${esc(q.model)}</div>`;
+  if(why)h+=`<div class="note info"><b>شرح إضافي من التطبيق:</b> ${esc(why)}</div>`;
+  return h;
+}
+function card(q,ctx){
+  const id=q.id,st=UI.sub[id]||null,rec=recOf(id),self=isSelf(q);
+  let h=`<article class="box q q-card" data-qid="${id}" data-ctx="${ctx}"><div class="q-h">${srcChip(q)}<span class="chip">${LESSON_NAME[q.lesson]||''}</span>`;
+  if(!q.off&&q.level)h+=`<span class="chip">${LEVEL_NAME[q.level]}</span>`;
+  if(!q.off&&q.cat==='bank')h+=`<span class="chip">${TYPE_NAME[q.type]}</span>`;
+  if(rec.s)h+=rec.lc?'<span class="chip g">آخر محاولة: صحيحة</span>':'<span class="chip b">آخر محاولة: خاطئة</span>';
+  if(rec.w>0)h+=`<span class="chip b">أخطاء: ${rec.w}</span>`;
+  if(rec.d)h+='<span class="chip w">صعب</span>'; if(rec.v)h+='<span class="chip w">في قائمة المراجعة</span>'; if(rec.u)h+='<span class="chip g">فهمتها</span>';
+  h+='</div>';
+  if(q.ref)h+=`<div class="q-ref">${esc(q.ref)}</div>`;
+  if(q.off&&q.fig)h+=`<div class="note">⚠ شكل غير مرفق في المستند: ${esc(q.fig)}</div>`;
+  const fl=q.flag?q.flag.replace(NO_OPT,'').trim():''; if(q.off&&fl)h+=`<div class="note">⚠ ${esc(fl)}</div>`;
+  if(!q.off&&q.fig&&FIG[q.fig])h+=figBox(q.fig);
+  if(ctx==='mist'&&q.cat!=='visual'||ctx==='mist'){
+    h+=`<div class="row">`+`<span class="chip b">عدد المحاولات الخاطئة: ${rec.w||0}</span><span class="chip ${rec.res?'g':'w'}">${rec.res?'الحالة: تم تصحيحه':'الحالة: يحتاج مراجعة'}</span></div>`;
+    if(rec.last)h+=`<div class="ans mine"><b class="l">إجابتي السابقة</b>${esc(rec.last)}</div>`;
+  }
+  h+=titleHTML(q,st);
+  if(!st){
+    h+=inputArea(q,null);
+    h+=`<div class="row"><button class="btn pri" data-act="submit">أرسل إجابتي</button><button class="btn" data-act="idk">لا أعرف</button></div>`;
+    if(ctx==='mist')h+=`<details><summary class="mute sm">اكشف الإجابة الصحيحة (يُفضَّل المحاولة أولاً)</summary>${solHTML(q)}</details>`;
+  }else{
+    if(st.done&&!(q.type==='fill'&&!q.off)&&st.txt!=='(لا أعرف)'){
+      if(!q.off&&q.type==='mcq'){h+=`<div class="ans mine"><b class="l">إجابتك</b>${esc(st.txt)}</div>`}
+      else if(q.type!=='fill'||q.off)h+=`<div class="ans mine"><b class="l">إجابتك</b>${esc(st.txt)}</div>`;
+    }else if(st.txt==='(لا أعرف)')h+=`<div class="ans mine">اخترت «لا أعرف»</div>`;
+    if(!self&&q.type==='mcq'&&st.ans!=null){h+=''}
+    h+=solHTML(q);
+    if(self&&!st.graded)h+=`<div class="row"><b>قارن إجابتك بالنموذجية وقيّمها بصدق:</b><button class="btn good" data-act="grade" data-v="1">✔ أجبت صحيحاً</button><button class="btn bad" data-act="grade" data-v="0">✘ أخطأت أو ناقصة</button></div>`;
+    if(st.graded)h+=`<div class="res ${st.correct?'g':'b'}">${st.correct?'إجابة صحيحة':'إجابة خاطئة — أُضيف السؤال إلى «أخطائي»'}</div><div class="row"><button class="btn" data-act="retry">حاول مرة أخرى</button></div>`;
+  }
+  h+=`<div class="acts"><button class="btn sm ${rec.d?'on':''}" data-act="tg" data-k="d">⚑ صعب</button><button class="btn sm ${rec.v?'on':''}" data-act="tg" data-k="v">☆ أضف إلى المراجعة</button>`;
+  if(q.off)h+=`<button class="btn sm ${rec.u?'on':''}" data-act="tg" data-k="u">✓ فهمت السؤال</button>`;
+  if(ctx==='mist'&&isMist(rec))h+=`<button class="btn sm" data-act="dismiss">إزالة من القائمة</button>`;
+  return h+`</div></article>`;
+}
+function refreshCard(id){document.querySelectorAll(`[data-qid="${id}"]`).forEach(el=>{el.outerHTML=card(LOOK.get(id),el.dataset.ctx)});updateChrome();}
+
+/* ============ لوحة المتابعة ============ */
+const MEMALL=[...MEM,...MEM_FACTS,...COMPARES];
+function stats(){
+  const all=[...LOOK.values()],off=all.filter(q=>q.off),gen=all.filter(q=>!q.off);
+  const m2=MEMALL.filter(x=>S.mem[x.id]===2).length,m1=MEMALL.filter(x=>S.mem[x.id]===1).length;
+  const offSolved=off.filter(q=>recOf(q.id).s).length,offOK=off.filter(q=>recOf(q.id).lc===true).length,offBad=off.filter(q=>recOf(q.id).lc===false).length;
+  let R=0,W=0;all.forEach(q=>{const r=recOf(q.id);R+=r.r||0;W+=r.w||0});
+  const genDone=gen.filter(q=>(recOf(q.id).r||0)>0).length;
+  const ld=LESSONS.filter(l=>S.lessons[l.id]).length;
+  const act=all.filter(q=>isMist(recOf(q.id))).length;
+  const comp=Math.round(ld/5*20+m2/MEMALL.length*25+offSolved/off.length*30+genDone/gen.length*25);
+  return {off,gen,m2,m1,offSolved,offOK,offBad,R,W,genDone,ld,act,comp};
+}
+function lessonStat(l){
+  const qs=[...LOOK.values()].filter(q=>q.lesson===l);let r=0,w=0;qs.forEach(q=>{const x=recOf(q.id);r+=x.r||0;w+=x.w||0});
+  const mi=MEMALL.filter(x=>x.lesson===l),m2=mi.filter(x=>S.mem[x.id]===2).length;
+  const off=qs.filter(q=>q.off),gen=qs.filter(q=>!q.off);
+  return {r,w,att:r+w,acc:pct(r,r+w),mi:mi.length,m2,off:off.length,offS:off.filter(q=>recOf(q.id).s).length,gen:gen.length,genD:gen.filter(q=>(recOf(q.id).r||0)>0).length};
+}
+function nextStep(st){
+  for(const l of LESSONS){if(!S.lessons[l.id])return {t:`اقرأ درس «${l.title}»`,go:'learn:'+l.id};}
+  const ml=LORD.find(l=>{const s=lessonStat(l);return s.m2<s.mi});if(ml)return {t:`احفظ مصطلحات «${LESSON_NAME[ml]}»`,go:'mem:'+ml};
+  const ol=LORD.find(l=>{const s=lessonStat(l);return s.offS<s.off});if(ol)return {t:`حل أسئلة «${LESSON_NAME[ol]}» الرسمية`,go:'official:'+ol};
+  if(st.act>0)return {t:`راجع ${st.act} سؤالاً في «أخطائي»`,go:'mistakes'};
+  return {t:'جرّب اختباراً شاملاً على الوحدة',go:'practice'};
+}
+const vDash=()=>{
+  const st=stats(),ns=nextStep(st);
+  const ls=LORD.map(l=>({l,s:lessonStat(l)}));
+  const weak=ls.filter(x=>x.s.att>0||x.s.m2<x.s.mi).map(x=>({...x,score:(x.s.att?(100-x.s.acc)*.7:35)+(x.s.mi?(1-x.s.m2/x.s.mi)*30:0)})).sort((a,b)=>b.score-a.score);
+  const topW=[...LOOK.values()].filter(q=>recOf(q.id).w>0).sort((a,b)=>recOf(b.id).w-recOf(a.id).w).slice(0,5);
+  const cell=(done,txt,go)=>`<button class="cell ${done?'done':''}" data-act="go" data-go="${go}">${txt}</button>`;
+  return `<section class="box"><div class="row"><div class="grow"><h2>الخطوة التالية</h2><p style="margin:.2em 0">${esc(ns.t)}</p></div><button class="btn pri" data-act="go" data-go="${ns.go}">ابدأ</button></div></section>
+  <section class="grid">
+   <div class="stat"><b>${st.comp}%</b><span>إنجاز الوحدة الثالثة</span></div>
+   <div class="stat"><b>${st.ld} / 5</b><span>دروس مكتملة</span></div>
+   <div class="stat"><b>${pct(st.m2,MEMALL.length)}%</b><span>الحفظ (${st.m2} من ${MEMALL.length} · ${st.m1} تحتاج مراجعة)</span></div>
+   <div class="stat"><b>${st.offSolved} / ${st.off.length}</b><span>أسئلة رسمية محلولة (${st.offOK} صحيحة · ${st.offBad} خاطئة)</span></div>
+   <div class="stat"><b>${st.R} / ${st.W}</b><span>إجابات صحيحة / خاطئة (كل المحاولات)</span></div>
+   <div class="stat"><b>${st.act}</b><span>أسئلة تنتظر المراجعة</span></div>
+  </section>
+  <section class="box"><h2>مسار الوحدة</h2><p class="mute sm">اضغط أي خانة للانتقال إلى الدرس نفسه. الأخضر = مكتمل.</p>
+   <div class="path"><span class="hd">الدرس</span><span class="hd">تعلّم</span><span class="hd">حفظ</span><span class="hd">أسئلة رسمية</span><span class="hd">تدريب</span>
+   ${ls.map(({l,s})=>`<span class="lh"><b>${LESSON_NAME[l]}</b></span>${cell(S.lessons[l],S.lessons[l]?'✓ قرأته':'اقرأ','learn:'+l)}${cell(s.m2===s.mi,`حفظ ${s.m2}/${s.mi}`,'mem:'+l)}${s.off?cell(s.offS===s.off,`رسمي ${s.offS}/${s.off}`,'official:'+l):'<span class="mute sm" style="text-align:center">لا أسئلة رسمية</span>'}${cell(s.gen&&s.genD===s.gen,`تدريب ${s.genD}/${s.gen}`,'practice:'+l)}`).join('')}</div>
+   <p class="mute sm" style="margin-bottom:0">معادلة الإنجاز: الدروس 20% + الحفظ 25% + الأسئلة الرسمية 30% + التدريب والرسوم 25%.</p></section>
+  <section class="box"><h2>أضعف المواضيع</h2>${weak.length?`<div class="bars">${weak.map(({l,s})=>`<div class="bar-r"><span>${LESSON_NAME[l]}</span><div class="pbar ${s.att?(s.acc<60?'bad':'good'):''}"><i style="width:${s.att?s.acc:0}%"></i></div><b>${s.att?s.acc+'%':'—'}</b></div><div class="mute sm" style="margin-top:-6px">${s.att?`دقة الإجابات (${s.r} صحيحة، ${s.w} خاطئة) · `:'لم تُحَل أسئلة بعد · '}الحفظ ${s.m2}/${s.mi}</div>`).join('')}</div>`:'<p class="mute">ابدأ بحل الأسئلة ليظهر هنا ترتيب مواضيعك الأضعف.</p>'}
+   ${topW.length?`<h3 style="margin-top:14px">الأسئلة الأكثر خطأً</h3>${topW.map(q=>`<div class="row sm" style="padding:4px 0"><span class="chip b">${recOf(q.id).w}×</span><span class="grow">${esc((q.q||'').slice(0,90))}</span></div>`).join('')}<button class="btn" data-act="go" data-go="mistakes">افتح «أخطائي»</button>`:''}</section>
+  <section class="box"><h2>نسخة احتياطية للتقدّم</h2>
+   ${storeOK?'':'<div class="note">⚠ الحفظ المحلي غير متاح في هذا المتصفح (نافذة خاصة أو منع التخزين). التقدّم يُحفظ مؤقتاً حتى إغلاق الصفحة؛ انسخ النسخة الاحتياطية أدناه.</div>'}
+   <p class="mute sm">يُحفظ تقدّمك تلقائياً في هذا المتصفح. للنقل إلى جهاز آخر انسخ النص التالي، ثم الصقه في الجهاز الآخر واضغط «استيراد».</p>
+   <textarea class="exp" id="expBox" readonly rows="3">${esc(JSON.stringify(S))}</textarea>
+   <div class="row" style="margin-top:8px"><button class="btn" data-act="copyexp">نسخ</button></div>
+   <textarea class="exp" id="impBox" rows="2" placeholder="الصق النسخة الاحتياطية هنا" style="margin-top:8px"></textarea>
+   <div class="row" style="margin-top:8px"><button class="btn" data-act="imp">استيراد</button><button class="btn bad" data-act="reset" id="rstBtn">مسح كل التقدّم</button></div></section>
+  <section class="box flat sm mute"><b>عن مصدر المحتوى:</b> كل التعريفات والأسئلة الرسمية وإجاباتها من المستند المرفق «التحليل الأكاديمي الشامل للوحدة الثالثة». الأسئلة المسمّاة «تدريب مولّد» والرسوم التوضيحية من إعداد التطبيق وليست من الكتاب. المستند لا يتضمن صور أشكال الكتاب، ولذلك ترى تنبيه «شكل غير مرفق» على الأسئلة المعتمدة عليها.</section>`;
+};
+
+/* ============ تعلّم ============ */
+const vLearn=()=>{
+  const l=LESSONS.find(x=>x.id===UI.lesson)||LESSONS[0],i=LESSONS.indexOf(l);
+  return `<div class="lesson-tabs">${LESSONS.map(x=>`<button class="btn ${x.id===l.id?'on':''}" data-act="lsn" data-id="${x.id}">${x.n}. ${x.title}${S.lessons[x.id]?' ✓':''}</button>`).join('')}</div>
+  <section class="box"><h2>${l.n}. ${l.title} <span class="mute sm" style="direction:ltr;display:inline-block">${l.en}</span></h2><div class="mute sm">صفحات الكتاب: ${l.pages}</div></section>
+  ${l.sections.map(s=>`<section class="box"><h3>${s.h}</h3>${s.html}</section>`).join('')}
+  <section class="box"><div class="row"><button class="btn ${S.lessons[l.id]?'on':'pri'}" data-act="done" data-id="${l.id}">${S.lessons[l.id]?'✓ أنهيت هذا الدرس (اضغط للتراجع)':'أنهيت قراءة هذا الدرس'}</button>
+   <button class="btn" data-act="go" data-go="mem:${l.id}">احفظ مصطلحاته</button>
+   ${LOOK&&[...LOOK.values()].some(q=>q.off&&q.lesson===l.id)?`<button class="btn" data-act="go" data-go="official:${l.id}">حل أسئلته الرسمية</button>`:''}
+   <button class="btn" data-act="go" data-go="practice:${l.id}">تدرّب</button>
+   ${i<4?`<button class="btn" data-act="lsn" data-id="${LESSONS[i+1].id}">الدرس التالي ←</button>`:''}</div></section>`;
+};
+
+/* ============ احفظ ============ */
+const stBtn=(id)=>{const v=S.mem[id];return `<span class="st">${[['0','لم أحفظ'],['1','يحتاج مراجعة'],['2','حفظت']].map(([k,t])=>`<button data-act="ms" data-id="${id}" data-v="${k}" class="${v===+k?'on'+k:''}">${t}</button>`).join('')}</span>`};
+function deck(){
+  const f=S.f.mem,dt=UI.cards.dir==='dt';
+  return [...MEM,...MEM_FACTS].filter(x=>(f.lesson==='all'||x.lesson===f.lesson)&&(f.st==='all'||(f.st==='0'?!S.mem[x.id]:S.mem[x.id]===+f.st))&&(!dt||x.kind==='def'));
+}
+const memFilters=()=>`<div class="row"><select class="inp" style="width:auto" data-chg="mf-lesson"><option value="all">كل الدروس</option>${LORD.map(l=>`<option value="${l}"${S.f.mem.lesson===l?' selected':''}>${LESSON_NAME[l]}</option>`).join('')}</select>
+ <select class="inp" style="width:auto" data-chg="mf-st"><option value="all">كل الحالات</option><option value="0"${S.f.mem.st==='0'?' selected':''}>لم أحفظ</option><option value="1"${S.f.mem.st==='1'?' selected':''}>يحتاج مراجعة</option><option value="2"${S.f.mem.st==='2'?' selected':''}>حفظت</option></select></div>`;
+function vMem(){
+  const tabs=[['cards','بطاقات الاسترجاع'],['fill','املأ الفراغ'],['cmp','مقارنات'],['list','قائمة الحفظ']];
+  const m2=MEMALL.filter(x=>S.mem[x.id]===2).length;
+  let h=`<div class="row"><div class="lesson-tabs grow">${tabs.map(([k,t])=>`<button class="btn ${UI.memTab===k?'on':''}" data-act="mtab" data-id="${k}">${t}</button>`).join('')}</div><span class="chip">حفظت ${m2} / ${MEMALL.length}</span></div>`;
+  if(UI.memTab==='cards'){
+    const c=UI.cards,d=deck();if(c.i>=d.length)c.i=0;const x=d[c.i];
+    h+=`<section class="box"><div class="row"><div class="lesson-tabs"><button class="btn sm ${c.dir==='td'?'on':''}" data-act="cdir" data-id="td">مصطلح ← تعريف</button><button class="btn sm ${c.dir==='dt'?'on':''}" data-act="cdir" data-id="dt">تعريف ← مصطلح (اكتب)</button></div></div>${memFilters()}</section>`;
+    if(!x)return h+`<section class="box">لا توجد عناصر ضمن هذا الفلتر.</section>`;
+    h+=`<section class="box fc"><div class="mute sm">${c.i+1} / ${d.length} · ${LESSON_NAME[x.lesson]}</div>`;
+    if(c.dir==='td'){
+      h+=`<div class="big">${esc(x.term)}</div>${x.en?`<div class="en">${esc(x.en)}</div>`:''}`;
+      if(!c.flip)h+=`<textarea class="inp" id="cardIn" placeholder="اكتب ما تتذكره عن هذا المصطلح قبل الكشف (اختياري)" rows="2"></textarea><div class="rate"><button class="btn pri" data-act="flip">اكشف التعريف</button></div>`;
+      else h+=`<div class="ans good back">${esc(x.def)}</div>${rate(x)}`;
+    }else{
+      h+=`<div class="back">${esc(x.def)}</div>`;
+      if(c.res==null)h+=`<input type="text" class="inp" id="cardIn" data-p="0" placeholder="اكتب المصطلح" autocomplete="off"><div class="rate"><button class="btn pri" data-act="chk">تحقق</button><button class="btn" data-act="chkidk">لا أعرف</button></div>`;
+      else h+=`<div class="res ${c.res?'g':'b'}">${c.res?'صحيح':'غير صحيح'}</div><div class="ans good big">${esc(x.term)}</div>${x.en?`<div class="en">${esc(x.en)}</div>`:''}${rate(x)}`;
+    }
+    h+=`<div class="row" style="justify-content:center"><button class="btn sm" data-act="cprev">السابق</button><button class="btn sm" data-act="cnext">تخطَّ</button></div></section>`;
+    return h;
+  }
+  if(UI.memTab==='fill'){
+    const items=[...LOOK.values()].filter(q=>q.cat==='fill'&&(S.f.mem.lesson==='all'||q.lesson===S.f.mem.lesson));
+    const per=8,pg=Math.min(UI.page.fill,Math.max(0,Math.ceil(items.length/per)-1)),sl=items.slice(pg*per,pg*per+per);
+    h+=`<section class="box"><div class="note info">جمل مولّدة من نصوص المستند للتدريب على استرجاع المصطلحات (ليست أسئلة الكتاب). اكتب الكلمة الناقصة ثم أرسل.</div>${memFilters()}</section>`;
+    h+=sl.map(q=>card(q,'fill')).join('')+pager(items.length,per,pg,'fill');
+    return h;
+  }
+  if(UI.memTab==='cmp'){
+    h+=`<section class="box"><div class="note info">فكّر في كل خلية قبل أن تكشفها، ثم قيّم حفظك للجدول.</div>${memFilters().replace(/<select[^>]*mf-st[\s\S]*?<\/select>/,'')}</section>`;
+    COMPARES.filter(c=>S.f.mem.lesson==='all'||c.lesson===S.f.mem.lesson).forEach(c=>{
+      const rv=UI.rv[c.id]||(UI.rv[c.id]=new Set());
+      h+=`<section class="box"><div class="row"><h3 class="grow">${c.title} <span class="chip">${LESSON_NAME[c.lesson]}</span></h3><button class="btn sm" data-act="rvall" data-id="${c.id}">اكشف الكل</button></div><div class="tbl"><table><tr><th></th>${c.cols.map(x=>`<th>${x}</th>`).join('')}</tr>${c.rows.map((r,ri)=>`<tr><td>${esc(r[0])}</td>${r.slice(1).map((v,ci)=>{const k=ri+'-'+ci;return `<td>${rv.has(k)?esc(v):`<button class="mask" data-act="rv" data-id="${c.id}" data-k="${k}">اكشف</button>`}</td>`}).join('')}</tr>`).join('')}</table></div><div class="row"><span class="sm mute">حفظي لهذا الجدول:</span>${stBtn(c.id)}</div></section>`;
+    });
+    return h;
+  }
+  h+=`<section class="box">${memFilters().replace(/<select[^>]*mf-st[\s\S]*?<\/select>/,'')}<p class="mute sm" style="margin-bottom:0">التعريفات مخفية حتى لا تقرأها سلبياً: تذكّر أولاً ثم اضغط «التعريف» للتحقق، ثم حدّد حالتك.</p></section>`;
+  LORD.filter(l=>S.f.mem.lesson==='all'||S.f.mem.lesson===l).forEach(l=>{
+    const it=MEMALL.filter(x=>x.lesson===l);if(!it.length)return;
+    const d2=it.filter(x=>S.mem[x.id]===2).length;
+    h+=`<section class="box"><div class="sec-h"><h3 class="grow">${LESSON_NAME[l]}</h3><span class="chip">${d2}/${it.length}</span></div><div class="pbar" style="margin:8px 0"><i style="width:${pct(d2,it.length)}%"></i></div>${it.map(x=>`<div class="ck"><span class="tm">${x.cols?'جدول: '+esc(x.title):esc(x.term)}${x.en?` <span class="mute sm" style="direction:ltr;display:inline-block">${esc(x.en)}</span>`:''}</span>${x.cols?'':`<button class="btn sm" data-act="sd" data-id="${x.id}">${UI.sd[x.id]?'إخفاء':'التعريف'}</button>`}${stBtn(x.id)}${UI.sd[x.id]?`<div class="df">${esc(x.def)}</div>`:''}</div>`).join('')}</section>`;
+  });
+  return h;
+}
+const rate=x=>`<div class="rate"><span class="mute sm" style="width:100%">قيّم حفظك:</span><button class="btn bad" data-act="rate" data-id="${x.id}" data-v="0">لم أحفظ</button><button class="btn" data-act="rate" data-id="${x.id}" data-v="1">يحتاج مراجعة</button><button class="btn good" data-act="rate" data-id="${x.id}" data-v="2">حفظت</button></div>`;
+const pager=(n,per,cur,key)=>{const pc=Math.ceil(n/per);if(pc<=1)return '';return `<div class="pager">${[...Array(pc).keys()].map(i=>`<button class="btn sm ${i===cur?'on':''}" data-act="pg" data-k="${key}" data-i="${i}">${i+1}</button>`).join('')}</div>`};
+
+/* ============ الأسئلة الرسمية ============ */
+const lessonSel=(cur,chg,extra='')=>`<select class="inp" style="width:auto" data-chg="${chg}"><option value="all">كل الدروس</option>${LORD.map(l=>`<option value="${l}"${cur===l?' selected':''}>${LESSON_NAME[l]}</option>`).join('')}${extra}</select>`;
+function offList(){
+  const f=S.f.off,qn=nz(f.q);
+  return OFFICIAL.map(o=>LOOK.get(o.id)).filter(q=>{const r=recOf(q.id);
+    if(f.lesson!=='all'&&q.lesson!==f.lesson)return false; if(f.src!=='all'&&q.src!==f.src)return false;
+    if(f.st==='new'&&r.s)return false; if(f.st==='ok'&&r.lc!==true)return false; if(f.st==='bad'&&r.lc!==false)return false;
+    if(f.st==='d'&&!r.d)return false; if(f.st==='v'&&!r.v)return false; if(f.st==='nu'&&!(r.s&&!r.u))return false;
+    if(qn&&!nz(q.q+q.a+q.ref+(q.parts?q.parts.map(p=>p.q).join(''):'')).includes(qn))return false; return true;})
+   .sort((a,b)=>LORD.indexOf(a.lesson)-LORD.indexOf(b.lesson)||['sb','wb','ur'].indexOf(a.src)-['sb','wb','ur'].indexOf(b.src)||a.ord-b.ord);
+}
+function offRes(){
+  const L=offList(),per=10,pg=Math.min(UI.page.off,Math.max(0,Math.ceil(L.length/per)-1)),sl=L.slice(pg*per,pg*per+per);let last='',h=`<div class="mute sm">${L.length} سؤال مطابق</div>`;
+  sl.forEach(q=>{const g=LESSON_NAME[q.lesson]+' — '+SRC_NAME[q.src];if(g!==last){h+=`<h3 class="sec-h">${g}</h3>`;last=g}h+=card(q,'off')});
+  if(!L.length)h+='<section class="box">لا توجد أسئلة مطابقة.</section>';
+  return h+pager(L.length,per,pg,'off');
+}
+function vOff(){
+  const f=S.f.off,off=[...LOOK.values()].filter(q=>q.off),solved=off.filter(q=>recOf(q.id).s).length,nfig=off.filter(q=>q.fig).length;
+  return `<section class="box"><div class="row"><h2 class="grow">الأسئلة الرسمية</h2><span class="chip">${solved} / ${off.length} محلولة</span></div><div class="pbar" style="margin:8px 0"><i style="width:${pct(solved,off.length)}%"></i></div>
+  <div class="note">الأسئلة والإجابات منقولة من المستند حرفياً. ${NO_OPT}<br>${nfig} سؤالاً يعتمد على شكل من الكتاب غير مرفق (راجع «الأشكال المطلوبة» في تبويب التعرّف البصري). في أسئلة كتاب الأنشطة (ص40–46) نص السؤال الأصلي غير وارد، فصيغ السؤال مستنتجة من عنوان الفقرة.</div></section>
+  <section class="box"><div class="row">${lessonSel(f.lesson,'of-lesson')}
+   <select class="inp" style="width:auto" data-chg="of-src"><option value="all">كل المصادر</option>${Object.entries(SRC_NAME).map(([k,v])=>`<option value="${k}"${f.src===k?' selected':''}>${v}</option>`).join('')}</select>
+   <select class="inp" style="width:auto" data-chg="of-st">${[['all','كل الحالات'],['new','لم تُحل'],['ok','آخر محاولة صحيحة'],['bad','آخر محاولة خاطئة'],['d','صعبة'],['v','في قائمة المراجعة'],['nu','لم أفهمها بعد']].map(([k,t])=>`<option value="${k}"${f.st===k?' selected':''}>${t}</option>`).join('')}</select>
+   <input class="inp grow" type="search" id="offQ" data-inp="of-q" placeholder="ابحث في الأسئلة والإجابات…" value="${esc(f.q)}" style="min-width:180px"></div></section><div id="offRes" class="q" style="gap:16px">${offRes()}</div>`;
+}
+
+/* ============ تدرّب واختبر ============ */
+function prList(){
+  const f=S.f.pr;return BANK.map(b=>LOOK.get(b.id)).filter(q=>(f.lesson==='all'||q.lesson===f.lesson)&&(f.type==='all'||q.type===f.type)&&(f.level==='all'||q.level===+f.level));
+}
+function vPractice(){
+  const f=S.f.pr,done=BANK.filter(b=>(recOf(b.id).r||0)>0).length;
+  let h=`<div class="row"><div class="lesson-tabs grow"><button class="btn ${UI.prTab==='bank'?'on':''}" data-act="ptab" data-id="bank">بنك الأسئلة</button><button class="btn ${UI.prTab==='exam'?'on':''}" data-act="ptab" data-id="exam">اختبار</button></div><span class="chip">أجبت صحيحاً عن ${done} / ${BANK.length}</span></div>`;
+  h+=`<div class="note">كل أسئلة هذا القسم «تدريب مولّد» من إعداد التطبيق ومبنية على معلومات المستند فقط. لا تظهر الإجابة قبل أن ترسل إجابتك. الترتيب تصاعدي من السهل إلى الصعب.</div>`;
+  if(UI.prTab==='exam')return h+vExam();
+  const L=prList(),per=10,pg=Math.min(UI.page.pr,Math.max(0,Math.ceil(L.length/per)-1)),sl=L.slice(pg*per,pg*per+per);
+  h+=`<section class="box"><div class="row">${lessonSel(f.lesson,'pf-lesson')}<select class="inp" style="width:auto" data-chg="pf-type"><option value="all">كل الأنواع</option>${Object.entries(TYPE_NAME).map(([k,v])=>`<option value="${k}"${f.type===k?' selected':''}>${v}</option>`).join('')}</select>
+   <select class="inp" style="width:auto" data-chg="pf-level"><option value="all">كل المستويات</option>${[1,2,3].map(n=>`<option value="${n}"${f.level==n?' selected':''}>${LEVEL_NAME[n]}</option>`).join('')}</select></div></section>`;
+  h+=`<div class="mute sm">${L.length} سؤال</div>`+sl.map(q=>card(q,'bank')).join('')+(L.length?'':'<section class="box">لا توجد أسئلة مطابقة.</section>')+pager(L.length,per,pg,'pr');
+  return h;
+}
+function vExam(){
+  const E=UI.exam,c=UI.examCfg;
+  if(!E){
+    return `<section class="box"><h2>اختبار مرتب من السهل إلى الصعب</h2><p class="mute">لا تظهر أي إجابة أثناء الاختبار. بعد الإنهاء تُصحَّح الأسئلة الموضوعية تلقائياً وتقيّم أنت الأسئلة المقالية.</p>
+     <div class="lesson-tabs">${LORD.map(l=>`<button class="btn ${c.lessons.has(l)?'on':''}" data-act="exl" data-id="${l}">${LESSON_NAME[l]}</button>`).join('')}</div>
+     <div class="row" style="margin-top:12px"><label>عدد الأسئلة: <select class="inp" style="width:auto" data-chg="exn">${[10,15,20,30].map(n=>`<option${c.n===n?' selected':''}>${n}</option>`).join('')}</select></label><button class="btn pri" data-act="exstart">ابدأ الاختبار</button></div></section>
+     ${S.exams.length?`<section class="box"><h3>آخر الاختبارات</h3>${S.exams.slice(-5).reverse().map(x=>`<div class="row sm" style="padding:3px 0"><span class="chip ${x.p>=70?'g':'b'}">${x.p}%</span><span>${x.s} من ${x.n}</span><span class="mute">${new Date(x.t).toLocaleDateString('ar-JO')}</span></div>`).join('')}</section>`:''}`;
+  }
+  const qs=E.qs.map(id=>LOOK.get(id));
+  if(E.phase==='run'){
+    const q=qs[E.i];
+    return `<section class="box q" id="examQ"><div class="row"><b class="grow">السؤال ${E.i+1} من ${qs.length}</b><span class="chip">${LEVEL_NAME[q.level]}</span><span class="chip">${TYPE_NAME[q.type]}</span><span class="chip">${LESSON_NAME[q.lesson]}</span></div><div class="pbar"><i style="width:${(E.i+1)/qs.length*100}%"></i></div>
+     ${q.fig&&FIG[q.fig]?figBox(q.fig):''}${titleHTML(q,null)}${inputArea(q,E.ans[q.id])}
+     <div class="row"><button class="btn" data-act="exprev"${E.i?'':' disabled'}>السابق</button>${E.i<qs.length-1?'<button class="btn pri" data-act="exnext">التالي</button>':'<button class="btn pri" data-act="exfin">إنهاء وتصحيح</button>'}<button class="btn bad" data-act="exquit">إلغاء الاختبار</button></div></section>`;
+  }
+  if(E.phase==='grade'||E.phase==='result'){
+    const res=qs.map(q=>{const a=E.ans[q.id];const self=isSelf(q);return {q,a,self,ok:self?E.marks[q.id]:gradeAuto(q,a)}});
+    const pending=res.filter(x=>x.self&&x.ok===undefined).length;
+    let h='';
+    if(E.phase==='result'){const sc=res.filter(x=>x.ok).length;h+=`<section class="box"><h2>النتيجة: ${sc} من ${res.length} (${pct(sc,res.length)}%)</h2><div class="bars">${LORD.map(l=>{const r=res.filter(x=>x.q.lesson===l);if(!r.length)return '';const o=r.filter(x=>x.ok).length;return `<div class="bar-r"><span>${LESSON_NAME[l]}</span><div class="pbar ${pct(o,r.length)<60?'bad':'good'}"><i style="width:${pct(o,r.length)}%"></i></div><b>${o}/${r.length}</b></div>`}).join('')}</div><p class="mute sm">الأسئلة الخاطئة أُضيفت تلقائياً إلى «أخطائي».</p><div class="row"><button class="btn pri" data-act="exdone">اختبار جديد</button><button class="btn" data-act="go" data-go="mistakes">افتح «أخطائي»</button></div></section>`;}
+    else h+=`<section class="box"><h2>التصحيح</h2><p class="mute">${pending?`قيّم ${pending} إجابة مقالية بمقارنتها بالنموذجية، ثم أنهِ.`:'اكتمل التقييم.'}</p>${pending?'':'<button class="btn pri" data-act="exresult">اعرض النتيجة</button>'}</section>`;
+    h+=res.map((x,i)=>`<section class="box q"><div class="row"><b class="grow">${i+1}. ${esc(x.q.q)}</b>${x.ok===undefined?'':`<span class="chip ${x.ok?'g':'b'}">${x.ok?'صحيحة':'خاطئة'}</span>`}</div>${x.q.fig&&FIG[x.q.fig]?figBox(x.q.fig):''}<div class="ans mine"><b class="l">إجابتك</b>${esc(ansText(x.q,x.a))}</div>${solHTML(x.q)}${x.self&&E.phase==='grade'&&x.ok===undefined?`<div class="row"><button class="btn good" data-act="xmark" data-id="${x.q.id}" data-v="1">✔ صحيحة</button><button class="btn bad" data-act="xmark" data-id="${x.q.id}" data-v="0">✘ خاطئة</button></div>`:''}</section>`).join('');
+    return h;
+  }
+}
+
+/* ============ أخطائي ============ */
+function vMist(){
+  const all=[...LOOK.values()].filter(q=>{const r=recOf(q.id);return r.w>0||r.d||r.v});
+  const act=all.filter(q=>isMist(recOf(q.id))),res=all.filter(q=>!isMist(recOf(q.id)));
+  const L=(S.f.ms==='act'?act:S.f.ms==='res'?res:all).sort((a,b)=>{const x=recOf(a.id),y=recOf(b.id);return (y.w||0)-(x.w||0)||(y.d?1:0)-(x.d?1:0)||(y.t||0)-(x.t||0)});
+  return `<section class="box"><div class="row"><h2 class="grow">أخطائي</h2><span class="chip b">${act.length} تنتظر المراجعة</span><span class="chip g">${res.length} تم تصحيحها</span></div>
+   <p class="mute sm">تظهر هنا الأسئلة التي أخطأت فيها أو علّمتها صعبة أو أضفتها للمراجعة. الأكثر خطأً أولاً. أعد المحاولة حتى تجيب صحيحاً.</p>
+   <div class="lesson-tabs">${[['act','تنتظر المراجعة'],['res','تم تصحيحها'],['all','الكل']].map(([k,t])=>`<button class="btn ${S.f.ms===k?'on':''}" data-act="msf" data-id="${k}">${t}</button>`).join('')}</div></section>
+   ${L.length?L.map(q=>card(q,'mist')).join(''):'<section class="box">لا توجد أسئلة هنا. أحسنت!</section>'}`;
+}
+
+/* ============ التعرّف البصري ============ */
+const RULES={normal:'شد ← الجدار المعلق للأسفل ← لا تتكرر الطبقات ← يزيد مساحة القشرة',reverse:'ضغط ← الجدار المعلق للأعلى ← تتكرر الطبقات ← يقلل مساحة القشرة',strike:'قص ← حركة أفقية جانبية ← مستوى الصدع رأسي غالباً',graben:'صدعان عاديان متقابلان ← الكتلة بينهما تهبط ← جدار معلق مشترك',horst:'صدعان عاديان متقابلان ← الكتلة بينهما تبرز ← جدار قدم مشترك',step:'صدوع عادية متوازية ← كتل بشكل الأدراج',anticline:'تقوس للأعلى ← الجناحان بعيداً عن المستوى المحوري ← الأقدم في المركز',syncline:'تقوس للأسفل ← الجناحان نحو المستوى المحوري ← الأحدث في المركز',sym:'مستوى محوري عمودي 90° ← جناحان بميل متساوٍ',asym:'مستوى محوري مائل (أقل من 90°) ← ميل الجناحين مختلف',overturned:'جناحان يميلان في الاتجاه نفسه ← أحدهما أكبر من 90° ← طبقات مقلوبة',recumbent:'مستوى محوري أفقي تقريباً',dome:'طبقات تميل بعيداً عن المركز ← الأقدم في المركز',basin:'طبقات تميل نحو المركز ← الأحدث في المركز'};
+function pickVz(){
+  const g=ID_GROUPS[UI.vzGroup]||ID_GROUPS['الكل'];const pool=g.filter(k=>k!==UI.vz);
+  const un=pool.filter(k=>!(recOf('vz-'+k).r>0));const p=un.length?un:pool;UI.vz=p[Math.floor(Math.random()*p.length)];delete UI.sub['vz-'+UI.vz];
+}
+function vVis(){
+  const tabs=[['id','تعرّف على التركيب'],['lb','سمِّ الأجزاء'],['gal','معرض الرسوم'],['need','الأشكال المطلوبة']];
+  let h=`<div class="lesson-tabs">${tabs.map(([k,t])=>`<button class="btn ${UI.visTab===k?'on':''}" data-act="vtab" data-id="${k}">${t}</button>`).join('')}</div>
+  <div class="note">الرسوم في هذا القسم <b>رسوم توضيحية مبسطة من إعداد التطبيق</b> وليست أشكال الكتاب الرسمية (المستند المرفق لا يحتوي صوراً). أشكال الكتاب المطلوبة مدرجة في تبويب «الأشكال المطلوبة».</div>`;
+  if(UI.visTab==='id'){
+    if(!UI.vz)pickVz();
+    h+=`<section class="box"><div class="row"><span>المجموعة:</span><select class="inp" style="width:auto" data-chg="vzg">${Object.keys(ID_GROUPS).map(g=>`<option${g===UI.vzGroup?' selected':''}>${g}</option>`).join('')}</select><button class="btn" data-act="vznext">الرسم التالي ←</button></div></section>${card(LOOK.get('vz-'+UI.vz),'vis')}`;
+  }else if(UI.visTab==='lb'){
+    h+=LABEL_TASKS.map(t=>card(LOOK.get('vl-'+t.id),'vis')).join('');
+  }else if(UI.visTab==='gal'){
+    const groups=[...new Set(Object.values(FIG).map(f=>f.group))];
+    groups.forEach(g=>{h+=`<h3 class="sec-h">${g}</h3><div class="gal">${Object.entries(FIG).filter(([k,f])=>f.group===g).map(([k,f])=>`<section class="box figbox"><h4>${f.name}</h4>${f.fn('names')}<div class="sm mute">${RULES[k]}</div></section>`).join('')}</div>`});
+  }else{
+    const need=[...LOOK.values()].filter(q=>q.off&&q.fig),done=need.filter(q=>S.figs[q.id]).length;
+    h+=`<section class="box"><div class="row"><h2 class="grow">الأشكال المطلوبة من الكتاب</h2><span class="chip">${done} / ${need.length}</span></div><p class="mute sm">أسئلة رسمية تعتمد على شكل غير موجود في المستند. أرفق صور هذه الأشكال لأربطها بالأسئلة. إجاباتها النصية من المستند جاهزة، لكن تحقّق منها على الشكل الأصلي. علّم الخانة بعد مطابقتها.</p>
+     ${need.map(q=>`<label class="opt" style="margin-top:6px"><input type="checkbox" data-chg="fig" data-id="${q.id}"${S.figs[q.id]?' checked':''}><span><b>${esc(q.ref)}</b><br><span class="sm mute">${esc(q.fig)}</span></span></label>`).join('')}</section>`;
+  }
+  return h;
+}
+
+/* ============ التنقّل والعرض ============ */
+const TABS=[['dash','لوحة المتابعة',vDash],['learn','أ. تعلّم',vLearn],['mem','ب. احفظ',vMem],['official','ج. أسئلة الكتاب',vOff],['practice','د. تدرّب واختبر',vPractice],['mistakes','هـ. أخطائي',vMist],['visual','تعرّف بصرياً',vVis]];
+function updateChrome(){
+  const st=stats();const b=$('#hp');if(b){b.style.width=st.comp+'%';$('#hpn').textContent=st.comp+'%'}
+  const mb=$('#tab-mistakes .bd');const t=$('#tab-mistakes');if(t){t.innerHTML='هـ. أخطائي'+(st.act?`<span class="bd">${st.act}</span>`:'')}
+}
+function render(){
+  const tab=TABS.find(t=>t[0]===UI.tab)||TABS[0];
+  $('#app').innerHTML=tab[2]();
+  document.querySelectorAll('.tab').forEach(b=>b.setAttribute('aria-current',b.dataset.go===UI.tab?'page':'false'));
+  updateChrome();
+}
+function go(t){const [tab,arg]=t.split(':');
+  if(arg){if(tab==='learn')UI.lesson=arg;else if(tab==='mem'){S.f.mem.lesson=arg;UI.memTab='cards';UI.cards.i=0}else if(tab==='official'){S.f.off.lesson=arg;UI.page.off=0}else if(tab==='practice'){S.f.pr.lesson=arg;UI.prTab='bank';UI.page.pr=0}save()}
+  UI.tab=tab;if(location.hash!=='#'+tab)history.replaceState(null,'','#'+tab);render();window.scrollTo(0,0);}
+function applyTheme(){const r=document.documentElement;if(S.theme==='auto')r.removeAttribute('data-theme');else r.setAttribute('data-theme',S.theme);const b=$('#thm');if(b)b.textContent=S.theme==='auto'?'السمة: تلقائي':S.theme==='dark'?'السمة: داكن':'السمة: فاتح'}
+
+/* ============ الأحداث ============ */
+function cardCtx(t){const el=t.closest('.q-card');return el?{el,id:el.dataset.qid,q:LOOK.get(el.dataset.qid)}:null}
+function submitCard(c){
+  const q=c.q,a=readAns(q,c.el);
+  if(isSelf(q)){if(a==null){toast('اكتب محاولتك أولاً أو اضغط «لا أعرف»');return}UI.sub[q.id]={done:true,ans:a,txt:ansText(q,a)};}
+  else{if(a==null||(Array.isArray(a)&&q.type!=='fill'&&a.length<(q.pairs?q.pairs.length:q.task?q.task.parts.length:1))){toast('أكمل الإجابة أولاً');return}
+    const ok=gradeAuto(q,a);const txt=ansText(q,a);UI.sub[q.id]={done:true,graded:true,correct:ok,ans:a,txt};record(q.id,ok,txt);}
+  refreshCard(q.id);
+}
+function act(a,t,e){
+  const d=t.dataset;
+  switch(a){
+   case 'go':go(d.go);break;
+   case 'submit':{const c=cardCtx(t);if(c)submitCard(c);break}
+   case 'idk':{const c=cardCtx(t);if(!c)break;UI.sub[c.id]={done:true,graded:true,correct:false,ans:null,txt:'(لا أعرف)'};record(c.id,false,'(لا أعرف)');refreshCard(c.id);break}
+   case 'grade':{const c=cardCtx(t);if(!c)break;const st=UI.sub[c.id];const ok=d.v==='1';st.graded=true;st.correct=ok;record(c.id,ok,st.txt);refreshCard(c.id);break}
+   case 'retry':{const c=cardCtx(t);if(!c)break;delete UI.sub[c.id];refreshCard(c.id);break}
+   case 'tg':{const c=cardCtx(t);if(!c)break;const r=S.q[c.id]||(S.q[c.id]={w:0,r:0});r[d.k]=!r[d.k];if(d.k==='d'&&r.d)r.v=true;save();refreshCard(c.id);if(UI.tab==='mistakes')render();break}
+   case 'dismiss':{const c=cardCtx(t);if(!c)break;const r=S.q[c.id]||{};r.d=false;r.v=false;if(r.w>0)r.res=true;S.q[c.id]=r;save();render();break}
+   case 'lsn':UI.lesson=d.id;render();window.scrollTo(0,0);break;
+   case 'done':S.lessons[d.id]=!S.lessons[d.id];save();render();break;
+   case 'mtab':UI.memTab=d.id;UI.cards.flip=false;UI.cards.res=null;render();break;
+   case 'cdir':UI.cards.dir=d.id;UI.cards.flip=false;UI.cards.res=null;UI.cards.i=0;render();break;
+   case 'flip':UI.cards.flip=true;render();break;
+   case 'chk':{const v=($('#cardIn')||{}).value||'';const x=deck()[UI.cards.i];const a=stripAl(nz(v)),b=stripAl(nz(x.term));UI.cards.res=!!a&&(a===b||(a.length>=4&&(b.includes(a)||a.includes(b))));render();break}
+   case 'chkidk':UI.cards.res=false;render();break;
+   case 'rate':S.mem[d.id]=+d.v;save();UI.cards.flip=false;UI.cards.res=null;if(S.f.mem.st==='all')UI.cards.i++;render();break;
+   case 'cnext':UI.cards.i++;UI.cards.flip=false;UI.cards.res=null;render();break;
+   case 'cprev':UI.cards.i=Math.max(0,UI.cards.i-1);UI.cards.flip=false;UI.cards.res=null;render();break;
+   case 'ms':S.mem[d.id]=+d.v;save();render();break;
+   case 'sd':UI.sd[d.id]=!UI.sd[d.id];render();break;
+   case 'rv':(UI.rv[d.id]||(UI.rv[d.id]=new Set())).add(d.k);render();break;
+   case 'rvall':{const c=COMPARES.find(x=>x.id===d.id),s=UI.rv[d.id]=new Set();c.rows.forEach((r,ri)=>r.slice(1).forEach((_,ci)=>s.add(ri+'-'+ci)));render();break}
+   case 'pg':UI.page[d.k]=+d.i;render();window.scrollTo(0,0);break;
+   case 'ptab':UI.prTab=d.id;render();break;
+   case 'msf':S.f.ms=d.id;save();render();break;
+   case 'vtab':UI.visTab=d.id;render();break;
+   case 'vznext':pickVz();render();break;
+   case 'exl':{const s=UI.examCfg.lessons;s.has(d.id)?s.delete(d.id):s.add(d.id);render();break}
+   case 'exstart':{
+     const pool=BANK.filter(b=>UI.examCfg.lessons.has(b.lesson)).map(b=>b.id);if(!pool.length){toast('اختر درساً واحداً على الأقل');break}
+     for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]]}
+     const qs=pool.slice(0,UI.examCfg.n).sort((a,b)=>LOOK.get(a).level-LOOK.get(b).level);
+     UI.exam={qs,i:0,ans:{},phase:'run',marks:{}};render();window.scrollTo(0,0);break}
+   case 'exnext':case 'exprev':case 'exfin':{
+     const E=UI.exam,q=LOOK.get(E.qs[E.i]);const ans=readAns(q,$('#examQ'));if(ans!=null)E.ans[q.id]=ans;else delete E.ans[q.id];
+     if(a==='exnext')E.i++;else if(a==='exprev')E.i--;else E.phase='grade';
+     render();window.scrollTo(0,0);break}
+   case 'exquit':UI.exam=null;render();break;
+   case 'xmark':UI.exam.marks[d.id]=d.v==='1';render();break;
+   case 'exresult':{const E=UI.exam;let sc=0;E.qs.forEach(id=>{const q=LOOK.get(id),a=E.ans[id];const ok=isSelf(q)?E.marks[id]:gradeAuto(q,a);if(ok)sc++;record(id,!!ok,ansText(q,a))});
+     S.exams.push({t:Date.now(),n:E.qs.length,s:sc,p:pct(sc,E.qs.length)});S.exams=S.exams.slice(-20);save();E.phase='result';render();window.scrollTo(0,0);break}
+   case 'exdone':UI.exam=null;render();break;
+   case 'copyexp':{const b=$('#expBox');b.select();try{navigator.clipboard.writeText(b.value).then(()=>toast('تم النسخ'),()=>{document.execCommand&&document.execCommand('copy');toast('تم التحديد: انسخه يدوياً')})}catch(_){toast('تم التحديد: انسخه يدوياً')}break}
+   case 'imp':{try{const o=JSON.parse(($('#impBox').value||'').trim());if(!o||typeof o!=='object'||!o.q)throw 0;S=Object.assign(DEF(),o);save();applyTheme();render();toast('تم الاستيراد')}catch(_){toast('نص غير صالح')}break}
+   case 'reset':{if(t.dataset.arm){S=DEF();save();applyTheme();UI.sub={};render();toast('تم المسح')}else{t.dataset.arm='1';t.textContent='اضغط مرة أخرى للتأكيد'}break}
+  }
+}
+document.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(t)act(t.dataset.act,t,e)});
+document.addEventListener('change',e=>{
+  const t=e.target.closest('[data-chg]');if(!t)return;const v=t.value,k=t.dataset.chg;
+  if(k==='of-lesson'){S.f.off.lesson=v;UI.page.off=0}else if(k==='of-src'){S.f.off.src=v;UI.page.off=0}else if(k==='of-st'){S.f.off.st=v;UI.page.off=0}
+  else if(k==='pf-lesson'){S.f.pr.lesson=v;UI.page.pr=0}else if(k==='pf-type'){S.f.pr.type=v;UI.page.pr=0}else if(k==='pf-level'){S.f.pr.level=v;UI.page.pr=0}
+  else if(k==='mf-lesson'){S.f.mem.lesson=v;UI.cards.i=0;UI.page.fill=0}else if(k==='mf-st'){S.f.mem.st=v;UI.cards.i=0}
+  else if(k==='exn'){UI.examCfg.n=+v;return}else if(k==='vzg'){UI.vzGroup=v;UI.vz=null}
+  else if(k==='fig'){S.figs[t.dataset.id]=t.checked;save();render();return}
+  save();render();
+});
+document.addEventListener('input',e=>{const t=e.target.closest('[data-inp]');if(t&&t.dataset.inp==='of-q'){S.f.off.q=t.value;UI.page.off=0;save();$('#offRes').innerHTML=offRes()}});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.matches('input.blank, #cardIn[type=text]')){e.preventDefault();if(e.target.id==='cardIn')act('chk',e.target,e);else{const c=cardCtx(e.target);if(c&&!UI.sub[c.id])submitCard(c)}}});
+window.addEventListener('hashchange',()=>{const h=location.hash.slice(1);if(TABS.some(t=>t[0]===h)&&h!==UI.tab){UI.tab=h;render()}});
+
+/* ============ الإقلاع ============ */
+function boot(){
+  $('#root').innerHTML=`<header class="hdr"><div class="hdr-in"><div class="hdr-top"><h1>الوحدة الثالثة: التراكيب الجيولوجية<small>علوم الأرض والبيئة · الصف الثاني عشر الأكاديمي · نظام دراسة للامتحان الوزاري</small></h1>
+   <div class="hdr-prog" title="إنجاز الوحدة"><div class="pbar"><i id="hp"></i></div><b id="hpn">0%</b></div><button class="ic" id="thm"></button></div>
+   <nav class="tabs" aria-label="الأقسام">${TABS.map(t=>`<button class="tab" id="tab-${t[0]}" data-act="go" data-go="${t[0]}">${t[1]}</button>`).join('')}</nav></div></header><main id="app"></main>`;
+  document.querySelectorAll('.tab').forEach(b=>b.dataset.go=b.id.slice(4));
+  $('#thm').onclick=()=>{S.theme={auto:'light',light:'dark',dark:'auto'}[S.theme]||'auto';save();applyTheme()};
+  applyTheme();
+  const h=location.hash.slice(1);if(TABS.some(t=>t[0]===h))UI.tab=h;
+  render();
+}
+boot();
+})();
+
+
+</script>
+
+</body></html>
