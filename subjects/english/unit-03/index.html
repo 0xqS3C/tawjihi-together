@@ -1,0 +1,843 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Hard Sell Drill</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: a sticky price-tag clock over a proportional 120-minute timeline, then one working column.
+   Palette: cool paper, ink, signal blue for actions, retail-tag yellow reserved for the clock. */
+:root{
+  --bg:#EDF0F4; --surface:#FFFFFF; --surface2:#F4F6F9; --ink:#101A26; --muted:#5A6879; --line:#D3DAE3;
+  --accent:#2A55E5; --accent-ink:#FFFFFF; --accent-soft:#E3EAFD; --tag:#FFD23F; --tag-ink:#1B1600;
+  --good:#146C43; --good-bg:#DCF2E6; --bad:#B3261E; --bad-bg:#FBE2DF; --warn-bg:#FFEFB8;
+  --display:'Bricolage Grotesque',system-ui,sans-serif; --body:'Hanken Grotesk',system-ui,sans-serif; --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0C121A; --surface:#141C26; --surface2:#1A2430; --ink:#E7ECF2; --muted:#94A2B4; --line:#273345;
+  --accent:#7C9BFF; --accent-ink:#0A1230; --accent-soft:#1B2848; --tag:#FFD23F; --tag-ink:#1B1600;
+  --good:#5BD497; --good-bg:#12301F; --bad:#FF8A80; --bad-bg:#3A1714; --warn-bg:#3A3110; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0C121A; --surface:#141C26; --surface2:#1A2430; --ink:#E7ECF2; --muted:#94A2B4; --line:#273345;
+  --accent:#7C9BFF; --accent-ink:#0A1230; --accent-soft:#1B2848; --tag:#FFD23F; --tag-ink:#1B1600;
+  --good:#5BD497; --good-bg:#12301F; --bad:#FF8A80; --bad-bg:#3A1714; --warn-bg:#3A3110; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.5 var(--body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 56px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:10}
+.shell{max-width:780px;margin:0 auto}
+h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance;letter-spacing:-.01em}
+h2{font-size:21px;line-height:1.2} h3{font-size:16px;line-height:1.3}
+p{margin:0} .mono{font-family:var(--mono)} .muted{color:var(--muted)}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--bg);padding-block:12px 10px}
+.toprow{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.eyebrow{font:600 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+h1{font-size:24px;line-height:1.05}
+.tag{position:relative;display:flex;align-items:center;gap:14px;background:var(--tag);color:var(--tag-ink);
+  padding:7px 18px 7px 32px;clip-path:polygon(16px 0,100% 0,100% 100%,16px 100%,0 50%)}
+.tag::before{content:"";position:absolute;left:13px;top:50%;width:8px;height:8px;margin-top:-4px;border-radius:50%;background:var(--bg)}
+.tag .t{font:600 26px/1 var(--mono);font-variant-numeric:tabular-nums}
+.tag small{display:block;font:600 10px var(--mono);letter-spacing:.08em;text-transform:uppercase;opacity:.75;margin-bottom:2px}
+.tag button{background:var(--tag-ink);color:var(--tag);border:0;border-radius:6px;padding:8px 12px;font:600 13px var(--body);min-height:36px}
+.timer-tools{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:8px;justify-content:flex-end}.timer-tools button{border:1px solid var(--line);background:var(--surface);border-radius:7px;padding:6px 10px;font:600 12px var(--body);min-height:34px}.timer-tools button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}.timer-sub{font:600 10px var(--mono);text-transform:uppercase;letter-spacing:.06em;opacity:.75}
+.tl{display:flex;gap:3px;height:8px;margin-top:12px}
+.seg{position:relative;background:var(--line);border-radius:2px;overflow:hidden}
+.seg i{position:absolute;inset:0 auto 0 0;background:var(--ink);opacity:.55}
+.seg.cur i{background:var(--accent);opacity:1}
+
+.nudge{margin-top:10px}
+.nudge .n{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:var(--warn-bg);border-radius:10px;padding:10px 14px;font-size:14px}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-top:10px;overflow-x:auto}
+.tabs button{background:none;border:0;padding:12px 14px;font-weight:600;color:var(--muted);border-bottom:3px solid transparent;white-space:nowrap;min-height:44px}
+.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+main{padding-top:18px;display:flex;flex-direction:column;gap:16px}
+
+.picker{display:grid;grid-template-columns:repeat(auto-fit,minmax(92px,1fr));gap:6px}
+.picker button{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 8px;text-align:left;min-height:52px;position:relative}
+.picker .r{display:block;font:600 11px var(--mono);color:var(--muted)}
+.picker .n{display:block;font-size:13px;font-weight:600;line-height:1.2}
+.picker button[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.picker button.now::after{content:"now";position:absolute;top:6px;right:6px;font:600 9px var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--accent)}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;min-width:0}
+.card.dash{background:transparent;border-style:dashed}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.btn{background:var(--accent);color:var(--accent-ink);border:0;border-radius:8px;padding:10px 16px;font-weight:600;min-height:44px}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn.sm{min-height:36px;padding:6px 12px;font-size:14px}
+.lnk{background:none;border:0;color:var(--accent);padding:6px 0;font-weight:600}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.stack{display:flex;flex-direction:column;gap:12px}
+.chip{display:inline-block;font:600 12px var(--mono);padding:3px 8px;border-radius:6px;background:var(--surface2);border:1px solid var(--line)}
+.chip.strong{background:var(--good-bg);color:var(--good);border-color:transparent}
+.chip.shaky{background:var(--warn-bg);border-color:transparent}
+.chip.weak{background:var(--bad-bg);color:var(--bad);border-color:transparent}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-block:10px}
+.head{display:flex;justify-content:space-between;gap:12px;align-items:baseline;flex-wrap:wrap}
+.small{font-size:14px} .note{font-size:14px;color:var(--muted)}
+
+.eng-top{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:13px}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin-block:8px 14px}
+.bar i{display:block;height:100%;background:var(--accent)}
+.q{display:flex;flex-direction:column;gap:14px;padding:20px}
+.q .tg{font:600 12px var(--mono);color:var(--muted);letter-spacing:.02em}
+.prompt{font:500 21px/1.35 var(--display);text-wrap:pretty}
+input[type=text],textarea{width:100%;font:500 18px var(--body);padding:12px 14px;border-radius:8px;border:1px solid var(--line);background:var(--surface2);color:var(--ink)}
+textarea{resize:vertical;min-height:84px}
+.opts{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(64px,1fr))}
+.opts.cat{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.opt{background:var(--surface2);border:1px solid var(--line);border-radius:8px;padding:12px;min-height:50px;font-weight:600}
+.opt:hover{border-color:var(--accent)}
+.verdict{border-radius:8px;padding:10px 14px;font-weight:700}
+.verdict.good{background:var(--good-bg);color:var(--good)} .verdict.bad{background:var(--bad-bg);color:var(--bad)} .verdict.info{background:var(--accent-soft)}
+.official{background:var(--surface2);border-radius:8px;padding:12px 14px}
+.official .lbl,.df .lbl{font:600 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:4px}
+.official .ans{font-weight:600;font-size:18px;overflow-wrap:anywhere}
+.official .ans+.ans{margin-top:6px}
+.df{font-size:16px;display:flex;flex-direction:column;gap:8px}
+.df del{color:var(--bad);text-decoration-thickness:2px} .df mark{background:var(--warn-bg);color:inherit;border-bottom:2px solid var(--bad);padding:0 2px}
+.why{font-size:15px;color:var(--muted)}
+.list{display:flex;flex-direction:column;gap:6px;padding:0;margin:0;list-style:none}
+.list li{padding:8px 12px;background:var(--surface2);border-radius:8px;overflow-wrap:anywhere}
+.list.plain li{background:none;padding:2px 0}
+.formula{font:600 14px/1.5 var(--mono);background:var(--accent-soft);border-radius:8px;padding:12px 14px;overflow-wrap:anywhere}
+.pills{display:flex;gap:6px;flex-wrap:wrap}
+.pills button{background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:8px 14px;font-weight:600;font-size:14px;min-height:40px}
+.pills button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.rowitem{display:flex;gap:10px;justify-content:space-between;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.rowitem:last-child{border-bottom:0}
+.rowitem .k{font:600 12px var(--mono);color:var(--muted)}
+.big{font:700 34px/1 var(--display)}
+@media (max-width:480px){h1{font-size:21px}.tag .t{font-size:22px}.prompt{font-size:19px}}
+@media (prefers-reduced-motion:no-preference){.bar i{transition:width .25s}}
+</style>
+
+<div class="shell">
+  <header class="top">
+    <div class="toprow">
+      <div><p class="eyebrow">Unit 3 · Ministry English · 120 min</p><h1>Hard Sell Drill</h1></div>
+      <div><div class="tag" id="tag"><div><small id="tagl">Stopwatch</small><span class="t" id="clock">00:00</span></div><button id="startbtn" data-act="timerToggle">Start</button></div><div class="timer-tools"><button data-act="timerMode" data-mode="stopwatch" aria-pressed="true">Stopwatch</button><button data-act="timerMode" data-mode="pomodoro" aria-pressed="false">Pomodoro</button><button data-act="timerReset">Reset</button></div><div class="timer-tools" id="pomo-settings" hidden><span class="timer-sub" id="pomo-phase">Work · 1/4</span><button data-act="pomoSkip">Skip phase</button></div></div>
+    </div>
+    <div class="tl" id="tl"></div>
+  </header>
+  <div class="nudge" id="nudge"></div>
+  <nav class="tabs" id="tabs">
+    <button data-tab="study">Study</button><button data-tab="grammar">Grammar</button><button data-tab="mistakes">Mistakes</button><button data-tab="report">Report</button>
+  </nav>
+  <main id="view"></main>
+</div>
+
+<script>
+/*DATA-START*/
+const squash=s=>String(s).toLowerCase().replace(/[^a-z0-9]/g,'');
+function variants(a){const o=[a];if(a.indexOf('(')>=0){o.push(a.replace(/\([^)]*\)/g,''));o.push(a.replace(/[()]/g,''));}return o.map(squash).filter(Boolean);}
+const ITEMS={},EXS=[],VGROUPS=[],GRULES=[];
+function reg(it){it.acc=new Set();(it.answers||[]).concat(it.alts||[]).forEach(a=>variants(a).forEach(v=>it.acc.add(v)));ITEMS[it.key]=it;return it;}
+function grade(it,val){
+  val=String(val==null?'':val).trim(); if(!val) return false;
+  if(it.kind==='letter'||it.kind==='cat') return val===it.answers[0];
+  if(it.kind==='num') return Number(val)===Number(it.answers[0]);
+  const s=squash(val); if(it.sw&&s.indexOf(it.sw)===0) return true;
+  return it.acc.has(s);
+}
+function ansList(it){if(it.show) return [].concat(it.show); if(it.kind==='letter') return [it.answers[0].toUpperCase()+(it.txt?' — '+it.txt:'')]; return it.answers;}
+
+const LESSONS={SB1A:"Student's Book 1A · Vocabulary & Speaking (pp. 26–27)",SB2A:"Student's Book 2A · The Art of Persuasion (p. 28)",SB3A:"Student's Book 3A · Speaking & Haggling (p. 29)",SB4A:"Student's Book 4A · Reading, Behavioural Economics (pp. 30–31)",SB5A:"Student's Book 5A · Grammar, The Passive (pp. 32–33)",SB6A:"Student's Book 6A · Collocations (pp. 34–35)",WB1B:"Workbook 1B · Business Vocabulary (pp. 20–21)",WB2B:"Workbook 2B · Listening & Lexis (p. 22)",WB5B:"Workbook 5B · Grammar, The Passive (pp. 23–24)",WBREV:"Workbook · Unit 3 Revision (pp. 25–27)",RES:"Teacher's Resources (Unit 3)"};
+const GAPS=[
+ {l:'ALL',t:"Some activities are open-ended or lack a fixed answer key in the supplied compendium. Those are labelled as self-check prompts rather than invented answer-key questions."},
+ {l:'SB2A',t:"The full audio recordings/transcripts are not reproduced; listening prompts are based only on the supplied compendium."},
+ {l:'SB3A',t:"Ex 2 has only a one-line summary of each dialogue. No dialogue text, no questions."},
+ {l:'SB4A',t:"The reading text and Ex 1 are not in claude.md."},
+ {l:'SB5A',t:"Only Ex 4, 5, 7, 8 and 9 are in claude.md."},
+ {l:'SB6A',t:"Only Ex 2 (collocations) is included. Academic writing is left out, as you asked."},
+ {l:'WB1B',t:"Ex 6, item 1: the answer is not in claude.md."},
+ {l:'WB2B',t:"Only Ex 1 is in claude.md."},
+ {l:'WB5B',t:"Ex 3 (matching reasons a–f) has no answers in claude.md. Ex 7, item 1 has no answer. Ex 1, 5 and 6 are not included."},
+ {l:'WBREV',t:"The Ex 4 reading text is not in claude.md."},
+ {l:'RES',t:"Resource 8 and 9 are word lists with no answer key, so they are not drilled. Resource 10 has only item 1."}
+];
+const NQ="The question text isn't in claude.md. Use your book, then type the official answer.";
+const T=(a,x)=>Object.assign({kind:'text',answers:[a]},x);
+const L=(a,opts,x)=>Object.assign({kind:'letter',answers:[a],opts:opts},x);
+const C=(a,opts,x)=>Object.assign({kind:'cat',answers:[a],opts:opts},x);
+const N=(a,x)=>Object.assign({kind:'num',answers:[String(a)]},x);
+const Sn=(a,x)=>Object.assign({kind:'sentence',answers:[].concat(a)},x);
+function addEx(o){
+  const keys=o.items.map((raw,i)=>{
+    const n=raw.n!=null?raw.n:i+1;
+    const it=Object.assign({kind:'text',note:o.note||''},raw);
+    it.key=o.id+'#'+n; it.n=n; it.type='ex'; it.ex=o.id; it.lesson=o.lesson; it.tag=o.short+' · item '+n;
+    it.prompt=raw.p||(o.prompt?o.prompt(n):o.short+', item '+n);
+    reg(it); return it.key;});
+  EXS.push({id:o.id,lesson:o.lesson,short:o.short,title:o.title,note:o.note,keys:keys});
+}
+const ABCD=['a','b','c','d'], AB=['a','b'], AI=['a','b','c','d','e','f','g','h','i'];
+
+addEx({id:'SB1A2',lesson:'SB1A',short:'SB 1A · Ex 2',title:'Ex 2 · Matching definitions',note:NQ,prompt:n=>'Definition '+n+' of 12: which word or phrase fits?',
+ items:['cost-effective','bargain basement','bespoke','USP (Unique Selling Point)','quote','bricks and mortar','venture','turnover','launching','branching out','price tag','business concept'].map(a=>T(a))});
+const CAT3=['Separate words','Hyphenated','Single word'];
+const cn=(w,a)=>C(a,CAT3,{p:'Compound noun "'+squash(w)+'": how is it written in the text?'});
+addEx({id:'SB1A3',lesson:'SB1A',short:'SB 1A · Ex 3',title:'Ex 3 · Compound nouns',note:'claude.md lists only the sorted answers, so this is a recall check built from that key.',
+ items:[cn('rental company',CAT3[0]),cn('electric mower',CAT3[0]),cn('square feet',CAT3[0]),cn('single day',CAT3[0]),cn('business concept',CAT3[0]),cn('bargain basement',CAT3[0]),cn('upfront investment',CAT3[0]),cn('bricks-and-mortar shop',CAT3[0]),cn('start-up',CAT3[1]),cn('e-commerce',CAT3[1]),cn('word-of-mouth',CAT3[1]),cn('eyesore',CAT3[2]),cn('turnover',CAT3[2])]});
+addEx({id:'SB2A2',lesson:'SB2A',short:'SB 2A · Ex 2',title:'Ex 2 · Persuasion techniques',note:'Built from the answer-key descriptions in claude.md.',
+ items:[
+  T('Yes questions',{alts:['yes question'],p:'Name the technique: asking a run of simple questions that all get the same easy answer, to prime agreement.'}),
+  T('The Scarcity Principle',{alts:['scarcity principle','scarcity'],p:'Name the technique: making goods appear scarce or strictly time-limited to trigger fast purchases.'}),
+  T('Framing',{p:'Name the technique: presenting a product inside an appealing emotional context (selling family happiness, not just property).'}),
+  T('Reciprocation',{p:'Name the technique: offering a small free gift or service so the customer feels obliged to return the favour.'}),
+  T('Social Proof',{p:'Name the technique: using high sales numbers and positive testimonials to show that others approve.'})]});
+addEx({id:'SB3A2',lesson:'SB3A',short:'SB 3A · Ex 2',title:'Ex 2 · Dialogue details',note:'Only a one-line summary of each dialogue is in claude.md. Answer it, reveal it, then rate yourself.',
+ items:[{kind:'self',answers:['Customer and shop assistant discussing return policies on gifts.'],p:'Dialogue 1: who is speaking and what is the topic?'},
+        {kind:'self',answers:['Landlord and prospective tenant negotiating rental terms and discounts.'],p:'Dialogue 2: who is speaking and what is the topic?'}]});
+addEx({id:'SB4A2',lesson:'SB4A',short:'SB 4A · Ex 2',title:'Ex 2 · Reading comprehension',note:NQ,prompt:n=>'Reading question '+n+': choose a, b, c or d.',items:['a','c','b','b','d'].map(a=>L(a,ABCD))});
+addEx({id:'SB4A3',lesson:'SB4A',short:'SB 4A · Ex 3',title:'Ex 3 · Collocation nuances',note:NQ,prompt:n=>'Collocation question '+n+': choose a, b, c or d.',items:['a','c','b','a','b'].map(a=>L(a,ABCD))});
+addEx({id:'SB5A4',lesson:'SB5A',short:'SB 5A · Ex 4',title:'Ex 4 · Passive sentences and reasons',note:'Pick the reason number (1–6) for each sentence in your book.',
+ items:[['a','6'],['b','5'],['c','4'],['d','2'],['e','3'],['f','1']].map(p=>C(p[1],['1','2','3','4','5','6'],{p:'Sentence '+p[0]+': which reason number?'}))});
+addEx({id:'SB5A5',lesson:'SB5A',short:'SB 5A · Ex 5',title:'Ex 5 · Audioscript 3.10 word count',note:'The sentences are not in claude.md. Use the audio or your book.',prompt:n=>'Audioscript 3.10, sentence '+n+': how many words?',items:[8,10,7,7,7,8].map(a=>N(a))});
+addEx({id:'SB5A7',lesson:'SB5A',short:'SB 5A · Ex 7',title:'Ex 7 · Choosing continuations',note:NQ,prompt:n=>'Ex 7, item '+n+': a or b?',
+ items:[L('b',AB,{txt:'It is used for making good decisions in all areas of life.'}),L('a',AB,{txt:'Sameer will probably be given the job.'}),L('a',AB,{txt:'He has just been awarded a promotion.'}),L('b',AB,{txt:'He had been promised a bigger pay rise.'})]});
+addEx({id:'SB5A8',lesson:'SB5A',short:'SB 5A · Ex 8',title:'Ex 8 · Passive transformations',note:'The active sentences are in your book. Write the passive from them, or type "not possible".',prompt:n=>'Ex 8, item '+n+': write the passive sentence, or "not possible".',
+ items:[Sn('Good money had already been spent on the ticket which convinced him to stay.',{why:'The past perfect stays: had spent becomes had been spent.'}),
+  Sn('Too much salt had been added to the food.',{why:'had added becomes had been added.'}),
+  Sn("Not possible in the passive (verb 'be' is intransitive).",{sw:'notpossible',why:"'Be' takes no object, so there is nothing to turn into the subject."}),
+  Sn('It is believed that animals never fall into the trap of the sunk-cost fallacy, only humans.',{why:'Impersonal passive: It is + reporting verb + that-clause.'}),
+  Sn('A terrible mistake was made.',{why:'The agent is dropped to avoid blame.'}),
+  Sn("Not possible in the passive (linking verb 'is' has no direct object).",{sw:'notpossible',why:'A linking verb has no direct object, so no passive.'})]});
+addEx({id:'SB5A9',lesson:'SB5A',short:'SB 5A · Ex 9',title:'Ex 9 · Passive choices in context',note:'Type the exact words that fill the gap in your book.',prompt:n=>'Ex 9, gap '+n+': type the correct choice.',
+ items:['economics is used','at least a basic knowledge of economics is required','It is often said','we are taught','We have to take our unconscious biases and tendencies into account','we have never been made aware of them','we are taught'].map(a=>Sn(a))});
+addEx({id:'SB6A2',lesson:'SB6A',short:'SB 6A · Ex 2',title:'Ex 2 · Shopping collocations',note:NQ,prompt:n=>'Ex 2, gap '+n+' of 8: which word or phrase?',
+ items:['shop around','buy (in bulk)','run (errands)','stock up (on essentials)','mooch around','go on (a shopping spree)','display (wares)','carry'].map(a=>T(a))});
+
+addEx({id:'WB1B1',lesson:'WB1B',short:'WB 1B · Ex 1',title:'Ex 1 · Word completion',note:NQ,prompt:n=>'Ex 1, item '+n+' of 9: which word or phrase?',items:['USP','venture','price tag','bargain basement','bespoke','launch','quote','turnover','cost-effective'].map(a=>T(a))});
+addEx({id:'WB1B2',lesson:'WB1B',short:'WB 1B · Ex 2',title:'Ex 2 · Sentence matching',note:NQ,prompt:n=>'Ex 2, item '+n+': which letter (a–i)?',items:['c','d','b','f','i','h','a','g','e'].map(a=>L(a,AI))});
+addEx({id:'WB1B3',lesson:'WB1B',short:'WB 1B · Ex 3',title:'Ex 3 · Word choice',note:NQ,prompt:n=>'Ex 3, item '+n+' of 7: type the missing word.',
+ items:[T('tag',{alts:['price tag'],show:'tag (price tag)'}),T('buys',{alts:['impulse buys'],show:'buys (impulse buys)'}),T('-mouth',{alts:['word-of-mouth','mouth'],show:'-mouth (word-of-mouth)'}),T('start-up'),T('gimmick',{alts:['sales gimmick'],show:'gimmick (sales gimmick)'}),T('bespoke'),T('goods',{alts:['luxury goods'],show:'goods (luxury goods)'})]});
+addEx({id:'WB1B4',lesson:'WB1B',short:'WB 1B · Ex 4',title:'Ex 4 · Sentence completion',note:NQ,prompt:n=>'Ex 4, item '+n+' of 8: which word or phrase?',items:['luxury goods','impulse buys','start-ups','USP','sales gimmick','upfront investment','word-of-mouth','price tag'].map(a=>T(a))});
+addEx({id:'WB1B5',lesson:'WB1B',short:'WB 1B · Ex 5',title:'Ex 5 · Verb selection',note:NQ,prompt:n=>'Ex 5, item '+n+' of 6: which verb form?',items:['owes','financed','discounted','budgeting','refunding','valued'].map(a=>T(a))});
+addEx({id:'WB1B6',lesson:'WB1B',short:'WB 1B · Ex 6',title:'Ex 6 · Text completion',note:'Item 1 is not in claude.md, so the drill starts at gap 2.',prompt:n=>'Ex 6, gap '+n+': what fills it?',
+ items:[T('concept',{n:2}),T('start-up',{n:3}),T('USP',{n:4}),T('bricks, mortar',{n:5,alts:['bricks and mortar','bricks-and-mortar'],p:'Ex 6, gap 5: two words fill the gaps in "bricks-and-mortar". Type them.'}),T('upfront investment',{n:6}),T('launch',{n:7}),T('cost-effective',{n:8}),T('word, mouth',{n:9,alts:['word of mouth','word-of-mouth'],p:'Ex 6, gap 9: two words fill the gaps in "word-of-mouth". Type them.'})]});
+addEx({id:'WB2B1',lesson:'WB2B',short:'WB 2B · Ex 1',title:'Ex 1 · Personality words',note:'Box: gullible, ingenious, naive, shrewd, trusting.',prompt:n=>'Ex 1, item '+n+' of 5. Box: gullible, ingenious, naive, shrewd, trusting. Which word?',items:['trusting','naive','shrewd','gullible','ingenious'].map(a=>T(a))});
+
+addEx({id:'WB5B2',lesson:'WB5B',short:'WB 5B · Ex 2',title:'Ex 2 · Passive re-writes',note:'The active sentences are in your book. Write the passive from them.',prompt:n=>'Ex 2, item '+n+' of 6: write the passive sentence.',
+ items:[Sn('All shoplifters will be prosecuted.'),Sn('82 percent of consumers have been convinced to make a purchase after reading the review.'),Sn('The shop assistant was sacked (by the manager).'),Sn('Over 93 percent of consumers are influenced by genuine individual online reviews of products.'),Sn('It is thought that shopping will always be a social experience.'),Sn('The dishes were not washed last night.')]});
+addEx({id:'WB5B4',lesson:'WB5B',short:'WB 5B · Ex 4',title:'Ex 4 · Choosing continuations',note:NQ,prompt:n=>'Ex 4, item '+n+': a or b?',
+ items:[L('b',AB,{txt:'She sells them online.'}),L('a',AB,{txt:'It was visited by over three million people last year.'}),L('a',AB,{txt:'Did you read the washing instructions?'}),L('b',AB,{txt:'She sells more than anyone else on the team.'}),L('a',AB,{txt:'The street was originally built by the Romans.'}),L('b',AB,{txt:'Pedestrianisation is therefore being considered.'})]});
+addEx({id:'WB5B7',lesson:'WB5B',short:'WB 5B · Ex 7',title:'Ex 7 · Verb forms',note:'Item 1 is not in claude.md, so the drill starts at gap 2.',prompt:n=>'Ex 7, gap '+n+': type the verb form.',
+ items:[T('to stop',{n:2}),T('will be delivered',{n:3}),T('have been using',{n:4}),T('has been ordered',{n:5}),T('will be ironed out',{n:6})]});
+
+addEx({id:'WBREV1',lesson:'WBREV',short:'WB Revision · Ex 1',title:'Ex 1 · Vocabulary and grammar',note:NQ,prompt:n=>'Revision Ex 1, item '+n+' of 6: which word?',items:['gimmicks','impulse','margins','spree','goods','concept'].map(a=>T(a))});
+addEx({id:'WBREV2',lesson:'WBREV',short:'WB Revision · Ex 2',title:'Ex 2 · Two-object passives',note:'Either passive pattern is accepted. Learn both.',prompt:n=>'Revision Ex 2, item '+n+': write a passive version.',
+ items:[Sn(['We were lent the money to develop the website.','The money was lent to us to develop the website.']),
+  Sn(["The board will be given the accountants' reports next week.",'The reports by the accountants will be given to the board next week.']),
+  Sn(['Thousands of clients had been sent warnings about the new scams by the bank.','Warnings of new scams had been sent to thousands of clients (by the bank).']),
+  Sn(['She has been owed significant amounts of money by some customers for a long time.','Significant amounts of money has been owed to her by some customers for a long time.'],{alts:['Significant amounts of money have been owed to her by some customers for a long time.'],why:"The key prints 'money has been owed'. Standard grammar is 'have been owed'. Learn the key's wording for the exam."})]});
+addEx({id:'WBREV3',lesson:'WBREV',short:'WB Revision · Ex 3',title:'Ex 3 · Key word transformations',note:'Type only the missing words, exactly as in the key.',prompt:n=>'Revision Ex 3, item '+n+': type the missing words.',
+ items:['have to be implemented','to buy in bulk if you','we being given a choice','children run errands for them','booking, insurance was sold to us'].map(a=>Sn(a))});
+addEx({id:'WBREV4',lesson:'WBREV',short:'WB Revision · Ex 4',title:'Ex 4 · Reading comprehension',note:NQ,prompt:n=>'Revision Ex 4, question '+n+': choose a, b, c or d.',items:['b','c','c','a','c'].map(a=>L(a,ABCD))});
+addEx({id:'RES10',lesson:'RES',short:'Resource 10',title:'Resource 10 · Error correction',note:'Only item 1 is in claude.md.',
+ items:[T('made',{alts:['is made'],p:'Resource 10, item 1: correct the error in "Phosphorus is make from phosphate rock…".'})]});
+
+const VOC=[
+['Business terms 1',[
+ ['USP','A distinct feature or benefit of a product/service that differentiates it from competitors.',{alts:['unique selling point','unique selling proposition'],label:'USP (Unique Selling Point / Proposition)'}],
+ ['venture','A commercial project or business undertaking, especially one involving financial risk.'],
+ ['price tag','The literal or figurative monetary cost attached to an item or service.'],
+ ['bargain basement','Extremely inexpensive; sold at the lowest possible price level.'],
+ ['bespoke',"Custom-made or tailored specifically to an individual customer's specifications."]]],
+['Business terms 2',[
+ ['launch','Introducing and releasing a new product, brand, or service onto the open market for the first time.',{alts:['launching'],label:'launch (v / n)'}],
+ ['quote','An official formal estimate of the expected cost for specified work or services.'],
+ ['turnover','The total gross revenue or volume of trade generated by a company over a specific time frame.'],
+ ['cost-effective','Economical in terms of producing maximum profit or benefit relative to expenditure.'],
+ ['bricks-and-mortar','A traditional physical retail storefront or building, as opposed to an e-commerce platform.',{alts:['bricks and mortar']}]]],
+['Business terms 3',[
+ ['impulse buy','An unplanned, spur-of-the-moment purchase made on sudden desire.',{alts:['impulse buys']}],
+ ['upfront investment','The initial capital or funds required to establish, launch, or initiate a venture.'],
+ ['start-up','A recently founded, early-stage business enterprise aiming for scalable growth.',{alts:['start-ups']}],
+ ['sales gimmick','A novelty feature or promotional trick designed to attract attention rather than provide utility.'],
+ ['luxury goods','High-end, premium items that are desirable but non-essential.']]],
+['Business terms 4',[
+ ['branching out','Expanding a commercial venture into new markets, products, or service lines.',{alts:['branch out']}],
+ ['profit margin','The net difference between the cost of producing or acquiring an item and its selling price.',{alts:['profit margins']}],
+ ['business concept','The core premise or underlying commercial idea behind an enterprise.'],
+ ['word-of-mouth','Promotion resulting from satisfied customers sharing endorsements verbally or organically.'],
+ ['trade name','The operational name under which a business entity conducts commercial activities.']]],
+['Persuasion verbs 1',[
+ ['persuade','To induce someone to believe or act through reasoned reasoning or argument.'],
+ ['cajole','To persuade through sustained flattery, pleasant talk, or teasing.'],
+ ['coax','To gently and patiently persuade someone to do something.'],
+ ['entice','To attract by offering an alluring advantage, pleasure, or reward.'],
+ ['incite','To encourage or stir up violent, unlawful, or rash behavior.']]],
+['Persuasion verbs 2 and traits',[
+ ['urge','To strongly advise, advocate, or press someone to take immediate action.'],
+ ['coerce','To compel or force someone to act through threats or intimidation.'],
+ ['shrewd','Having or showing sharp powers of judgment; astute and commercially perceptive.'],
+ ['gullible','Easily deceived, tricked, or cheated; overly willing to accept false claims.'],
+ ['naive','Lacking experience, wisdom, or critical judgment; innocent to a fault.']]],
+['Traits and sunk cost',[
+ ['ingenuous','Innocent, unsuspecting, and openly sincere (often used in contrast with calculated deceit).'],
+ ['ingenious','Clever, original, and inventive in concept or design.'],
+ ['trusting','Inclined to trust others readily; believing in the honesty and reliability of people.'],
+ ['sunk-cost fallacy','Continuing an endeavour or consumption habit once money, effort, or time has been invested, even if the ongoing cost clearly outweighs future returns.',{alts:['sunk cost fallacy','sunk cost']}]]],
+['Sales psychology',[
+ ['yes questions','A run of easy, non-threatening questions with an obvious positive reply, so a later "no" feels awkward.',{alts:["'yes questions'"]}],
+ ['the scarcity principle','Making stock seem finite or time strictly limited ("only two left", "sale ends today"); fear of missing out raises perceived value.',{alts:['scarcity principle','scarcity']}],
+ ['framing','Positioning the purchase inside an emotional or aspirational story, such as family happiness in a new home rather than brick dimensions.'],
+ ['reciprocation','Giving a free gift, trial, or service upfront, which creates an unspoken obligation to buy.',{alts:['the norm of reciprocity','norm of reciprocity']}],
+ ['social proof','Showing reviews, testimonials, or high demand ("over 93% of customers approve"), because people follow what others do.']]],
+['Shopping collocations 1',[
+ ['shop around','Compare prices and quality across various vendors before purchasing.',{alts:['shop around for the best deal']}],
+ ['buy in bulk','Purchase large quantities of goods at once, usually at reduced unit prices.'],
+ ['run errands','Undertake routine short journeys to complete daily tasks (groceries, dry cleaning, post office).',{alts:['run an errand']}],
+ ['stock up on essentials','Amass or store adequate reserves of critical supplies.',{alts:['stock up']}],
+ ['mooch around the shops','Browse casually through stores without an urgent or specific intent to buy.',{alts:['mooch around']}]]],
+['Shopping collocations 2',[
+ ['go on a shopping spree','Engage in a lively, excessive period of spending and shopping.',{alts:['shopping spree','go on shopping spree']}],
+ ['display wares','Exhibit goods or merchandise prominently for sale.'],
+ ['splash out','Spend an extravagantly large amount of money on a luxury.',{alts:['splash out on'],label:'splash out (on)'}]]]
+];
+VOC.forEach(function(g){
+  const keys=g[1].map(function(r){const o=r[2]||{};
+    const it={key:'V:'+r[0],type:'vocab',kind:'text',tag:'Vocabulary · '+g[0],prompt:'Which word or phrase means: '+r[1],answers:[o.label||r[0]],alts:[r[0]].concat(o.alts||[]),learnTerm:o.label||r[0],learnDef:r[1],hint:r[0],note:'',lesson:'VOC'};
+    reg(it);return it.key;});
+  VGROUPS.push({name:g[0],keys:keys,cloze:false});
+});
+const NEG=[['Can we meet ____?','halfway'],["I'm prepared to meet you in the ____.",'middle'],['Could you throw in an extra item to ____ the deal?','sweeten'],['The ____ line is…','bottom'],["That's a bit out of my ____.",'budget'],['That is my final ____.','offer'],['I cannot go any ____ than that.','lower'],["It's a ____.",'deal'],["I'm afraid I'll have to ____ on that.",'pass']];
+(function(){
+  const keys=NEG.map(function(r,i){const it={key:'N:'+(i+1),type:'vocab',kind:'text',tag:'Vocabulary · Negotiating phrases',prompt:'Fill the gap: "'+r[0]+'"',answers:[r[1]],learnTerm:r[0].replace('____','«'+r[1]+'»'),learnDef:'',hint:r[1],note:'',lesson:'VOC'};reg(it);return it.key;});
+  VGROUPS.push({name:'Negotiating phrases',keys:keys,cloze:true});
+})();
+
+const GP=function(id,list){return list.map(function(r,i){const it=Object.assign({key:'G:'+id+'#'+(i+1),type:'gram',lesson:'GRAM',kind:'sentence',note:'Tutor practice, not from your textbook.',tag:'Grammar · '+id+' · '+(i+1)},r);it.prompt=r.p;reg(it);return it.key;});};
+const CAT_WHY=['Agent unknown','Agent obvious','Avoids blame','Impersonal / objective'];
+GRULES.push({id:'why',title:'Why use the passive',src:'Grammar Reference, section 5.1',
+ explain:['Focus on the action or the receiver, not the doer.','Agent unknown ("My wallet was stolen last night") or obvious ("All shoplifters will be prosecuted").','Impersonal, objective tone in academic, news and legal writing ("It is believed that…").','Avoids personal blame: "A terrible mistake was made."','Puts new or heavy information at the end of the sentence (end-weight).','Avoids starting a sentence with a long, clumsy subject clause.'],
+ formula:'Add "by + agent" only when the agent is new or important information.',
+ examples:['My wallet was stolen last night. (agent unknown)','All shoplifters will be prosecuted. (agent obvious)','A terrible mistake was made. (avoids blame)'],
+ mistakes:['Adding "by the police" when the agent is obvious.','Adding "by someone" when the agent is unknown.'],
+ keys:GP('why',[
+  {p:'"My wallet was stolen last night." Main reason for the passive?',kind:'cat',opts:CAT_WHY,answers:['Agent unknown']},
+  {p:'"All shoplifters will be prosecuted." Main reason for the passive?',kind:'cat',opts:CAT_WHY,answers:['Agent obvious']},
+  {p:'"A terrible mistake was made." Main reason for the passive?',kind:'cat',opts:CAT_WHY,answers:['Avoids blame']},
+  {p:'"It is believed that animals never fall into the trap of the sunk-cost fallacy, only humans." Main reason?',kind:'cat',opts:CAT_WHY,answers:['Impersonal / objective']}])});
+GRULES.push({id:'form',title:'Forming the passive',src:'Grammar Reference, sections 5.1 and 5.3 plus your answer keys',
+ explain:['The object of the active verb becomes the subject.','Use "be" in the same tense as the active verb, then the past participle.','Add "by + agent" only when it is needed.'],
+ formula:'Object + be (same tense as the active verb) + past participle (+ by agent)',
+ examples:['Present simple: is/are + pp → Economics is used…','Past simple: was/were + pp → A terrible mistake was made.','Present perfect: has/have been + pp → 82 percent of consumers have been convinced…','Past perfect: had been + pp → Too much salt had been added to the food.','Future: will be + pp → The minor issues will be ironed out.','Present continuous: is/are being + pp → Pedestrianisation is being considered.'],
+ mistakes:['Dropping "been" in perfect tenses: has ordered ✗, has been ordered ✓.','Using the base form: "is make" ✗, "is made" ✓ (Resource 10, item 1).','Changing the tense when you switch to the passive.'],
+ keys:GP('form',[
+  {p:'Active: "They have cancelled the sale." Write the passive.',answers:['The sale has been cancelled.'],alts:['The sale has been canceled.'],why:'Present perfect: has cancelled becomes has been cancelled.'},
+  {p:'Active: "The manager sacked the assistant." Write the passive with the agent.',answers:['The assistant was sacked by the manager.'],why:'Past simple: was + past participle, then by + agent.'},
+  {p:'Active: "Staff are checking the stock." Write the passive without the agent.',answers:['The stock is being checked.'],alts:['The stock is being checked by staff.'],why:'Present continuous: is being + past participle.'},
+  {p:'Active: "The bank had sent warnings." Write the passive.',answers:['Warnings had been sent by the bank.'],alts:['Warnings had been sent.'],why:'Past perfect: had been + past participle.'}])});
+GRULES.push({id:'two',title:'Verbs with two objects',src:'Grammar Reference, section 5.2',
+ explain:['Verbs: give, lend, owe, promise, send, offer, award, sell, show, buy.','Pattern A (common): the person (indirect object) becomes the subject.','Pattern B (emphatic): the thing (direct object) becomes the subject, then to/for + person.','English puts known information first and the newest information last.'],
+ formula:'A: Person + be + pp + thing\nB: Thing + be + pp + to + person',
+ examples:['They lent us the money.','A → We were lent the money.','B → The money was lent to us.','Sameer will probably be given the job. (A)','He has just been awarded a promotion. (A)'],
+ mistakes:['Forgetting "to" in pattern B: "The money was lent us" ✗.','Putting "to" into pattern A.'],
+ keys:GP('two',[
+  {p:'Pattern A. Active: "They offered her the job."',answers:['She was offered the job.']},
+  {p:'Pattern B. Active: "They sent the board the report."',answers:['The report was sent to the board.']},
+  {p:'Pattern A. Active: "They will give the staff a bonus."',answers:['The staff will be given a bonus.']},
+  {p:'Pattern B. Active: "They showed us the plan."',answers:['The plan was shown to us.']}])});
+GRULES.push({id:'imp',title:'Impersonal passive',src:'Grammar Reference, section 5.3',
+ explain:['Reporting verbs: believe, consider, expect, report, say, think, understand.','Pattern 1: It + be + pp + that-clause.','Pattern 2: Subject + be + pp + to-infinitive.'],
+ formula:'It is thought that + clause\nSubject is thought to + infinitive',
+ examples:['It is thought that shopping will always remain a social experience.','Shopping is thought to be an enduring social experience.'],
+ mistakes:['Mixing the patterns: "It is thought to be…" ✗.','Using an active reporting verb: "It thinks that…" ✗.'],
+ keys:GP('imp',[
+  {p:'Rewrite with "It": "People believe that prices will rise."',answers:['It is believed that prices will rise.']},
+  {p:'Rewrite with "to": "People say that online shopping is growing."',answers:['Online shopping is said to be growing.'],alts:['Online shopping is said to grow.']},
+  {p:'Rewrite with "It": "Experts expect that sales will fall."',answers:['It is expected that sales will fall.']}])});
+GRULES.push({id:'phr',title:'Prepositional and phrasal verbs',src:'Grammar Reference, section 5.4',
+ explain:['The preposition or particle stays directly after the past participle.','This works for phrasal verbs and prepositional verbs.'],
+ formula:'Object + be + pp + particle/preposition',
+ examples:['They broke into the warehouse. → The warehouse was broken into.','We must iron out the minor issues. → The minor issues will be ironed out.'],
+ mistakes:['Dropping the particle: "The warehouse was broken" ✗.','Moving the particle: "The issues were out ironed" ✗.'],
+ keys:GP('phr',[
+  {p:'"They looked into the complaint." Write the passive.',answers:['The complaint was looked into.']},
+  {p:'"We will sort out the details." Write the passive.',answers:['The details will be sorted out.']},
+  {p:'"They have called off the sale." Write the passive.',answers:['The sale has been called off.']}])});
+GRULES.push({id:'no',title:'When no passive is possible',src:'Your answer key, SB 5A Ex 8 items 3 and 6',
+ explain:['Only transitive verbs (verbs with a direct object) have a passive.','Intransitive verbs (happen, arrive, end, be) and linking verbs (be, seem, become) cannot be passive.'],
+ formula:'No direct object → no passive',
+ examples:["Not possible: verb 'be' is intransitive.","Not possible: linking verb 'is' has no direct object."],
+ mistakes:['Forcing a passive out of "is" or "was".','Passivising a verb that has no object.'],
+ keys:GP('no',[
+  {p:'"They sold the house." Can it become passive?',kind:'cat',opts:['Possible','Not possible'],answers:['Possible']},
+  {p:'"The price is too high." Can it become passive?',kind:'cat',opts:['Possible','Not possible'],answers:['Not possible'],why:'"Is" is a linking verb with no direct object.'},
+  {p:'"The sale ends today." Can it become passive?',kind:'cat',opts:['Possible','Not possible'],answers:['Not possible'],why:'"End" is intransitive here: no object.'},
+  {p:'"The bank sent warnings." Can it become passive?',kind:'cat',opts:['Possible','Not possible'],answers:['Possible']}])});
+
+ /* Additional question text from the supplied Unit 3 compendium */
+ addEx({id:'SB1A4',lesson:'SB1A',short:'SB 1A · Ex 4',title:'Ex 4 · Compound noun gap-fill',note:'Complete each sentence with the missing compound noun part.',items:[
+  T('gimmick',{p:'The free coffee they give you is just a sales _____ to get you into the showroom.'}),
+  T('investment',{p:'Buying all this new manufacturing machinery requires a major upfront _____.'}),
+  T('start-up',{p:'They started out in a garage, but now their tech _____ is worth millions.',alts:['startup','start up']}),
+  T('buy',{p:'Placing chocolate bars near the cash register tempts customers into making an impulse _____.'})
+ ]});
+ addEx({id:'SB1A6',lesson:'SB1A',short:'SB 1A · Ex 6',title:'Ex 6 · Business phrasal verbs',note:'Complete each sentence with the phrasal verb.',items:[
+  T('set up',{p:'It took months of planning to _____ the new delivery company.'}),
+  T('break into',{p:'Without an established brand, it is tough to _____ the luxury goods sector.'}),
+  T('pass up',{p:"That franchise contract was an incredible opportunity; I couldn't _____ it."}),
+  T('sign up',{p:'Our goal this month is to _____ fifty new corporate clients for our subscription.'}),
+  T('building up',{p:'By prioritizing great customer care, they are steadily _____ their client base.'}),
+  T('win them over',{p:'The presentation was brilliant and managed to _____ the skeptical investors.'}),
+  T('knock off',{p:'If you pay in cash upfront, the vendor might _____ ten percent of the price.',alts:['knock quite a lot off']})
+ ]});
+ addEx({id:'SB2A3',lesson:'SB2A',short:'SB 2A · Ex 3',title:'Ex 3 · Persuasion listening',note:'Choose the correct answer from the audioscript questions.',items:[
+  L('c',ABCD,{p:'The interviewer bought the orange coat because:'}),
+  L('c',ABCD,{p:"Adnan notes that the 'yes ladder' functions because:"}),
+  L('a',ABCD,{p:'The scarcity principle works best when shoppers:'}),
+  L('b',ABCD,{p:'When Lama discusses framing, she highlights that:'}),
+  L('b',ABCD,{p:'What does Adnan remember about asking his parents to let him attend an event?'})
+ ]});
+ addEx({id:'SB2A4',lesson:'SB2A',short:'SB 2A · Ex 4',title:'Ex 4 · Persuasion verb meanings',note:'Recall the category or meaning from the compendium.',items:[
+  T('coerce, incite, pressure, urge',{p:'Which verbs express strong persuasion without much choice?',alts:['coerce incite pressure urge']}),
+  T('cajole, coax, entice',{p:'Which verbs mean persuading by being extra nice, patient or flattering?',alts:['cajole coax entice']}),
+  T('convince, sway',{p:'Which verbs express neutral persuasion?',alts:['convince sway']}),
+  T('entice',{p:'Which verb means attracting someone by offering a reward or pleasant thing?'}),
+  T('sway',{p:"Which verb means influencing or swinging someone's opinion?"}),
+  T('incite',{p:'Which verb means encouraging someone to commit an unlawful or reckless act?'})
+ ]});
+ addEx({id:'SB2A5',lesson:'SB2A',short:'SB 2A · Ex 5',title:'Ex 5 · Persuasion sentence rewrites',note:'Write the rewritten sentence. The official key allows the alternatives shown.',items:[
+  Sn('She coaxed the child to clean her teeth.',{p:'Rewrite using (coax): She persuaded the toddler patiently to brush her teeth.',alts:['She coaxed the child into cleaning her teeth.','She coaxed the toddler to brush her teeth.']}),
+  Sn('They enticed her away from her job with promises of a better salary.',{p:'Rewrite using (entice): The rival tech firm offered her a much higher salary so she would resign.',alts:['They enticed her to leave her job with promises of a better salary.','They enticed her into leaving her job with promises of a better salary.']}),
+  Sn('She cajoled us into working late.',{p:'Rewrite using (cajole): Through persistent sweet-talking and flattery, she convinced us to stay late.'}),
+  Sn('She urged the team to take responsibility.',{p:'Rewrite using (urge): The manager told the team very strongly to accept responsibility.',alts:['She urged the team into taking responsibility.']}),
+  Sn('He tried to incite his brother to do it.',{p:'Rewrite using (incite): He provoked and pushed his younger brother to do the reckless stunt.'})
+ ]});
+ addEx({id:'SB3A3',lesson:'SB3A',short:'SB 3A · Ex 3',title:'Ex 3 · Functional haggling phrases',note:'Identify the dialogue: A = shop return, B = rental negotiation.',items:[
+  ...['This is a bit awkward, but ...',"I'd like to say yes, but ...",'Would you be prepared to ...',"I can see what you're saying, but ...",'At the end of the day ...',"It has to be 'no'.",'I’m wondering if there’s any flexibility ...?',"I'm afraid that's a bit less than I'd be willing to accept.",'The bottom line is ...','Can we try and meet halfway on this?'].map((p,i)=>C(i<6?'A':'B',['A','B'],{p:'Which dialogue does this phrase belong to? “'+p+'”'}))
+ ]});
+ addEx({id:'SB5A1',lesson:'SB5A',short:'SB 5A · Ex 1–2',title:'Ex 1–2 · Passive grammar analysis',note:'Answer using the grammar analysis in the compendium.',items:[
+  T('Passive verb structures',{p:'What do the underlined phrases “had had the photos digitally altered”, “were shown the photos”, and “could be transferred” have in common grammatically?',alts:['They are all passive structures.']}),
+  T('Different tenses and forms: past perfect passive, past simple passive and modal passive',{p:'How are the three underlined passive phrases grammatically different.',alts:['Different tenses and forms']})
+ ]});
+ addEx({id:'SB5A6',lesson:'SB5A',short:'SB 5A · Ex 6',title:'Ex 6 · Passive gap-fill',note:'Complete each gap with the correct passive form.',items:[
+  Sn('be developed',{p:'The skills that can _____ (develop) from studying economics may be transferred to numerous industries.'}),
+  Sn('be transferred',{p:'The skills may _____ (transfer) to numerous industries.'}),
+  Sn('are required',{p:'During the course, you _____ (require) to employ critical thinking skills.'}),
+  Sn('be solved',{p:'Complex problems can _____ (solve).'}),
+  Sn('has been found',{p:'Recently, it _____ (find) that economics graduates receive high starting salaries.'}),
+  Sn('are awarded',{p:'Economics graduates _____ (award) some of the highest starting salaries.'}),
+  Sn('be employed',{p:'Many graduates can _____ (employ) in banking, policy, or consultancy.'}),
+  Sn('are often perceived',{p:'They _____ (often perceive) as valuable assets to any organisation.'})
+ ]});
+ addEx({id:'SB5A6B',lesson:'SB5A',short:'SB 5A · Ex 6',title:'Ex 6 · Passive gap-fill (continued)',note:'Additional gaps from the same text.',items:[]});
+ addEx({id:'SB6A3',lesson:'SB6A',short:'SB 6A · Ex 3',title:'Ex 3 · Evaluating essay introductions',note:'The source compendium gives the exercise heading but no full questions or answer key. Use your book and self-check.',items:[
+  {kind:'self',answers:['Evaluate the essay introductions using the criteria in the Student’s Book.'],p:'Evaluate the essay introductions in your book. What makes an introduction effective?'}
+ ]});
+ addEx({id:'WB5B1',lesson:'WB5B',short:'WB 5B · Ex 1',title:'Ex 1 · Correct passive errors',note:'Correct each sentence.',items:[
+  Sn('Phosphorus is made from phosphate rock.',{p:'Correct the error: “Phosphorus is make from phosphate rock.”'}),
+  Sn('The historical corn exchange building cannot be altered without permission.',{p:'Correct the error: “The historical corn exchange building cannot altered without permission.”'}),
+  Sn('In Victorian times, corn was traded there.',{p:'Correct the error: “In Victorian times, corn traded there.”'}),
+  Sn('Recently, it has been refurbished and is now home to many independent shops.',{p:'Correct the error: “Recently, it been refurbished and is now home to many independent shops.”'}),
+  Sn('The interior of the building is considered to be one of the finest in the country.',{p:'Correct the error: “The interior of the building considered to be one of the finest in the country.”'})
+ ]});
+ addEx({id:'WB5B3',lesson:'WB5B',short:'WB 5B · Ex 3',title:'Ex 3 · Match passive reasons',note:'Match each reason to the sentence number from Exercise 2.',items:[
+  C('5',['1','2','3','4','5','6'],{p:'Reason a: We want to sound more objective or talk about general opinions. Which sentence?'}),
+  C('2',['1','2','3','4','5','6'],{p:'Reason b: New or most interesting information tends to come at the end. Which sentence?'}),
+  C('3',['1','2','3','4','5','6'],{p:'Reason c: It is obvious who carried out the action. Which sentence?'}),
+  C('1',['1','2','3','4','5','6'],{p:'Reason d: We want to avoid personal responsibility or blame. Which sentence?'}),
+  C('6',['1','2','3','4','5','6'],{p:'Reason e: We are more interested in the action than who does it. Which sentence?'}),
+  C('4',['1','2','3','4','5','6'],{p:'Reason f: Avoid starting with a long complex subject. Which sentence?'})
+ ]});
+ addEx({id:'WB5B5',lesson:'WB5B',short:'WB 5B · Ex 5',title:'Ex 5 · Southdale Center verb forms',note:'Complete with the correct active or passive form.',items:[
+  Sn("'ve been designed / are designed",{p:'Malls _____ (design) to provide an indoor suburban downtown.'}),
+  Sn('to come across',{p:'Consumers were surprised _____ (come) across so many shops in one temperature-controlled space.'}),
+  Sn('is known',{p:'The phenomenon of consumers spending more money than intended _____ (know) as the Gruen effect.'}),
+  Sn('occurs',{p:'This psychological effect _____ (occur) when deliberate design confuses shoppers.'}),
+  Sn('was named',{p:"The store Dayton's in the first shopping mall _____ (name) after the family that owned the mall."}),
+  Sn('is said',{p:'Unfortunately, it _____ (say) that the effect was not intentional.'}),
+  Sn('to be experienced',{p:'Designers simply wanted shopping _____ (experience) as a social event.'})
+ ]});
+ addEx({id:'WB5B6',lesson:'WB5B',short:'WB 5B · Ex 6',title:'Ex 6 · Ditransitive passive transformations',note:'Rewrite using a different grammatical subject.',items:[
+  Sn('A discount will be offered to all employees.',{p:'Rewrite with a different subject: “All employees will be offered a discount.”'}),
+  Sn('A refund is owed to me.',{p:'Rewrite with a different subject: “I am owed a refund.”'}),
+  Sn('The plans for the new shopping mall have been shown to me.',{p:'Rewrite with a different subject: “I have been shown the plans for the new shopping mall.”'}),
+  Sn('A shopping basket had been given to her.',{p:'Rewrite with a different subject: “She had been given a shopping basket.”'}),
+  Sn('A freebie was given to all the customers.',{p:'Rewrite with a different subject: “All the customers were given a freebie.”'})
+ ]});
+ addEx({id:'RES8',lesson:'RES',short:'Resource 8',title:'Resource 8 · A Head for Business',note:'The compendium gives a planning/writing activity, not a fixed answer key. Use this as a recall prompt.',items:[
+  {kind:'self',answers:['Plan an unusual business concept using the target vocabulary.'],p:'Plan an unusual business concept using as many target words as possible.'}
+ ]});
+ addEx({id:'RES9',lesson:'RES',short:'Resource 9',title:'Resource 9 · Persuasion phrasal verbs',note:'Complete each transcript gap with a phrasal verb from the box.',items:[
+  T('looking for',{p:'I had not really planned to get a coat at all – I was actually _____ a pair of trousers.'}),
+  T('ended up',{p:'The long and short of it is that I _____ buying that coat.'}),
+  T('trying on',{p:'...agree with her about _____ the coat and eventually purchasing it.'}),
+  T('climb up',{p:'...the yes ladder because you _____ from very small requests up to what you really want.'}),
+  T('missing out',{p:'...wonder if you might be _____ if you did not get it right away.'}),
+  T('bring out',{p:'...companies _____ limited editions of certain products.'}),
+  T('look at',{p:"...it's all about how you _____ it."}),
+  T('go out',{p:'...convince your parents to let you _____ for the afternoon.'}),
+  T('win over',{p:'...give a potential customer a gift to _____ them _____.'}),
+  T('Growing up',{p:'_____ with adverts everywhere makes us feel we need new gadgets.'}),
+  T('Looking back',{p:'_____ on the purchase, I realize I was influenced.'})
+ ]});
+ addEx({id:'RES10FULL',lesson:'RES',short:'Resource 10',title:'Resource 10 · Jordan passive corrections',note:'Correct the passive errors in the resource sentences.',items:[
+  Sn('Phosphorus is made from phosphate rock.',{p:'Correct: “Phosphorus is make from phosphate rock, and is an essential element for plants and animals.”'}),
+  Sn('Vast quantities of phosphate rock are mined in Jordan every year.',{p:'Correct: “Vast quantities of phosphate rock mined in Jordan every year.”'}),
+  Sn('The extracted minerals are transported by train to Aqaba.',{p:'Correct: “The extracted minerals transport by train to Aqaba.”'}),
+  Sn('Raw oil is refined at the Aqaba facilities before export.',{p:'Correct: “Raw oil is refine at the Aqaba facilities before export.”'}),
+  Sn('It is known that Jordan possesses some of the world’s largest phosphate reserves.',{p:'Correct: “It know that Jordan possesses some of the world’s largest phosphate reserves.”'})
+ ]});
+
+
+ addEx({id:'SB1A1',lesson:'SB1A',short:'SB 1A · Ex 1',title:'Ex 1 · Business ideas discussion',note:'Open-ended speaking question from the compendium.',items:[
+  {kind:'self',answers:['Student’s own answer.'],p:'Look at the business ideas in the photos (e.g. goat rental for weed removal). What is the most unusual business idea you have ever heard of? Is it successful?'}
+ ]});
+ addEx({id:'SB1A5',lesson:'SB1A',short:'SB 1A · Ex 5',title:'Ex 5 · Listening: pros and cons',note:'The audio transcript is not included. Recall the listed notes from the supplied answer key.',items:[
+  T('No competition locally; goats eat difficult weeds naturally; environmentally friendly alternative to chemicals; high demand; word-of-mouth recommendations.',{p:'Give the positive aspects of Harvey’s goat weed-removal business.',alts:['No competition; goats eat weeds; eco-friendly; high demand; word of mouth']}),
+  T('Goats may escape if fences are weak; transport trailers are needed; high upfront investment in animal healthcare and equipment.',{p:'What problems or challenges does Harvey’s business face?',alts:['Escaping goats; trailers for transport; high initial investment']})
+ ]});
+ addEx({id:'SB1A7',lesson:'SB1A',short:'SB 1A · Ex 7',title:'Ex 7 · Business discussion',note:'Open-ended speaking questions; answers are personal.',items:[
+  {kind:'self',answers:['Student’s own answer.'],p:'Would you ever consider starting your own business? Why or why not?'},
+  {kind:'self',answers:['Student’s own answer.'],p:'Which business ideas in your local community have filled a genuine gap in the market?'}
+ ]});
+ addEx({id:'SB2A1',lesson:'SB2A',short:'SB 2A · Ex 1',title:'Ex 1 · Character adjectives',note:'Recall which adjectives describe the seller and customer in the supplied answer key.',items:[
+  T('ingenious, shrewd, crafty, cunning, devious',{p:'Which adjectives from the word box can describe the seller (clever or sneaky)?',alts:['ingenious shrewd crafty cunning devious']}),
+  T('gullible, naive, trusting, unsuspecting, credulous',{p:'Which adjectives from the word box can describe the customer (easily persuaded or trusting)?',alts:['gullible naive trusting unsuspecting credulous']})
+ ]});
+ addEx({id:'SB3A1',lesson:'SB3A',short:'SB 3A · Ex 1',title:'Ex 1 · Haggling discussion',note:'Open-ended question; answer from the definition in the compendium.',items:[
+  T('Negotiating or bargaining over the price of goods or services.',{p:'What does “haggling” mean?',alts:['bargaining over the price']}),
+  T('Traditional souks/markets, street stalls and second-hand sales; less common in large supermarkets and fixed-price department stores.',{p:'In which places is it normal to haggle in your culture?',alts:['markets and second-hand sales']})
+ ]});
+ addEx({id:'SB4A1',lesson:'SB4A',short:'SB 4A · Ex 1',title:'Ex 1 · Reading predictions',note:'The compendium provides a summary answer rather than the full article.',items:[
+  T('Psychological, emotional and cognitive biases influencing economic choices.',{p:'Does behavioural economics focus on purely rational mathematical models or psychological quirks?',alts:['psychological quirks and biases']})
+ ]});
+ addEx({id:'SB6A1',lesson:'SB6A',short:'SB 6A · Ex 1',title:'Ex 1 · Buy local discussion',note:'The compendium lists this exercise heading but does not include the full questions or a fixed answer key.',items:[
+  {kind:'self',answers:['Student’s own answer.'],p:'Discuss the “Buy Local” topic using the prompts in your Student’s Book.'}
+ ]});
+ addEx({id:'SB6A4',lesson:'SB6A',short:'SB 6A · Ex 4',title:'Ex 4 · Formal academic paraphrasing',note:'The source lists the exercise heading but not the original sentences or answer key.',items:[
+  {kind:'self',answers:['Student’s own paraphrase.'],p:'Complete the formal academic paraphrasing task in your Student’s Book.'}
+ ]});
+ addEx({id:'SB6A5',lesson:'SB6A',short:'SB 6A · Ex 5',title:'Ex 5 · Essay argument brainstorming',note:'The source lists the task heading but not a fixed answer key.',items:[
+  {kind:'self',answers:['Student’s own arguments.'],p:'Brainstorm arguments for and against the essay task in your Student’s Book.'}
+ ]});
+
+/*DATA-END*/
+
+/* ---------- state ---------- */
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));const t=a[i];a[i]=a[j];a[j]=t}return a};
+const fresh=()=>({startedAt:null,items:{},review:[],tab:'study',block:'vocab',final:null,timerMode:'stopwatch',timerElapsedMs:0,timerRunAt:null,pomoPhase:'work',pomoRound:1,pomoRemainingMs:25*60*1000});
+let ST;try{ST=Object.assign(fresh(),JSON.parse(localStorage.getItem('hs3-drill')||'{}'))}catch(e){ST=fresh()}
+function save(){try{localStorage.setItem('hs3-drill',JSON.stringify(ST))}catch(e){}}
+ST.review=Array.isArray(ST.review)?ST.review:[];
+let ENG=null,VL=null,GR=0,RESET=false;
+const BLOCKS=[
+ {id:'vocab',s:0,e:20,name:'Vocabulary',kind:'vocab'},
+ {id:'sb1',s:20,e:35,name:"SB 1A · 2A · 3A",kind:'ex',lessons:['SB1A','SB2A','SB3A']},
+ {id:'sb2',s:35,e:50,name:"SB 4A · 5A · 6A",kind:'ex',lessons:['SB4A','SB5A','SB6A']},
+ {id:'wb1',s:50,e:65,name:'WB 1B · 2B',kind:'ex',lessons:['WB1B','WB2B']},
+ {id:'gram',s:65,e:85,name:'Grammar + WB 5B',kind:'gram',lessons:['WB5B']},
+ {id:'wb2',s:85,e:105,name:'WB revision',kind:'ex',lessons:['WBREV','RES']},
+ {id:'recall',s:105,e:115,name:'Answer recall',kind:'recall'},
+ {id:'final',s:115,e:120,name:'Final test',kind:'final'}];
+const rec=k=>ST.items[k];
+function status(k){const r=rec(k);if(!r)return 'new';if(r.last==='w')return 'weak';return r.w>0?'shaky':'strong'}
+function record(k,ok){const r=ST.items[k]||(ST.items[k]={r:0,w:0,last:null});if(ok)r.r++;else r.w++;r.last=ok?'r':'w';save()}
+const exKeys=()=>EXS.reduce((a,e)=>a.concat(e.keys),[]);
+const vocKeys=()=>VGROUPS.reduce((a,g)=>a.concat(g.keys),[]);
+const gramKeys=()=>GRULES.reduce((a,g)=>a.concat(g.keys),[]);
+const unresolved=()=>Object.keys(ITEMS).filter(k=>rec(k)&&rec(k).last==='w');
+const runningMs=()=>ST.timerElapsedMs+(ST.timerRunAt?Date.now()-ST.timerRunAt:0);
+const elapsed=()=>runningMs()/60000;
+function curBlock(){if(!ST.timerRunAt&&ST.timerElapsedMs===0)return null;const m=elapsed();if(m>=120)return 'over';return BLOCKS.find(b=>m>=b.s&&m<b.e)}
+function clockText(ms){const sec=Math.max(0,Math.floor(ms/1000));return Math.floor(sec/60)+':'+pad(sec%60)}
+function startTimer(){if(ST.timerRunAt)return;ST.timerRunAt=Date.now();ST.startedAt=ST.startedAt||ST.timerRunAt;save();tick()}
+function pauseTimer(){if(!ST.timerRunAt)return;const now=Date.now(),delta=now-ST.timerRunAt;ST.timerElapsedMs+=delta;if(ST.timerMode==='pomodoro')ST.pomoRemainingMs=Math.max(0,ST.pomoRemainingMs-delta);ST.timerRunAt=null;save();tick()}
+function nextPomoPhase(){if(ST.pomoPhase==='work'){if(ST.pomoRound>=4){ST.pomoPhase='long';ST.pomoRemainingMs=15*60*1000}else{ST.pomoPhase='short';ST.pomoRemainingMs=5*60*1000}}else if(ST.pomoPhase==='long'){ST.pomoPhase='work';ST.pomoRound=1;ST.pomoRemainingMs=25*60*1000}else{ST.pomoPhase='work';ST.pomoRound++;ST.pomoRemainingMs=25*60*1000}}
+const pad=n=>String(n).padStart(2,'0');
+
+/* ---------- stopwatch & pomodoro ---------- */
+function buildTimeline(){$('#tl').innerHTML=BLOCKS.map(b=>'<div class="seg" data-id="'+b.id+'" style="flex:'+(b.e-b.s)+'"><i></i></div>').join('')}
+function tick(){
+  const now=Date.now();
+  if(ST.timerMode==='pomodoro'&&ST.timerRunAt){
+    const left=ST.pomoRemainingMs-(now-ST.timerRunAt);
+    if(left<=0){ST.timerElapsedMs+=now-ST.timerRunAt;ST.timerRunAt=now;nextPomoPhase();save();}
+  }
+  const elapsedMs=runningMs(),m=elapsedMs/60000;
+  const clock=ST.timerMode==='pomodoro'?Math.max(0,ST.pomoRemainingMs-(ST.timerRunAt?now-ST.timerRunAt:0)):elapsedMs;
+  $('#clock').textContent=clockText(clock);
+  const isRunning=!!ST.timerRunAt;
+  $('#tagl').textContent=ST.timerMode==='stopwatch'?'Stopwatch':(ST.pomoPhase==='work'?'Focus session':'Break');
+  const sb=$('#startbtn');sb.textContent=isRunning?'Pause':'Start';
+  document.querySelectorAll('[data-act="timerMode"]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.mode===ST.timerMode)));
+  const ps=$('#pomo-settings');if(ps)ps.hidden=ST.timerMode!=='pomodoro';
+  const phase=$('#pomo-phase');if(phase)phase.textContent=(ST.pomoPhase==='work'?'Work':ST.pomoPhase==='short'?'Short break':'Long break')+' · '+ST.pomoRound+'/4';
+  const cb=curBlock();
+  document.querySelectorAll('.seg').forEach(s=>{const b=BLOCKS.find(x=>x.id===s.dataset.id);const f=Math.min(1,Math.max(0,(m-b.s)/(b.e-b.s)));s.firstElementChild.style.width=(f*100)+'%';s.classList.toggle('cur',cb&&cb!=='over'&&cb.id===b.id)});
+  const nd=$('#nudge');
+  if(cb&&cb!=='over'&&cb.id!==ST.block){const h='<div class="n"><span>Schedule now: <b>'+pad(cb.s)+'–'+pad(cb.e)+' '+esc(cb.name)+'</b></span><button class="btn sm" data-act="goblock" data-id="'+cb.id+'">Switch</button></div>';if(nd.dataset.k!==cb.id){nd.innerHTML=h;nd.dataset.k=cb.id}}
+  else if(cb==='over'){if(nd.dataset.k!=='over'){nd.innerHTML='<div class="n"><span><b>120 minutes are up.</b> Open the Report tab for your result.</span><button class="btn sm" data-tab="report">Report</button></div>';nd.dataset.k='over'}}
+  else if(nd.dataset.k){nd.innerHTML='';nd.dataset.k=''}
+  if(ENG&&ENG.deadline){const left=Math.max(0,Math.ceil((ENG.deadline-now)/1000));const fc=$('#fclock');if(fc)fc.textContent=Math.floor(left/60)+':'+pad(left%60);if(left===0&&!ENG.done)finishEngine()}
+}
+
+/* ---------- engine ---------- */
+function startEngine(cfg){
+  ENG=Object.assign({mode:'learn',tab:ST.tab},cfg);
+  ENG.queue=cfg.mode==='final'||cfg.noShuffle?cfg.keys.slice():cfg.keys.slice();
+  ENG.pos=0;ENG.stage='ask';ENG.first={};ENG.redo={};ENG.hint=false;ENG.rc=0;ENG.last=null;ENG.done=false;
+  if(cfg.mode==='final')ENG.deadline=Date.now()+5*60000;
+  render();tick();
+}
+function grabInput(){const a=$('#ans');return a?a.value:''}
+function submit(val){
+  const E=ENG,it=ITEMS[E.queue[E.pos]];
+  const ok=grade(it,val),hinted=E.hint,counted=ok&&!hinted;E.hint=false;
+  record(it.key,counted);
+  if(!E.first[it.key])E.first[it.key]={ok:counted,val:val};
+  if(E.mode==='final'){advance();return}
+  E.last={ok:ok,hinted:hinted,val:val};E.stage='fb';
+  if(!counted)requeue(it.key);
+  render();
+}
+function requeue(k){const E=ENG;E.redo[k]=(E.redo[k]||0)+1;if(E.redo[k]<=2)E.queue.splice(Math.min(E.pos+5,E.queue.length),0,k)}
+function advance(){const E=ENG;E.pos++;E.stage='ask';E.hint=false;E.rc=0;E.last=null;if(E.pos>=E.queue.length&&E.mode==='final'){finishEngine();return}render()}
+function finishEngine(){
+  const E=ENG;if(!E||E.done)return;E.done=true;
+  if(E.mode==='final'){
+    const all=E.keys;const ok=all.filter(k=>E.first[k]&&E.first[k].ok).length;
+    all.forEach(k=>{if(!E.first[k]){E.first[k]={ok:false,val:''};record(k,false)}});
+    ST.final={ts:Date.now(),score:ok,total:all.length,pct:Math.round(ok/all.length*100)};save();
+  }
+  E.pos=E.queue.length;render();
+}
+function recallSubmit(val){
+  const E=ENG,it=ITEMS[E.queue[E.pos]];
+  if(grade(it,val)){E.stage='rcok'}else{E.rc++;E.last={val:val}}
+  render();
+}
+function diffs(user,off){
+  const tok=s=>s.trim().split(/\s+/).filter(Boolean);
+  const a=tok(user),b=tok(off),A=a.map(squash),B=b.map(squash),m=a.length,n=b.length;
+  const dp=Array.from({length:m+1},()=>new Array(n+1).fill(0));
+  for(let i=m-1;i>=0;i--)for(let j=n-1;j>=0;j--)dp[i][j]=(A[i]&&A[i]===B[j])?dp[i+1][j+1]+1:Math.max(dp[i+1][j],dp[i][j+1]);
+  let i=0,j=0;const u=[],o=[];
+  while(i<m&&j<n){if(A[i]&&A[i]===B[j]){u.push(esc(a[i]));o.push(esc(b[j]));i++;j++}else if(dp[i+1][j]>=dp[i][j+1]){u.push('<del>'+esc(a[i])+'</del>');i++}else{o.push('<mark>'+esc(b[j])+'</mark>');j++}}
+  while(i<m){u.push('<del>'+esc(a[i++])+'</del>')}while(j<n){o.push('<mark>'+esc(b[j++])+'</mark>')}
+  return {u:u.join(' '),o:o.join(' '),score:dp[0][0]};
+}
+function diffBlock(it,val){
+  let best=null;it.answers.forEach(a=>{const d=diffs(val,a);if(!best||d.score>best.score)best=d});
+  return '<div class="df"><div><span class="lbl">Your answer</span>'+best.u+'</div><div><span class="lbl">Official, missing words marked</span>'+best.o+'</div></div>';
+}
+function officialHTML(it){return '<div class="official"><span class="lbl">Official answer</span>'+ansList(it).map(l=>'<p class="ans">'+esc(l)+'</p>').join('')+'</div>'}
+function vocabOptions(it){
+  const correct=it.answers[0];
+  const pool=it.learnDef
+    ? vocKeys().map(k=>ITEMS[k]).filter(x=>x.key!==it.key&&x.learnDef).map(x=>x.answers[0])
+    : NEG.map(r=>r[1]).filter(x=>x!==correct);
+  const unique=[...new Set(pool)].filter(x=>squash(x)!==squash(correct));
+  return shuffle([correct,...shuffle(unique).slice(0,3)]);
+}
+function inputHTML(it,rc){
+  if(ENG.mode==='vocab'&&it.type==='vocab')return '<div class="opts">'+vocabOptions(it).map(o=>'<button class="opt" data-act="pick" data-v="'+esc(o)+'">'+esc(o)+'</button>').join('')+'</div>'+(rc?'':'<div class="row"><button class="btn ghost sm" data-act="skip">Skip</button></div>');
+  if(it.kind==='letter'||it.kind==='cat')return '<div class="opts '+it.kind+'">'+it.opts.map(o=>'<button class="opt" data-act="pick" data-v="'+esc(o)+'">'+(it.kind==='letter'?'<span class="mono">'+esc(o.toUpperCase())+'</span>':esc(o))+'</button>').join('')+'</div>'+(rc||ENG.mode==='final'?'':'<div class="row"><button class="btn ghost sm" data-act="skip">Skip</button></div>');
+  if(it.kind==='self')return '<div class="row"><button class="btn" data-primary data-act="reveal">Show official answer</button></div>';
+  const f=it.kind==='sentence'?'<textarea id="ans" rows="3" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Type your answer"></textarea>':'<input type="text" id="ans" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Type your answer">';
+  const hintBtn=(!rc&&it.kind==='text'&&ENG.mode!=='final')?'<button class="btn ghost" data-act="hint">Hint</button>':'';
+  const skip=(!rc&&ENG.mode!=='final')?'<button class="btn ghost" data-act="skip">Skip</button>':'';
+  return f+'<div class="row"><button class="btn" data-primary data-act="'+(rc?'rcheck':'check')+'">Check</button>'+hintBtn+skip+'</div><p id="hintline" class="mono muted"></p>';
+}
+function engineHTML(){
+  const E=ENG;if(E.pos>=E.queue.length)return summaryHTML();
+  const it=ITEMS[E.queue[E.pos]],pct=Math.round(E.pos/E.queue.length*100);
+  let h='<div class="eng"><div class="eng-top"><button class="lnk" data-act="exit">← Leave</button><span class="mono muted">'+esc(E.title)+'</span><span class="mono" id="fclock"></span></div><div class="bar"><i style="width:'+pct+'%"></i></div><div class="card q"><p class="tg">'+esc(it.tag)+' · '+(E.pos+1)+' of '+E.queue.length+'</p><p class="prompt">'+esc(it.prompt)+'</p>';
+  if(E.stage==='ask'){if(it.note&&E.mode!=='final')h+='<p class="note">'+esc(it.note)+'</p>';h+=inputHTML(it,false)}
+  else if(E.stage==='selfshow'){h+=officialHTML(it)+'<div class="row"><button class="btn" data-act="selfok">I had it</button><button class="btn ghost" data-act="selfmiss">I missed it</button></div>'}
+  else if(E.stage==='fb'){
+    const L=E.last,counted=L.ok&&!L.hinted;
+    h+='<div class="verdict '+(L.ok?'good':'bad')+'">'+(L.ok?(L.hinted?'Correct, but you used the hint, so it counts as a miss.':'Correct'):(L.val?'Not quite':'Skipped'))+'</div>';
+    if(!L.ok&&it.kind==='sentence'&&L.val)h+=diffBlock(it,L.val);
+    h+=officialHTML(it);if(it.why)h+='<p class="why">'+esc(it.why)+'</p>';
+    h+='<div class="row">'+(counted?'<button class="btn" data-primary data-act="next">Next</button>':'<button class="btn" data-primary data-act="cover">Cover it and recall</button>')+'</div>';
+  }
+  else if(E.stage==='recall'){
+    h+='<div class="verdict info">Recall it. The answer is hidden.</div>';
+    if(E.rc>0)h+='<div class="verdict bad">Not yet</div>'+(E.rc>=2?officialHTML(it):'');
+    h+=inputHTML(it,true);
+  }
+  else if(E.stage==='rcok'){h+='<div class="verdict good">Recalled correctly. It will come back later in this session.</div>'+officialHTML(it)+'<div class="row"><button class="btn" data-primary data-act="next">Next</button></div>'}
+  return h+'</div></div>';
+}
+function summaryHTML(){
+  const E=ENG,keys=Object.keys(E.first),miss=keys.filter(k=>!E.first[k].ok),ok=keys.length-miss.length;
+  let h='<div class="stack"><div class="card"><div class="head"><h2>'+(E.mode==='final'?'Final test result':'Set finished')+'</h2><span class="mono muted">'+esc(E.title)+'</span></div><p style="margin-top:10px"><span class="big">'+ok+'/'+keys.length+'</span> <span class="muted">correct on the first try</span></p></div>';
+  if(miss.length){h+='<div class="card"><h3>Missed ('+miss.length+')</h3><div style="margin-top:8px">'+miss.map(k=>{const it=ITEMS[k];return '<div class="rowitem"><span class="k">'+esc(it.tag)+'</span><span class="small" style="flex:1 1 220px">'+esc(ansList(it).join('  /  '))+'</span></div>'}).join('')+'</div></div>'}
+  h+='<div class="row">'+(miss.length?'<button class="btn" data-act="retrymiss">Retry the misses</button>':'')+(E.next?'<button class="btn" data-act="'+E.next.act+'" data-i="'+E.next.i+'">'+esc(E.next.label)+'</button>':'')+'<button class="btn ghost" data-act="exit">Back</button></div></div>';
+  return h;
+}
+
+/* ---------- study views ---------- */
+function blockPicker(){
+  const cb=curBlock();
+  return '<div class="picker">'+BLOCKS.map(b=>'<button data-act="goblock" data-id="'+b.id+'" aria-pressed="'+(ST.block===b.id)+'" class="'+(cb&&cb!=='over'&&cb.id===b.id?'now':'')+'"><span class="r">'+pad(b.s)+'–'+pad(b.e)+'</span><span class="n">'+esc(b.name)+'</span></button>').join('')+'</div>';
+}
+function chipsFor(keys,label){return '<div class="chips">'+keys.map(k=>'<span class="chip '+status(k)+'">'+esc(label(ITEMS[k]))+'</span>').join('')+'</div>'}
+function viewVocab(){
+  if(VL!==null)return learnHTML();
+  const weak=vocKeys().filter(k=>{const s=status(k);return s==='weak'||s==='shaky'});
+  let h='<div class="card"><div class="head"><h2>Vocabulary</h2><span class="note">Learn five, then choose the correct word from its definition. Misses come back until they stick.</span></div><div class="row" style="margin-top:12px"><button class="btn" data-act="learn" data-i="'+Math.max(0,VGROUPS.findIndex(g=>g.keys.some(k=>status(k)==='new')))+'">Continue learning</button>'+(weak.length?'<button class="btn ghost" data-act="vweak">Review weak words ('+weak.length+')</button>':'')+'</div></div><div class="grid">';
+  VGROUPS.forEach((g,i)=>{const done=g.keys.filter(k=>status(k)==='strong').length;
+    h+='<div class="card"><div class="head"><h3>'+(i+1)+'. '+esc(g.name)+'</h3><span class="mono muted small">'+done+'/'+g.keys.length+'</span></div>'+chipsFor(g.keys,it=>it.hint)+'<button class="btn ghost sm" data-act="learn" data-i="'+i+'">Learn and test</button></div>'});
+  return h+'</div>';
+}
+function learnHTML(){
+  const g=VGROUPS[VL];
+  return '<div class="card stack"><div class="head"><h2>'+esc(g.name)+'</h2><span class="note">Read once, out loud if you can. Then test with multiple choice.</span></div><ul class="list">'+g.keys.map(k=>{const it=ITEMS[k];return g.cloze?'<li>'+esc(it.learnTerm)+'</li>':'<li><b>'+esc(it.learnTerm)+'</b><br><span class="muted">'+esc(it.learnDef)+'</span></li>'}).join('')+'</ul><div class="row"><button class="btn" data-act="vtest">Test me</button><button class="btn ghost" data-act="vback">All groups</button></div></div>';
+}
+function gapsFor(l){return GAPS.filter(g=>g.l===l).map(g=>'<div class="card dash small"><span class="chip">Not in claude.md</span> '+esc(g.t)+'</div>').join('')}
+function viewEx(b){
+  const exs=EXS.filter(e=>b.lessons.indexOf(e.lesson)>=0),all=exs.reduce((a,e)=>a.concat(e.keys),[]);
+  const todo=all.filter(k=>{const s=status(k);return s==='new'||s==='weak'});
+  let h='';
+  if(b.kind==='gram')h+='<div class="card"><div class="head"><h2>Passive voice rules</h2><button class="btn" data-tab="grammar">Open grammar</button></div><p class="note" style="margin-top:6px">Six rules with formula, examples, exam mistakes and practice. Do these first, then the Workbook 5B exercises below.</p></div>';
+  h+='<div class="card"><div class="head"><h2>'+esc(b.name)+'</h2><span class="mono muted small">'+all.length+' items</span></div><div class="row" style="margin-top:12px"><button class="btn" data-act="runblock" data-id="'+b.id+'">'+(todo.length?'Start ('+todo.length+' left)':'Review all')+'</button></div></div>';
+  b.lessons.forEach(l=>{
+    h+='<h3 style="margin-top:6px">'+esc(LESSONS[l])+'</h3>';
+    exs.filter(e=>e.lesson===l).forEach(e=>{const att=e.keys.filter(k=>rec(k)).length,wk=e.keys.filter(k=>status(k)==='weak').length;
+      h+='<div class="card"><div class="head"><h3>'+esc(e.title)+'</h3><span class="mono muted small">'+att+'/'+e.keys.length+(wk?' · '+wk+' weak':'')+'</span></div>'+chipsFor(e.keys,it=>String(it.n))+'<button class="btn ghost sm" data-act="startex" data-id="'+e.id+'">'+(att?'Redo':'Start')+'</button></div>'});
+    h+=gapsFor(l);
+  });
+  return h;
+}
+function viewRecall(){
+  const un=unresolved(),sent=exKeys().filter(k=>ITEMS[k].kind==='sentence'),wv=vocKeys().filter(k=>{const s=status(k);return s==='weak'||s==='shaky'});
+  return '<div class="card stack"><h2>Answer-key recall</h2><p class="note">Retest every miss first, then a mixed sample of official answers. Type exact wording. Sentence transformations count most.</p><div class="row"><button class="btn" data-act="recallgo">Start mixed recall ('+un.length+' misses first)</button><button class="btn ghost" data-act="recallsent">All sentence transformations ('+sent.length+')</button>'+(wv.length?'<button class="btn ghost" data-act="vweak">Weak vocabulary ('+wv.length+')</button>':'')+'</div></div>';
+}
+function viewFinal(){
+  return '<div class="card stack"><h2>Final closed-book test</h2><p>20 questions, 5 minutes, no feedback until the end: 8 vocabulary definitions, 4 sentence transformations and 8 other official answers.</p>'+(ST.final?'<p class="note">Last result: <b>'+ST.final.score+'/'+ST.final.total+' ('+ST.final.pct+'%)</b></p>':'')+'<div class="row"><button class="btn" data-act="finalgo">Start final test</button></div></div>';
+}
+function viewStudy(){
+  const b=BLOCKS.find(x=>x.id===ST.block);
+  let h=blockPicker();
+  if(b.kind==='vocab')h+=viewVocab();else if(b.kind==='recall')h+=viewRecall();else if(b.kind==='final')h+=viewFinal();else h+=viewEx(b);
+  if(ST.block==='vocab'&&VL===null)h+=gapsFor('ALL');
+  return h;
+}
+
+/* ---------- grammar ---------- */
+function viewGrammar(){
+  const g=GRULES[GR],att=g.keys.filter(k=>rec(k)).length,ok=g.keys.filter(k=>rec(k)&&rec(k).last==='r').length;
+  return '<div class="pills">'+GRULES.map((r,i)=>'<button data-act="gr" data-i="'+i+'" aria-pressed="'+(i===GR)+'">'+esc(r.title)+'</button>').join('')+'</div>'+
+  '<div class="card stack"><div class="head"><h2>'+esc(g.title)+'</h2><span class="mono muted small">'+esc(g.src)+'</span></div>'+
+  '<div><h3>The rule</h3><ul class="list plain" style="margin-top:6px">'+g.explain.map(x=>'<li>• '+esc(x)+'</li>').join('')+'</ul></div>'+
+  '<div><h3>Formula</h3><div class="formula" style="margin-top:6px;white-space:pre-line">'+esc(g.formula)+'</div></div>'+
+  '<div><h3>Examples</h3><ul class="list" style="margin-top:6px">'+g.examples.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul></div>'+
+  '<div><h3>Common exam mistakes</h3><ul class="list plain" style="margin-top:6px">'+g.mistakes.map(x=>'<li>⚠ '+esc(x)+'</li>').join('')+'</ul></div>'+
+  '<div class="row"><button class="btn" data-act="grpractice">Practice ('+g.keys.length+' questions)</button><span class="note">'+(att?ok+' of '+g.keys.length+' right on your last try':'Not started')+'. Practice questions are tutor-written, not from your textbook.</span></div></div>';
+}
+
+/* ---------- mistakes & report ---------- */
+function viewMistakes(){
+  const marked=ST.review||[];
+  const reviewCard='<div class="card"><div class="head"><div><h2>Top revision · '+marked.length+' question'+(marked.length===1?'':'s')+'</h2><p class="note">Questions you manually marked to revise later.</p></div>'+(marked.length?'<button class="btn" data-act="reviewgo">Revise group</button>':'')+'</div>'+(marked.length?marked.map(k=>{const it=ITEMS[k];return '<div class="rowitem"><span class="k">'+esc(it.tag)+'</span><span class="small" style="flex:1 1 180px">'+esc(it.prompt)+'</span><button class="btn ghost sm" data-act="unmark" data-key="'+esc(k)+'">Remove</button></div>'}).join(''):'<p class="note" style="margin-top:8px">Tap “Add to review” on any question while studying to collect it here.</p>')+'</div>';
+  const un=unresolved();
+  if(!un.length)return reviewCard+'<div class="card"><h2>No open mistakes</h2><p class="note" style="margin-top:6px">Anything you get wrong lands here with its official answer until you answer it correctly again.</p></div>';
+  const groups={};un.forEach(k=>{const l=ITEMS[k].type==='vocab'?'Vocabulary':ITEMS[k].type==='gram'?'Grammar practice':LESSONS[ITEMS[k].lesson];(groups[l]=groups[l]||[]).push(k)});
+  let h=reviewCard+'<div class="card"><div class="head"><h2>'+un.length+' open mistake'+(un.length>1?'s':'')+'</h2><button class="btn" data-act="retestall">Retest all</button></div></div>';
+  Object.keys(groups).forEach(l=>{h+='<div class="card"><h3>'+esc(l)+'</h3><div style="margin-top:6px">'+groups[l].map(k=>{const it=ITEMS[k];return '<div class="rowitem"><span class="k">'+esc(it.tag)+'</span><span class="small" style="flex:1 1 240px"><b>'+esc(ansList(it).join('  /  '))+'</b></span></div>'}).join('')+'</div></div>'});
+  return h;
+}
+function viewReport(){
+  const ek=exKeys(),vk=vocKeys(),gk=gramKeys(),un=unresolved();
+  const exAtt=ek.filter(k=>rec(k)).length,vAtt=vk.filter(k=>rec(k)).length;
+  const done=EXS.filter(e=>e.keys.every(k=>rec(k)));
+  const vs={strong:[],shaky:[],weak:[],new:[]};vk.forEach(k=>vs[status(k)].push(ITEMS[k].hint));
+  const unEx=un.filter(k=>ITEMS[k].type==='ex');
+  const cov=exAtt/ek.length;
+  let verdict,detail;
+  if(!ST.final){verdict='Not assessed yet';detail='Take the final test in the last block to get a real readiness score.'}
+  else if(ST.final.pct>=85&&unEx.length<=5&&cov>=.9){verdict='Ready';detail='Final test '+ST.final.pct+'%, exercise coverage '+Math.round(cov*100)+'%, '+unEx.length+' official answers still open.'}
+  else if(ST.final.pct>=70&&cov>=.7){verdict='Nearly ready';detail='Final test '+ST.final.pct+'%, coverage '+Math.round(cov*100)+'%, '+unEx.length+' official answers still open. Retest the Mistakes tab, then repeat the final test.'}
+  else{verdict='Not ready yet';detail='Final test '+ST.final.pct+'%, coverage '+Math.round(cov*100)+'%. Finish the exercises, clear the Mistakes tab, then retake the final test.'}
+  let h='<div class="card"><p class="eyebrow">Readiness</p><h2>'+verdict+'</h2><p class="note" style="margin-top:6px">'+esc(detail)+'</p></div>';
+  h+='<div class="card"><h3>1. Exercises completed</h3><p class="note">'+done.length+' of '+EXS.length+' exercises fully attempted · '+exAtt+' of '+ek.length+' items</p><div style="margin-top:8px">'+EXS.map(e=>{const a=e.keys.filter(k=>rec(k)).length,r=e.keys.filter(k=>rec(k)&&rec(k).last==='r').length;return '<div class="rowitem"><span class="small">'+esc(e.short)+' · '+esc(e.title.replace(/^.*· /,''))+'</span><span class="k">'+a+'/'+e.keys.length+' tried · '+r+' right now</span></div>'}).join('')+'</div></div>';
+  h+='<div class="card"><h3>2. Vocabulary</h3><p class="note">'+vs.strong.length+' mastered · '+vs.shaky.length+' shaky · '+vs.weak.length+' weak · '+vs.new.length+' not tested ('+vAtt+' of '+vk.length+' tried)</p>'+(vs.weak.length?'<p class="small" style="margin-top:8px"><b>Weak:</b> '+esc(vs.weak.join(', '))+'</p>':'')+(vs.shaky.length?'<p class="small" style="margin-top:6px"><b>Shaky:</b> '+esc(vs.shaky.join(', '))+'</p>':'')+(vs.new.length?'<p class="small" style="margin-top:6px"><b>Not tested:</b> '+esc(vs.new.join(', '))+'</p>':'')+'</div>';
+  h+='<div class="card"><h3>3. Grammar rules</h3><div style="margin-top:6px">'+GRULES.map(g=>{const a=g.keys.filter(k=>rec(k)).length,r=g.keys.filter(k=>rec(k)&&rec(k).last==='r').length;const st=!a?'not started':(a===g.keys.length&&r/g.keys.length>=.67?'understood':'weak');return '<div class="rowitem"><span class="small">'+esc(g.title)+'</span><span class="chip '+(st==='understood'?'strong':st==='weak'?'weak':'')+'">'+st+' · '+r+'/'+g.keys.length+'</span></div>'}).join('')+'</div></div>';
+  h+='<div class="card"><h3>4. Official answers you still miss</h3>'+(unEx.length?'<div style="margin-top:6px">'+unEx.map(k=>{const it=ITEMS[k];return '<div class="rowitem"><span class="k">'+esc(it.tag)+'</span><span class="small" style="flex:1 1 240px"><b>'+esc(ansList(it).join('  /  '))+'</b></span></div>'}).join('')+'</div>':'<p class="note">None open.</p>')+'</div>';
+  h+='<div class="card"><h3>5. Final test</h3><p class="note">'+(ST.final?ST.final.score+'/'+ST.final.total+' ('+ST.final.pct+'%)':'Not taken yet.')+'</p></div>';
+  h+='<h3>Not in your source file</h3>'+GAPS.map(g=>'<div class="card dash small"><span class="chip">'+esc(g.l==='ALL'?'General':g.l)+'</span> '+esc(g.t)+'</div>').join('');
+  h+='<div class="row"><button class="btn ghost sm" data-act="reset">'+(RESET?'Tap again to erase progress and the clock':'Reset everything')+'</button></div>';
+  return h;
+}
+
+/* ---------- render & events ---------- */
+function render(){
+  document.querySelectorAll('#tabs button').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.tab===ST.tab)));
+  const v=$('#view');
+  if(ENG&&ENG.tab===ST.tab){v.innerHTML=engineHTML();const a=$('#ans');if(a)a.focus({preventScroll:true});return}
+  v.innerHTML=({study:viewStudy,grammar:viewGrammar,mistakes:viewMistakes,report:viewReport})[ST.tab]();
+}
+function blockItems(b){return EXS.filter(e=>b.lessons.indexOf(e.lesson)>=0).reduce((a,e)=>a.concat(e.keys),[])}
+function recallQueue(){
+  const un=unresolved(),sent=shuffle(exKeys().filter(k=>ITEMS[k].kind==='sentence')).slice(0,6),oth=shuffle(exKeys().filter(k=>ITEMS[k].kind!=='sentence'&&ITEMS[k].kind!=='self')).slice(0,8);
+  return Array.from(new Set(un.concat(sent,oth))).slice(0,30);
+}
+function finalQueue(){
+  const ex=exKeys().filter(k=>ITEMS[k].kind!=='self'),sent=shuffle(ex.filter(k=>ITEMS[k].kind==='sentence')).slice(0,4),oth=shuffle(ex.filter(k=>ITEMS[k].kind!=='sentence')).slice(0,8),v=shuffle(vocKeys().filter(k=>k.indexOf('V:')===0)).slice(0,8);
+  return shuffle(v.concat(sent,oth));
+}
+function act(a,el){
+  const E=ENG;
+  switch(a){
+  case 'timerToggle':if(ST.timerRunAt)pauseTimer();else startTimer();break;
+  case 'timerMode':pauseTimer();ST.timerMode=el.dataset.mode;if(ST.timerMode==='pomodoro'){ST.pomoPhase='work';ST.pomoRound=1;ST.pomoRemainingMs=25*60*1000}save();tick();break;
+  case 'timerReset':ST.timerElapsedMs=0;ST.timerRunAt=null;ST.startedAt=null;ST.pomoPhase='work';ST.pomoRound=1;ST.pomoRemainingMs=25*60*1000;save();tick();break;
+  case 'pomoSkip':if(ST.timerRunAt){ST.timerElapsedMs+=Date.now()-ST.timerRunAt;ST.timerRunAt=Date.now()}nextPomoPhase();save();tick();break;
+  case 'goblock':ST.block=el.dataset.id;ST.tab='study';ENG=null;VL=null;save();render();tick();break;
+  case 'learn':VL=Number(el.dataset.i);ENG=null;ST.tab='study';ST.block='vocab';render();window.scrollTo(0,0);break;
+  case 'vback':VL=null;render();break;
+  case 'vtest':{const g=VGROUPS[VL],i=VL;startEngine({title:g.name,keys:shuffle(g.keys),mode:'vocab',tab:'study',next:i+1<VGROUPS.length?{label:'Next group',act:'learn',i:i+1}:null});break}
+  case 'vweak':{const k=vocKeys().filter(k=>{const s=status(k);return s==='weak'||s==='shaky'});if(k.length){ST.tab='study';startEngine({title:'Weak vocabulary',keys:shuffle(k),mode:'vocab',tab:'study'})}break}
+  case 'startex':{const e=EXS.find(x=>x.id===el.dataset.id);startEngine({title:e.short+' · '+e.title.replace(/^.*· /,''),keys:e.keys,tab:'study'});break}
+  case 'runblock':{const b=BLOCKS.find(x=>x.id===el.dataset.id),all=blockItems(b),todo=all.filter(k=>{const s=status(k);return s==='new'||s==='weak'});startEngine({title:b.name,keys:todo.length?todo:all,tab:'study'});break}
+  case 'recallgo':startEngine({title:'Mixed recall',keys:recallQueue(),tab:'study',mode:'recall'});break;
+  case 'recallsent':startEngine({title:'Sentence transformations',keys:shuffle(exKeys().filter(k=>ITEMS[k].kind==='sentence')),tab:'study',mode:'recall'});break;
+  case 'finalgo':startEngine({title:'Final test',keys:finalQueue(),tab:'study',mode:'final'});break;
+  case 'gr':GR=Number(el.dataset.i);render();break;
+  case 'grpractice':startEngine({title:'Grammar · '+GRULES[GR].title,keys:GRULES[GR].keys,tab:'grammar',mode:'gram'});break;
+  case 'toggleReview':{const k=el.dataset.key;ST.review=ST.review||[];ST.review=ST.review.includes(k)?ST.review.filter(x=>x!==k):ST.review.concat(k);save();render();break;}
+  case 'unmark':ST.review=(ST.review||[]).filter(k=>k!==el.dataset.key);save();render();break;
+  case 'reviewgo':{const q=(ST.review||[]).filter(k=>ITEMS[k]);if(q.length)startEngine({title:'Top revision · marked questions',keys:shuffle(q),tab:'mistakes',mode:'recall'});break;}
+  case 'retestall':{const u=unresolved();if(u.length){ST.tab='mistakes';startEngine({title:'Retest mistakes',keys:shuffle(u),tab:'mistakes',mode:'recall'})}break}
+  case 'retrymiss':{const m=Object.keys(E.first).filter(k=>!E.first[k].ok);const cfg={title:E.title+' · retry',keys:m,tab:E.tab,mode:E.mode==='final'?'recall':E.mode};startEngine(cfg);break}
+  case 'exit':ENG=null;render();break;
+  case 'check':submit(grabInput());break;
+  case 'rcheck':recallSubmit(grabInput());break;
+  case 'pick':if(E.stage==='recall')recallSubmit(el.dataset.v);else submit(el.dataset.v);break;
+  case 'skip':submit('');break;
+  case 'hint':{const it=ITEMS[E.queue[E.pos]],h=it.hint||it.answers[0];E.hint=true;$('#hintline').textContent=h.charAt(0)+h.slice(1).replace(/[A-Za-z0-9]/g,' _').replace(/ {2,}/g,' ');const a=$('#ans');if(a)a.focus();break}
+  case 'reveal':E.stage='selfshow';render();break;
+  case 'selfok':record(E.queue[E.pos],true);if(!E.first[E.queue[E.pos]])E.first[E.queue[E.pos]]={ok:true,val:''};advance();break;
+  case 'selfmiss':{const k=E.queue[E.pos];record(k,false);if(!E.first[k])E.first[k]={ok:false,val:''};requeue(k);advance();break}
+  case 'cover':E.stage='recall';E.rc=0;render();break;
+  case 'next':advance();break;
+  case 'reset':if(RESET){ST=fresh();save();ENG=null;VL=null;RESET=false;render();tick()}else{RESET=true;render()}break;
+  }
+}
+document.addEventListener('click',function(e){
+  const t=e.target.closest('[data-tab]');
+  if(t){ST.tab=t.dataset.tab;save();RESET=false;render();window.scrollTo(0,0);return}
+  const b=e.target.closest('[data-act]');if(b)act(b.dataset.act,b);
+});
+document.addEventListener('keydown',function(e){
+  if(e.key!=='Enter'||!ENG||ENG.tab!==ST.tab||e.target.tagName==='BUTTON')return;
+  const p=document.querySelector('#view [data-primary]');if(p){e.preventDefault();p.click()}
+});
+buildTimeline();
+if(ST.timerRunAt&&curBlock()&&curBlock()!=='over')ST.block=curBlock().id;
+render();tick();setInterval(tick,1000);
+</script>
+
+</body></html>
